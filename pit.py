@@ -10,13 +10,10 @@ class Control:
     A control that can be displayed in a simpyt, and run some action when interacted with.
     """
     def __init__(self, position, actions=None, color=None, image=None):
-        if id_ is None:
-            id_ = str(uuid4())
-
         if actions is None:
             actions = []
 
-        self.id = id_
+        self.id = str(uuid4())
 
         self.position = position
         self.action = actions
