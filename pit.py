@@ -26,9 +26,9 @@ class Control:
         self.color = color
         self.image = image
 
-    def act(self):
+    def activate(self):
         """
-        Run the action that this control was configured to do.
+        Run the actions that this control was configured to do.
         """
         pass
 

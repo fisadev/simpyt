@@ -1,4 +1,5 @@
 from pathlib import Path
+from threading import Thread
 
 from flask import Flask, render_template
 
@@ -38,12 +39,26 @@ def home():
     return render_template("home.html", available_pages=Page.available_pages())
 
 
-@app.route("/page/<string:name>")
-def page(name):
+@app.route("/page/<string:page_name>")
+def page(page_name):
     """
     Show a particular page with controls.
     """
-    page_ = Page.read(name)
+    page_ = Page.read(page_name)
     return render_template("page.html", page=page_)
+
+
+@app.route("/activate_control/<string:page_name>/<string:control_id>")
+def activate_control(page_name, control_id):
+    """
+    Run the actions associated to a particular control of a particular page.
+    """
+    page_ = Page.read(page_name)
+    # control, = [ctrl for ctrl in page_.controls if ctrl.id == control_id]
+    control = page_.controls[0]  # TODO for testing, replace with line above
+    activation_thread = Thread(target=control.activate)
+    activation_thread.run()
+    return {"result": "ok"}
+
 
 launch_server()
