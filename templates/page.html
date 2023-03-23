@@ -1,3 +1,7 @@
 <h1>SimPyt</h1>
 <h3>{{ page.name }}</h3>
 
+{% for control in page.controls %}
+    <p><a href="/activate_control/{{ page.name }}/{{ control.id }}">{{ control.position }}</a></p>
+{% endfor %}
+
