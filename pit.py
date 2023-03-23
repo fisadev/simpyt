@@ -108,6 +108,16 @@ class Page:
             yaml.safe_dump(raw_config, page_file)
 
     @classmethod
+    def available_pages(cls):
+        """
+        List all the available (config files) pages.
+        """
+        return [
+            page_path.name.replace(".page", "")
+            for page_path in settings.PAGES_PATH.glob("*.page")
+        ]
+
+    @classmethod
     def example_page(cls):
         """
         Create a very basic example Page.

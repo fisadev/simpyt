@@ -1,3 +1,6 @@
 <h1>SimPyt</h1>
 <p>Hi! To start, open one of your SimPyt configs:</p>
 
+{% for page_name in available_pages %}
+    <p><a href="/page/{{ page_name }}">{{ page_name }}</a></p>
+{% endfor %}

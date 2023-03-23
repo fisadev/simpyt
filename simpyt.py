@@ -21,7 +21,7 @@ def launch_server():
         print("No images directory, creating an empty one")
         settings.IMAGES_PATH.mkdir()
 
-    if len(list(settings.PAGES_PATH.glob("*.page"))) == 0:
+    if len(Page.available_pages()) == 0:
         print("No pages present, creating an example page")
         Page.example_page().save()
 
@@ -33,7 +33,17 @@ def launch_server():
 
 @app.route("/")
 def home():
-    return render_template("home.html", )
+    """
+    Home page were we list the available configured pages.
+    """
+    return render_template("home.html", available_pages=Page.available_pages())
 
+
+@app.route("/page/<string:name>")
+def page(name):
+    """
+    Show a particular page with controls.
+    """
+    return render_template("page.html", page_name=name)
 
 launch_server()
