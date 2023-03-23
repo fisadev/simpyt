@@ -48,7 +48,7 @@ class Control:
     @classmethod
     def deserialize(cls, raw_config):
         """
-        Deserialize and load control configs from a simpyt config file.
+        Deserialize and load control configs from a simpyt page file.
         """
         return cls(
             position=raw_config["position"],
@@ -60,9 +60,9 @@ class Control:
         )
 
 
-class Pit:
+class Page:
     """
-    A collection of controls to show in pages.
+    A collection of controls to show together.
     """
     def __init__(self, name, author, background, controls):
         self.name = name
@@ -73,11 +73,11 @@ class Pit:
     @classmethod
     def read(cls, name):
         """
-        Read the simpyt definition from a yaml file.
+        Read the page definition from a yaml file.
         """
-        pit_path = settings.CONFIGS_PATH / (name + ".pit")
-        with open(pit_path, "r") as pit_file:
-            raw_config = yaml.safe_load(pit_file)
+        page_path = settings.PAGES_PATH / (name + ".page")
+        with open(page_path, "r") as page_file:
+            raw_config = yaml.safe_load(page_file)
 
         return cls(
             name=name,
@@ -91,7 +91,7 @@ class Pit:
 
     def save(self):
         """
-        Save the simpyt definition into a yaml file.
+        Save the page definition into a yaml file.
         """
         raw_config = {
             "author": self.author,
@@ -102,15 +102,15 @@ class Pit:
             ],
         }
 
-        pit_path = settings.CONFIGS_PATH / (self.name + ".pit")
+        page_path = settings.PAGES_PATH / (self.name + ".page")
 
-        with open(pit_path, "w") as pit_file:
-            yaml.safe_dump(raw_config, pit_file)
+        with open(page_path, "w") as page_file:
+            yaml.safe_dump(raw_config, page_file)
 
     @classmethod
-    def example_pit(cls):
+    def example_page(cls):
         """
-        Create a very basic example Pit.
+        Create a very basic example Page.
         """
         return cls(
             name="example",

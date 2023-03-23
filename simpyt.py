@@ -2,28 +2,28 @@ from pathlib import Path
 
 from flask import Flask, render_template
 
-from pit import Pit, Control
+from pit import Page, Control
 import settings
 
 app = Flask(__name__)
-app.pit = None
+app.page = None
 
 
 def launch_server():
     """
     Do some global health checks and ensure we have everything we need, and then run the server.
     """
-    if not settings.CONFIGS_PATH.exists():
-        print("No configs directory, creating an empty one")
-        settings.CONFIGS_PATH.mkdir()
+    if not settings.PAGES_PATH.exists():
+        print("No pages directory, creating an empty one")
+        settings.PAGES_PATH.mkdir()
 
     if not settings.IMAGES_PATH.exists():
         print("No images directory, creating an empty one")
         settings.IMAGES_PATH.mkdir()
 
-    if len(list(settings.CONFIGS_PATH.glob("*.pit"))) == 0:
-        print("No configs present, creating a example config")
-        Pit.example_pit().save()
+    if len(list(settings.PAGES_PATH.glob("*.page"))) == 0:
+        print("No pages present, creating an example page")
+        Page.example_page().save()
 
     print("SimPyt initial setup complete! Running server...")
     print()

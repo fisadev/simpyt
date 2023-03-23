@@ -1,5 +1,5 @@
 from pathlib import Path
 
 
-CONFIGS_PATH = Path("./configs")
+PAGES_PATH = Path("./pages")
 IMAGES_PATH = Path("./images")
