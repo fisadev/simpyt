@@ -6,7 +6,6 @@ from pit import Page, Control
 import settings
 
 app = Flask(__name__)
-app.page = None
 
 
 def launch_server():
@@ -44,6 +43,7 @@ def page(name):
     """
     Show a particular page with controls.
     """
-    return render_template("page.html", page_name=name)
+    page_ = Page.read(name)
+    return render_template("page.html", page=page_)
 
 launch_server()
