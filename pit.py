@@ -9,14 +9,17 @@ class Control:
     """
     A control that can be displayed in a simpyt, and run some action when interacted with.
     """
-    def __init__(self, position, id_=None, action=None, color=None, image=None):
+    def __init__(self, position, actions=None, color=None, image=None):
         if id_ is None:
             id_ = str(uuid4())
+
+        if actions is None:
+            actions = []
 
         self.id = id_
 
         self.position = position
-        self.action = action
+        self.action = actions
 
         if color is None and image is None:
             print("PROBLEM: the control at position", position, "has no color or image. Setting "
