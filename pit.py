@@ -37,7 +37,6 @@ class Control:
         Serialize the control data to be able to store it in a simpyt config file.
         """
         return {
-            "id": self.id,
             "position": self.position,
 
             "color": self.color,
@@ -52,7 +51,6 @@ class Control:
         Deserialize and load control configs from a simpyt config file.
         """
         return cls(
-            id_=raw_config["id"],
             position=raw_config["position"],
 
             color=raw_config["color"],
