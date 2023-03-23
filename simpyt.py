@@ -1,12 +1,13 @@
 from pathlib import Path
 from threading import Thread
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 
 from pit import Page, Control
 import settings
 
 app = Flask(__name__)
+app.pages_cache = {}
 
 
 def launch_server():
@@ -31,6 +32,19 @@ def launch_server():
     app.run(host="0.0.0.0", port=9999, debug=True)
 
 
+def load_page(name):
+    """
+    Load a page from the cache, or read it from the file system.
+    """
+    if name in app.pages_cache:
+        page = app.pages_cache[name]
+    else:
+        page = Page.read(name)
+        app.pages_cache[name] = page
+
+    return page
+
+
 @app.route("/")
 def home():
     """
@@ -44,8 +58,17 @@ def page(page_name):
     """
     Show a particular page with controls.
     """
-    page_ = Page.read(page_name)
+    page_ = load_page(page_name)
     return render_template("page.html", page=page_)
+
+
+@app.route("/reload_page/<string:page_name>")
+def reload_page(page_name):
+    """
+    Force the reload (re-read from disk) of a particular page.
+    """
+    del app.pages_cache[page_name]
+    return redirect(f"/page/{page_name}")
 
 
 @app.route("/activate_control/<string:page_name>/<string:control_id>")
@@ -53,7 +76,7 @@ def activate_control(page_name, control_id):
     """
     Run the actions associated to a particular control of a particular page.
     """
-    page_ = Page.read(page_name)
+    page_ = load_page(page_name)
     # control, = [ctrl for ctrl in page_.controls if ctrl.id == control_id]
     control = page_.controls[0]  # TODO for testing, replace with line above
     activation_thread = Thread(target=control.activate)
