@@ -1,17 +1,43 @@
-import time, pyautogui
+import pyautogui
 import subprocess
-from abc import ABC, abstractclassmethod
+import time
+from abc import ABC, abstractmethod
 
 
 class Action(ABC):
     """
     Action that can be triggered in interactions with a Control.
+
+    To create a new type of action:
+        - inherit from this class
+        - overwrite all the abstractmethods
+        - set the class attribute CONFIG_KEY with the key expected in the yaml to trigger the
+        action.
     """
 
-    @abstractclassmethod
+    CONFIG_KEY: str
+
+    @abstractmethod
     def run(self):
         """
-        Overwrite this method to implement the logic to run a specific action.
+        Overwrite this method with the logic to run a specific action.
+        """
+
+    @abstractmethod
+    def serialize(self):
+        """
+        Serialize the config for an Action instance.
+
+        Returns:
+            - a string or yaml-freindly format (such as a list of strings) with the config needed
+            to instanciate this Action instance.
+        """
+
+    @abstractmethod
+    @classmethod
+    def deserialize(cls, config):
+        """
+        Create an Action instance based on the given config.
         """
 
 
@@ -40,6 +66,17 @@ class PressKeys(Action):
             else:
                 print("Key error on ", keys)
 
+    def serialize(self):
+        return " ".join(self.keys_to_press)
+
+    @classmethod
+    def deserialize(cls, config):
+        keys_to_press = config.split()
+
+        return cls(keys_to_press)
+
+>>>>>>> 7d88879 (add serialize methods in actions)
+
 class Wait(Action):
     """
     Wait some seconds.
@@ -64,6 +101,14 @@ class Wait(Action):
         time.sleep(self.seconds_to_wait)
 
 
+    def serialize(self):
+        return self.seconds_to_wait
+
+    @classmethod
+    def deserialize(cls, config):
+        return cls(seconds_to_wait=config)
+
+
 class OpenApp(Action):
     """
     Open a specific app, given its name.
@@ -73,10 +118,18 @@ class OpenApp(Action):
     """
 
     def __init__(self, app_path):
-        self.app_path= app_path.split("\n")
+        self.app_path = app_path.split("\n")
 
     def run(self):
         subprocess.run(self.app_path)
+
+    def serialize(self):
+        return self.app_path
+
+    @classmethod
+    def deserialize(cls, config):
+        return cls(app_path=config)
+
 
 if __name__ == "__main__":
     PressKeys("Alt+1,Alt+2,Alt+3").run()
