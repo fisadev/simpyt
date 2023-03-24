@@ -10,7 +10,7 @@ DEFAULT_GRID_HEIGHT = 4
 
 class Control:
     """
-    A control that can be displayed in a simpyt, and run some action when interacted with.
+    A control that can be displayed in a page, and run some actions when interacted with.
     """
     def __init__(self, x=0, y=0, width=1, height=1, actions=None, color=None, image=None):
         if actions is None:
@@ -64,7 +64,7 @@ class Control:
             "color": self.color,
             "image": self.image,
 
-            # TODO class? action?
+            # TODO class? actions?
         }
 
     @classmethod
@@ -82,7 +82,7 @@ class Control:
             color=raw_config["color"],
             image=raw_config["image"],
 
-            # TODO class with other params? action?
+            # TODO class with other params? actions?
         )
 
 
