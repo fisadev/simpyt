@@ -40,13 +40,13 @@ def test_get_actions_list():
     }
     press_action, wait_action, open_action, press_action2 = get_actions_list(control_config)
     assert isinstance(press_action, PressKeys)
-    assert press_action.keys_to_press == ["a", "b", "ctrl+a"]
+    assert press_action.keys_seq == ["a", "b", "ctrl+a"]
 
     assert isinstance(wait_action, Wait)
     assert wait_action.seconds_to_wait == 1.5
 
     assert isinstance(open_action, OpenApp)
-    assert open_action.app_path == "/path/to/executable.exe"
+    assert open_action.app_path == ["/path/to/executable.exe"]
 
     assert isinstance(press_action2, PressKeys)
-    assert press_action2.keys_to_press == ["Esc"]
+    assert press_action2.keys_seq == ["Esc"]
