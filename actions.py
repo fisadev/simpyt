@@ -54,12 +54,12 @@ class OpenApp(Action):
     Open a specific app, given its name.
 
     Params:
-        - app_name (str): Name of the app to open.
+        - app_path (str): Path to the executable of the app to open.
     """
 
-    def __init__(self, app_name):
-        self.app_name= app_name
+    def __init__(self, app_path):
+        self.app_path= app_path
 
     def run(self):
-        # TODO open self.app_name
+        # TODO open self.app_path
         ...
