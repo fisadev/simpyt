@@ -1,4 +1,5 @@
 import time, pyautogui
+import subprocess
 from abc import ABC, abstractclassmethod
 
 
@@ -72,12 +73,11 @@ class OpenApp(Action):
     """
 
     def __init__(self, app_path):
-        self.app_path= app_path
+        self.app_path= app_path.split("\n")
 
     def run(self):
-        # TODO open self.app_path
-        ...
-
+        subprocess.run(self.app_path)
 
 if __name__ == "__main__":
     PressKeys("Alt+1,Alt+2,Alt+3").run()
+    OpenApp("/bin/ls").run()
