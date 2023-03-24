@@ -48,6 +48,7 @@ class PressKeys(Action):
     Params:
         - keys_to_press (list of strings): a list of keys to press.
     """
+    CONFIG_KEY = "press"
     SEQ_KEY_SEP = ","
     KEY_SEP = "+"
     VALID_KEYS = [name.upper() for name in  pyautogui.KEYBOARD_KEYS]
@@ -92,6 +93,7 @@ class Wait(Action):
     Check https://stackoverflow.com/questions/1133857/how-accurate-is-pythons-time-sleep/
 
     """
+    CONFIG_KEY = "wait"
 
     def __init__(self, seconds_to_wait=0.5):
         self.seconds_to_wait= seconds_to_wait
@@ -116,6 +118,7 @@ class OpenApp(Action):
     Params:
         - app_path (str): Path to the executable of the app to open.
     """
+    CONFIG_KEY = "open"
 
     def __init__(self, app_path):
         self.app_path = app_path.split("\n")
