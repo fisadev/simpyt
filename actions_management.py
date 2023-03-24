@@ -23,17 +23,27 @@ def get_available_actions():
 
     return available_actions
 
+
 def get_action_by_key(config_key):
+    """
+    Get the action that match the given config_key.
+    """
     for action in get_available_actions():
         if action.CONFIG_KEY == config_key:
             return action
-    raise ActionNotFound
+    raise ActionNotFound(f"Invalid action name '{config_key}'")
 
 
 def get_actions_list(raw_config):
+    """
+    Get the list of Action instances defined in the given raw_config.
+    """
     actions_in_config = []
 
-    for action_key, action_config in raw_config["actions"]:
+    for action_dict in raw_config["actions"]:
+        # the config of an action is represented as a dict with a single key/value
+        (action_key, action_config), = action_dict.items()
+
         action_class = get_action_by_key(action_key)
         action = action_class.deserialize(action_config)
         actions_in_config.append(action)
