@@ -4,27 +4,45 @@ import yaml
 
 import settings
 
+DEFAULT_GRID_WIDTH = 16
+DEFAULT_GRID_HEIGHT = 4
+
 
 class Control:
     """
     A control that can be displayed in a simpyt, and run some action when interacted with.
     """
-    def __init__(self, position, actions=None, color=None, image=None):
+    def __init__(self, x=0, y=0, width=1, height=1, actions=None, color=None, image=None):
         if actions is None:
             actions = []
 
-        self.id = str(uuid4())
+        self.id = uuid4().hex
 
-        self.position = position
-        self.action = actions
-
-        if color is None and image is None:
-            print("PROBLEM: the control at position", position, "has no color or image. Setting "
-                  "a green color as default.")
-            color = "green"
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
 
         self.color = color
         self.image = image
+
+        self.action = actions
+
+    @property
+    def column_start(self):
+        return self.x + 1
+
+    @property
+    def column_end(self):
+        return self.column_start + self.width
+
+    @property
+    def row_start(self):
+        return self.y + 1
+
+    @property
+    def row_end(self):
+        return self.row_start + self.height
 
     def activate(self):
         """
@@ -37,7 +55,11 @@ class Control:
         Serialize the control data to be able to store it in a simpyt config file.
         """
         return {
-            "position": self.position,
+            "x": self.x,
+            "y": self.y,
+
+            "width": self.width,
+            "height": self.height,
 
             "color": self.color,
             "image": self.image,
@@ -51,7 +73,11 @@ class Control:
         Deserialize and load control configs from a simpyt page file.
         """
         return cls(
-            position=raw_config["position"],
+            x=raw_config["x"],
+            y=raw_config["y"],
+
+            width=raw_config["width"],
+            height=raw_config["height"],
 
             color=raw_config["color"],
             image=raw_config["image"],
@@ -64,11 +90,24 @@ class Page:
     """
     A collection of controls to show together.
     """
-    def __init__(self, name, author, background, controls):
+    def __init__(self, name, author, background, controls,
+                 width=DEFAULT_GRID_WIDTH, height=DEFAULT_GRID_HEIGHT):
         self.name = name
         self.author = author
         self.background = background
+        self.width = width
+        self.height = height
         self.controls = controls
+
+    @property
+    def extra_cells(self):
+        """
+        Based on the dimension of the grid and the number of cells taken by the controls,
+        return the number of cells that would need to be rendered to complete the grid.
+        """
+        total_cells = self.width * self.height
+        taken_cells = sum(ctrl.width * ctrl.height for ctrl in self.controls)
+        return max(0, total_cells - taken_cells)
 
     @classmethod
     def read(cls, name):
@@ -83,6 +122,8 @@ class Page:
             name=name,
             author=raw_config["author"],
             background=raw_config["background"],
+            width=raw_config["width"],
+            height=raw_config["height"],
             controls=[
                 Control.deserialize(ctrl_raw_config)
                 for ctrl_raw_config in raw_config["controls"]
@@ -96,6 +137,8 @@ class Page:
         raw_config = {
             "author": self.author,
             "background": self.background,
+            "width": self.width,
+            "height": self.height,
             "controls": [
                 ctrl.serialize()
                 for ctrl in self.controls
@@ -113,7 +156,7 @@ class Page:
         List all the available (config files) pages.
         """
         return [
-            page_path.name.replace(".page", "")
+            page_path.name[:-5]
             for page_path in settings.PAGES_PATH.glob("*.page")
         ]
 
@@ -126,10 +169,24 @@ class Page:
             name="example",
             author="SimPyt",
             background="black",
+            width=15,
+            height=4,
             controls=[
                 Control(
-                    position=(0, 0),
-                    color="green",
+                    x=0,
+                    y=0,
+                    width=1,
+                    height=3,
+                    color="rgba(255, 63, 63, .5)",
+                    image="push-button-1.png",
+                ),
+                Control(
+                    x=3,
+                    y=1,
+                    width=2,
+                    height=1,
+                    color="rgba(63, 255, 63, .5)",
+                    image="push-button-2.png",
                 )
             ],
         )

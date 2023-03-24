@@ -1,27 +1,83 @@
-<html>
-<style>
-.pit {
+<!DOCTYPE html>
+
+<link rel="icon" href="data:,">
+
+<script>
+const addDelegateEventListener = (el, eventName, eventHandler, selector) => {
+    const wrappedHandler = (e) => {
+        if (!e.target) return;
+        const el = e.target.closest(selector);
+        if (el) {
+            if (el.tagName === "A") e.preventDefault();
+            const newEvent = Object.create(e, {target: {value: el}});
+            eventHandler.call(el, newEvent);
+        }
+    };
+    el.addEventListener(eventName, wrappedHandler);
+    return wrappedHandler;
 }
+
+const handleControlClick = (e) => {
+  console.log("click", e.target);
+  fetch(e.target.href, {method: "GET"});
+}
+
+const main = () => {
+  const pit = document.getElementById("pit");
+  addDelegateEventListener(pit, "click", handleControlClick, "a");
+}
+
+document.addEventListener("DOMContentLoaded", main);
+</script>
+
+<style>
+#pit {}
 .page {
+    height: 100vh;
+    width: 100vw;
+    gap: 1px;
     display: grid;
-    grid-template-columns: auto auto auto;
-    background-color: #235
+    grid-template-columns:{{ " auto" * page.width }};
+    grid-template-rows:{{ " auto" * page.height }};
+    background-color: {{ page.background }};
 }
 .control {
     background-color: rgba(255, 255, 255, 0.8);
     text-align: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
 }
-</style>
+.control a {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
 
+{% for control in page.controls %}
+#control_{{ control.id }} {
+    background-image: url("/static/images/{{ control.image|default('none') }}");
+    background-color: {{ control.color }};
+    grid-column-start: {{ control.column_start }};
+    grid-column-end: {{ control.column_end }};
+    grid-row-start: {{ control.row_start }};
+    grid-row-end: {{ control.row_end }};
+}
+{% endfor %}
+
+</style>
 <h1>SimPyt</h1>
 <h3>{{ page.name }}</h3>
 
-<div class="pit">
+<div id="pit">
     <div class="page">
     {% for control in page.controls %}
-        <div class="control" id="{{ control.id }}">
-            <a href="/activate_control/{{ page.name }}/{{ control.id }}">{{ control.position }}</a>
+        <div class="control" id="control_{{ control.id }}">
+            <a href="/activate_control/{{ page.name }}/{{ control.id }}"></a>
         </div>
+    {% endfor %}
+    {% for control in [''] * page.extra_cells %}
+        <div class="control"></div>
     {% endfor %}
     </div>
 </div>
