@@ -48,6 +48,11 @@ class Wait(Action):
 
     Params:
         - seconds_to_wait (int|float): time in seconds to wait. Defaults to 0.5.
+
+
+    Minimun time in second is different between OSs
+    Check https://stackoverflow.com/questions/1133857/how-accurate-is-pythons-time-sleep/
+
     """
 
     def __init__(self, seconds_to_wait=0.5):
