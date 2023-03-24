@@ -20,7 +20,7 @@ def launch_server():
 
     if not settings.IMAGES_PATH.exists():
         print("No images directory, creating an empty one")
-        settings.IMAGES_PATH.mkdir()
+        settings.IMAGES_PATH.mkdir(parents=True)
 
     if len(Page.available_pages()) == 0:
         print("No pages present, creating an example page")
