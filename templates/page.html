@@ -1,9 +1,32 @@
+<html>
+<style>
+.pit {
+}
+.page {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: #235
+}
+.control {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+}
+</style>
+
 <h1>SimPyt</h1>
 <h3>{{ page.name }}</h3>
 
-{% for control in page.controls %}
-    <p><a href="/activate_control/{{ page.name }}/{{ control.id }}">{{ control.position }}</a></p>
-{% endfor %}
+<div class="pit">
+    <div class="page">
+    {% for control in page.controls %}
+        <div class="control" id="{{ control.id }}">
+            <a href="/activate_control/{{ page.name }}/{{ control.id }}">{{ control.position }}</a>
+        </div>
+    {% endfor %}
+    </div>
+</div>
 
 <p><a href="/reload_page/{{ page.name }}">Force reload</a></p>
-<p><a href="/}">Home</a></p>
+<p><a href="/">Home</a></p>
+
+</html>
