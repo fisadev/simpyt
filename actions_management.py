@@ -40,7 +40,9 @@ def get_actions_list(raw_config):
     """
     actions_in_config = []
 
-    for action_dict in raw_config["actions"]:
+    for action_dict in raw_config.get("actions", []):
+        if not action_dict:
+            continue
         # the config of an action is represented as a dict with a single key/value
         (action_key, action_config), = action_dict.items()
 
