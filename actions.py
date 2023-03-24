@@ -33,8 +33,8 @@ class Action(ABC):
             to instanciate this Action instance.
         """
 
-    @abstractmethod
     @classmethod
+    @abstractmethod
     def deserialize(cls, config):
         """
         Create an Action instance based on the given config.
