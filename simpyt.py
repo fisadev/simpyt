@@ -62,8 +62,8 @@ def page(page_name):
     return render_template("page.html", page=page_)
 
 
-@app.route("/reload_page/<string:page_name>")
-def reload_page(page_name):
+@app.route("/page/<string:page_name>/reload")
+def page_reload(page_name):
     """
     Force the reload (re-read from disk) of a particular page.
     """
