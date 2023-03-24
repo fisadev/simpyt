@@ -76,7 +76,6 @@ class PressKeys(Action):
 
         return cls(keys_to_press)
 
->>>>>>> 7d88879 (add serialize methods in actions)
 
 class Wait(Action):
     """
