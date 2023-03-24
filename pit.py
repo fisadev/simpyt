@@ -2,6 +2,7 @@ from uuid import uuid4
 
 import yaml
 
+from actions_management import get_actions_list
 import settings
 
 DEFAULT_GRID_WIDTH = 16
@@ -63,8 +64,9 @@ class Control:
 
             "color": self.color,
             "image": self.image,
+            "actions": [{action.CONFIG_KEY: action.serialize() for action in self.actions}]
 
-            # TODO class? actions?
+            # TODO class?
         }
 
     @classmethod
@@ -81,8 +83,9 @@ class Control:
 
             color=raw_config["color"],
             image=raw_config["image"],
+            actions=get_actions_list(raw_config)
 
-            # TODO class with other params? actions?
+            # TODO class with other params?
         )
 
 
