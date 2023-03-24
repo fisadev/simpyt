@@ -7,7 +7,7 @@ import settings
 
 class Control:
     """
-    A control that can be displayed in a simpyt, and run some action when interacted with.
+    A control that can be displayed in a page, and run some actions when interacted with.
     """
     def __init__(self, position, actions=None, color=None, image=None):
         if actions is None:
@@ -16,7 +16,7 @@ class Control:
         self.id = str(uuid4())
 
         self.position = position
-        self.action = actions
+        self.actions = actions
 
         if color is None and image is None:
             print("PROBLEM: the control at position", position, "has no color or image. Setting "
@@ -42,7 +42,7 @@ class Control:
             "color": self.color,
             "image": self.image,
 
-            # TODO class? action?
+            # TODO class? actions?
         }
 
     @classmethod
@@ -56,7 +56,7 @@ class Control:
             color=raw_config["color"],
             image=raw_config["image"],
 
-            # TODO class with other params? action?
+            # TODO class with other params? actions?
         )
 
 
