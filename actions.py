@@ -1,4 +1,4 @@
-import time
+import time, pyautogui
 from abc import ABC, abstractclassmethod
 
 
@@ -21,14 +21,23 @@ class PressKeys(Action):
     Params:
         - keys_to_press (list of strings): a list of keys to press.
     """
+    SEQ_KEY_SEP = ","
+    KEY_SEP = "+"
+    VALID_KEYS = [name.upper() for name in  pyautogui.KEYBOARD_KEYS]
 
-    def __init__(self, keys_to_press):
-        self.keys_to_press = keys_to_press
+    def __init__(self, keys_seq):
+        self.keys_seq = keys_seq.split(self.SEQ_KEY_SEP)
+
+    def are_valid_keys(self, keys):
+        return all([key.upper() in self.VALID_KEYS for key in keys.split(self.KEY_SEP)])
 
     def run(self):
-        # TODO: send this keys as OS keyboard input
-        ...
-
+        for keys in self.keys_seq:
+            if self.are_valid_keys(keys):
+                pyautogui.hotkey(*keys.split(self.KEY_SEP))
+                Wait().run()
+            else:
+                print("Key error on ", keys)
 
 class Wait(Action):
     """
@@ -39,6 +48,11 @@ class Wait(Action):
 
     Params:
         - seconds_to_wait (int|float): time in seconds to wait. Defaults to 0.5.
+
+
+    Minimun time in second is different between OSs
+    Check https://stackoverflow.com/questions/1133857/how-accurate-is-pythons-time-sleep/
+
     """
 
     def __init__(self, seconds_to_wait=0.5):
@@ -63,3 +77,7 @@ class OpenApp(Action):
     def run(self):
         # TODO open self.app_path
         ...
+
+
+if __name__ == "__main__":
+    PressKeys("Alt+1,Alt+2,Alt+3").run()
