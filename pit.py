@@ -26,7 +26,7 @@ class Control:
         self.color = color
         self.image = image
 
-        self.action = actions
+        self.actions = actions
 
     @property
     def column_start(self):
@@ -48,7 +48,8 @@ class Control:
         """
         Run the actions that this control was configured to do.
         """
-        pass
+        for action in self.actions:
+            action.run()
 
     def serialize(self):
         """
