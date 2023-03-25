@@ -40,13 +40,12 @@ class Action(ABC):
         Create an Action instance based on the given config.
         """
 
-
 class PressKeys(Action):
     """
-    Press a specific sequence of keys.
+    Press a specific keys.
 
     Params:
-        - keys_to_press (list of strings): a list of keys to press.
+        - keys (string): a string with keys to press
     """
     CONFIG_KEY = "press"
     KEY_SEP = "+"
@@ -62,7 +61,7 @@ class PressKeys(Action):
         if self.are_valid_keys(self.keys):
             pyautogui.hotkey(*self.keys.split(self.KEY_SEP))
         else:
-            print("Key error on ", self.keys)
+            pyautogui.write(self.keys, interval=0.1)
 
     def serialize(self):
         return self.keys
@@ -113,10 +112,10 @@ class OpenApp(Action):
     CONFIG_KEY = "open"
 
     def __init__(self, app_path):
-        self.app_path = app_path.split("\n")
+        self.app_path = app_path.split(" ")
 
     def run(self):
-        subprocess.run(self.app_path)
+        subprocess.Popen(self.app_path)
 
     def serialize(self):
         return self.app_path
