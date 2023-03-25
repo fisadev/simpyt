@@ -49,32 +49,27 @@ class PressKeys(Action):
         - keys_to_press (list of strings): a list of keys to press.
     """
     CONFIG_KEY = "press"
-    SEQ_KEY_SEP = ","
     KEY_SEP = "+"
     VALID_KEYS = [name.upper() for name in  pyautogui.KEYBOARD_KEYS]
 
-    def __init__(self, keys_seq):
-        self.keys_seq = keys_seq
+    def __init__(self, keys):
+        self.keys = keys
 
     def are_valid_keys(self, keys):
         return all([key.upper() in self.VALID_KEYS for key in keys.split(self.KEY_SEP)])
 
     def run(self):
-        for keys in self.keys_seq:
-            if self.are_valid_keys(keys):
-                pyautogui.hotkey(*keys.split(self.KEY_SEP))
-                Wait().run()
-            else:
-                print("Key error on ", keys)
+        if self.are_valid_keys(self.keys):
+            pyautogui.hotkey(*self.keys.split(self.KEY_SEP))
+        else:
+            print("Key error on ", self.keys)
 
     def serialize(self):
-        return " ".join(self.keys_seq)
+        return self.keys
 
     @classmethod
     def deserialize(cls, config):
-        keys_to_press = config.split()
-
-        return cls(keys_to_press)
+        return cls(config)
 
 
 class Wait(Action):
