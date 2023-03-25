@@ -1,8 +1,21 @@
-<html>
-<h1>SimPyt</h1>
-<p>Hi! To start, open one of your SimPyt pages:</p>
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/assets/icons/icon.png">
+    <link rel="manifest" href="/assets/manifest.webmanifest">
+    <script>
+        if ("serviceWorker" in navigator){
+            navigator.serviceWorker.register("/assets/service-worker.js")
+        }
+    </script>
+</head>
+<body>
+    <h1>SimPyt</h1>
+    <p>Hi! To start, open one of your SimPyt pages:</p>
 
-{% for page_name in available_pages %}
-    <p><a href="/page/{{ page_name }}">{{ page_name }}</a></p>
-{% endfor %}
+    {% for page_name in available_pages %}
+        <p><a href="/page/{{ page_name }}">{{ page_name }}</a></p>
+    {% endfor %}
+</body>
 </html>
