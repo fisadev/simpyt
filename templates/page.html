@@ -64,10 +64,10 @@
             {% else %}
                 align-items: center;
             {% endif %}
-            padding: 0.5rem;
         }
         {% if control.text: %}
             #control_{{ control.id }} p {
+                padding: 0.5rem;
                 font-family: {{ control.text_font }};
                 font-size: {{ control.text_size }};
                 color: {{ control.text_color }};
