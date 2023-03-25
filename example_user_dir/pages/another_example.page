@@ -7,5 +7,7 @@ controls:
   width: 2
   image: previous_page.png
   target_page: example
-height: 4
+  border_width: 5px
+  border_color: black
+height: 8
 width: 15

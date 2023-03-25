@@ -15,7 +15,8 @@ class Control:
     """
     A control that can be displayed in a page, and run some actions when interacted with.
     """
-    def __init__(self, x=0, y=0, width=1, height=1, actions=None, target_page=None, color=None, image=None):
+    def __init__(self, x=0, y=0, width=1, height=1, actions=None, target_page=None, color=None,
+                 border_width=None, border_color=None, image=None):
         if actions is None:
             actions = []
 
@@ -28,6 +29,8 @@ class Control:
 
         self.color = color
         self.image = image
+        self.border_width = border_width
+        self.border_color = border_color
 
         self.actions = actions
         self.target_page = target_page
@@ -68,6 +71,9 @@ class Control:
 
             "color": self.color,
             "image": self.image,
+            "border_width": self.border_width,
+            "border_color": self.border_color,
+
             "target_page": self.target_page,
             "actions": [{action.CONFIG_KEY: action.serialize()} for action in self.actions]
         }
@@ -86,6 +92,9 @@ class Control:
 
             color=raw_config.get("color"),
             image=raw_config.get("image"),
+            border_width=raw_config.get("border_width"),
+            border_color=raw_config.get("border_color"),
+
             target_page=raw_config.get("target_page"),
             actions=get_actions_list(raw_config)
         )

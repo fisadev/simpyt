@@ -5,35 +5,50 @@ controls:
   y: 3
   height: 1
   width: 1
-  image: volume_down.png
+  image: maximize.png
+  border_width: 5px
+  border_color: green
   actions:
-  - press: volumedown
+  - press: win+up
 - x: 1
   y: 2
   height: 1
   width: 1
-  image: volume_up.png
+  image: minimize.png
+  border_width: 5px
+  border_color: green
   actions:
-  - press: volumeup
+  - press: win+down
 - x: 4
   y: 3
   height: 1
   width: 3
   image: tornado.png
   actions:
-  - press: alt+tab
-  - wait: 0.5
-  - press: alt+tab
-  - wait: 0.5
-  - press: alt+tab
-  - wait: 0.5
-  - press: alt+tab
-  - wait: 0.5
+  - press: win+up
+  - wait: 0.1
+  - press: win+down
+  - wait: 0.1
+  - press: win+up
+  - wait: 0.1
+  - press: win+down
+  - wait: 0.1
+  - press: win+up
+  - wait: 0.1
+  - press: win+down
+  - wait: 0.1
+  - press: win+up
+  - wait: 0.1
+  - press: win+down
+  - wait: 0.1
+  - press: win+up
 - x: 10
   y: 0
   height: 2
   width: 2
   image: next_page.png
   target_page: another_example
-height: 4
+  border_width: 5px
+  border_color: black
+height: 8
 width: 15

@@ -37,6 +37,11 @@
     {% else %}
         background-color: transparent;
     {% endif %}
+    {% if control.border_width: %}
+        border-style: solid;
+        border-width: {{ control.border_width }};
+        border-color: {{ control.border_color }};
+    {% endif %}
     grid-column-start: {{ control.column_start }};
     grid-column-end: {{ control.column_end }};
     grid-row-start: {{ control.row_start }};
