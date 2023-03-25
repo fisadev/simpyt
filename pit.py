@@ -5,6 +5,8 @@ import yaml
 from actions_management import get_actions_list
 import settings
 
+from actions import PressKeys, Wait
+
 DEFAULT_GRID_WIDTH = 16
 DEFAULT_GRID_HEIGHT = 4
 
@@ -65,7 +67,7 @@ class Control:
 
             "color": self.color,
             "image": self.image,
-            "actions": [{action.CONFIG_KEY: action.serialize() for action in self.actions}]
+            "actions": [{action.CONFIG_KEY: action.serialize()} for action in self.actions]
 
             # TODO class?
         }
@@ -183,6 +185,7 @@ class Page:
                     height=3,
                     color="rgba(255, 63, 63, .5)",
                     image="push-button-1.png",
+                    actions=[PressKeys("win+down")],
                 ),
                 Control(
                     x=3,
@@ -191,6 +194,7 @@ class Page:
                     height=1,
                     color="rgba(63, 255, 63, .5)",
                     image="push-button-2.png",
+                    actions=[PressKeys("win+down"), Wait(1), PressKeys("win+up")],
                 )
             ],
         )
