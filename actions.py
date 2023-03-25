@@ -54,7 +54,7 @@ class PressKeys(Action):
     VALID_KEYS = [name.upper() for name in  pyautogui.KEYBOARD_KEYS]
 
     def __init__(self, keys_seq):
-        self.keys_seq = keys_seq
+        self.keys_seq = keys_seq.split(self.SEQ_KEY_SEP)
 
     def are_valid_keys(self, keys):
         return all([key.upper() in self.VALID_KEYS for key in keys.split(self.KEY_SEP)])
