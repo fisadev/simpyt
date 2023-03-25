@@ -77,8 +77,7 @@ def activate_control(page_name, control_id):
     Run the actions associated to a particular control of a particular page.
     """
     page_ = load_page(page_name)
-    # control, = [ctrl for ctrl in page_.controls if ctrl.id == control_id]
-    control = page_.controls[0]  # TODO for testing, replace with line above
+    control, = [ctrl for ctrl in page_.controls if ctrl.id == control_id]
     activation_thread = Thread(target=control.activate)
     activation_thread.run()
     return {"result": "ok"}

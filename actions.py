@@ -60,7 +60,6 @@ class PressKeys(Action):
 
     def run(self):
         if self.are_valid_keys(self.keys):
-            print("RUNNING", self.keys)
             pyautogui.hotkey(*self.keys.split(self.KEY_SEP))
         else:
             print("Key error on ", self.keys)
