@@ -29,8 +29,12 @@
 
 {% for control in page.controls %}
 #control_{{ control.id }} {
-    background-image: url("/static/images/{{ control.image|default('none') }}");
-    background-color: {{ control.color }};
+    {% if control.image: %}
+        background-image: url("/image/{{ control.image|default('none') }}");
+    {% endif %}
+    {% if control.color: %}
+        background-color: {{ control.color }};
+    {% endif %}
     grid-column-start: {{ control.column_start }};
     grid-column-end: {{ control.column_end }};
     grid-row-start: {{ control.row_start }};
@@ -39,6 +43,7 @@
 {% endfor %}
 
 </style>
+
 <h1>SimPyt</h1>
 <h3>{{ page.name }}</h3>
 
