@@ -18,7 +18,7 @@ class Control:
     def __init__(self, x=0, y=0, width=1, height=1, actions=None, target_page=None, color=None,
                  border_width=None, border_color="black", image=None, text=None, text_size="16px",
                  text_font="Verdana", text_color="black", text_horizontal_align="center",
-                 text_vertical_align="middle"):
+                 text_vertical_align="center"):
         if actions is None:
             actions = []
 
