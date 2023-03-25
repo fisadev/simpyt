@@ -34,6 +34,8 @@
     {% endif %}
     {% if control.color: %}
         background-color: {{ control.color }};
+    {% else %}
+        background-color: transparent;
     {% endif %}
     grid-column-start: {{ control.column_start }};
     grid-column-end: {{ control.column_end }};
