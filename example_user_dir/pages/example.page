@@ -1,28 +1,54 @@
 author: SimPyt
 background: lightgray
+height: 30
+width: 40
 controls:
+- x: 1
+  y: 1
+  height: 1
+  width: 30
+  text: "These are some demo buttons."
+  text_horizontal_align: left
+  text_color: black
+  text_size: 2rem
 - x: 1
   y: 3
   height: 1
-  width: 1
+  width: 15
+  text: "Simple buttons that emulate keys:"
+  text_horizontal_align: left
+  text_color: black
+  text_size: 1.2rem
+- x: 1
+  y: 5
+  height: 3
+  width: 3
   image: maximize.png
-  border_width: 5px
+  border_width: 0.3rem
   border_color: green
   actions:
   - press: win+up
-- x: 1
-  y: 2
-  height: 1
-  width: 1
+- x: 5
+  y: 5
+  height: 3
+  width: 3
   image: minimize.png
-  border_width: 5px
+  border_width: 0.3rem
   border_color: green
   actions:
   - press: win+down
-- x: 2
-  y: 3
-  height: 1
-  width: 3
+- x: 1
+  y: 9
+  height: 2
+  width: 15
+  text: "Buttons can have images and different sizes:"
+  text_horizontal_align: left
+  text_color: black
+  text_size: 1.2rem
+- x: 1
+  y: 12
+  height: 5
+  width: 5
   image: tornado.png
   actions:
   - press: win+up
@@ -42,13 +68,33 @@ controls:
   - press: win+down
   - wait: 0.1
   - press: win+up
-- x: 5
-  y: 2
+- x: 7
+  y: 13
+  height: 2
+  width: 2
+  image: tornado.png
+  actions:
+  - press: win+up
+  - wait: 0.1
+  - press: win+down
+  - wait: 0.1
+  - press: win+up
+  - wait: 0.1
+- x: 1
+  y: 18
+  height: 1
+  width: 15
+  text: "You can also use text, and do very complex sequences:"
+  text_horizontal_align: left
+  text_color: black
+  text_size: 1.2rem
+- x: 1
+  y: 20
   height: 3
-  width: 3
+  width: 7
   border_width: 3px
   border_color: blue
-  text: "open the files app, go to a folder, then close it"
+  text: "Find and open a file, zoom in, close"
   text_color: blue
   actions:
   - press: win
@@ -70,13 +116,18 @@ controls:
   - press: alt+f4
   - wait: 0.5
   - press: alt+f4
-- x: 10
-  y: 0
-  height: 2
-  width: 2
+- x: 22
+  y: 2
+  height: 1
+  width: 15
+  text: "You can have multiple pages, and navigate them"
+  text_horizontal_align: left
+  text_vertical_align: top
+  text_color: black
+  text_size: 1.2rem
+- x: 30
+  y: 6
+  height: 3
+  width: 3
   image: next_page.png
   target_page: another_example
-  border_width: 5px
-  border_color: black
-height: 8
-width: 15

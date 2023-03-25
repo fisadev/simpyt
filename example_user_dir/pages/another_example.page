@@ -1,13 +1,21 @@
 author: SimPyt
-background: gray
+background: black
+height: 8
+width: 15
 controls:
-- x: 10
-  y: 0
+- x: 1
+  y: 1
+  height: 3
+  width: 12
+  text: "Different pages can have different grid sizes and backgrounds"
+  text_horizontal_align: left
+  text_vertical_align: top
+  text_color: white
+  text_size: 1.2rem
+- x: 6
+  y: 4
   height: 2
   width: 2
   image: previous_page.png
   target_page: example
-  border_width: 5px
-  border_color: black
-height: 8
-width: 15
+  color: white
