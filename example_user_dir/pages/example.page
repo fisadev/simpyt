@@ -19,7 +19,7 @@ controls:
   border_color: green
   actions:
   - press: win+down
-- x: 4
+- x: 2
   y: 3
   height: 1
   width: 3
@@ -42,6 +42,34 @@ controls:
   - press: win+down
   - wait: 0.1
   - press: win+up
+- x: 5
+  y: 2
+  height: 3
+  width: 3
+  border_width: 3px
+  border_color: blue
+  text: "open the files app, go to a folder, then close it"
+  text_color: blue
+  actions:
+  - press: win
+  - wait: 1
+  - press: f
+  - press: i
+  - press: l
+  - press: e
+  - press: s
+  - wait: 1
+  - press: enter
+  - wait: 1
+  - press: right
+  - wait: 0.2
+  - press: down
+  - wait: 0.2
+  - press: down
+  - wait: 1
+  - press: enter
+  - wait: 3
+  - press: alt+f4
 - x: 10
   y: 0
   height: 2

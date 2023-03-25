@@ -47,6 +47,15 @@
     grid-row-start: {{ control.row_start }};
     grid-row-end: {{ control.row_end }};
 }
+{% if control.text: %}
+    #control_{{ control.id }} p {
+        font-family: {{ control.text_font }};
+        font-size: {{ control.text_size }};
+        color: {{ control.text_color }};
+        text-align: {{ control.text_horizontal_align }};
+        vertical-align: {{ control.text_vertical_align }};
+    }
+{% endif %}
 {% endfor %}
 
 </style>
@@ -59,7 +68,13 @@
     {% for control in page.controls %}
         <div class="control" id="control_{{ control.id }}" hx-get="/activate_control/{{ page.name }}/{{ control.id }}" hx-trigger="click" hx-swap="none" >
             {% if control.target_page: %}
-                <a href="/page/{{ control.target_page }}"></a>
+                <a href="/page/{{ control.target_page }}">
+            {% endif %}
+            {% if control.text: %}
+                <p>{{ control.text }}</p>
+            {% endif %}
+            {% if control.target_page: %}
+                </a>
             {% endif %}
         </div>
     {% endfor %}
