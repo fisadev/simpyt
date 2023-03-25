@@ -1,12 +1,11 @@
 author: SimPyt
-background: black
+background: gray
 controls:
-- target_page: example
-  color: rgba(255, 63, 63, .5)
-  height: 1
-  image: push-button-1.png
-  width: 3
-  x: 2
-  y: 2
+- x: 10
+  y: 0
+  height: 2
+  width: 2
+  image: previous_page.png
+  target_page: example
 height: 4
 width: 15
