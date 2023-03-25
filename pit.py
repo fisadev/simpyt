@@ -15,7 +15,10 @@ class Control:
     """
     A control that can be displayed in a page, and run some actions when interacted with.
     """
-    def __init__(self, x=0, y=0, width=1, height=1, actions=None, target_page=None, color=None, image=None):
+    def __init__(self, x=0, y=0, width=1, height=1, actions=None, target_page=None, color=None,
+                 border_width=None, border_color="black", image=None, text=None, text_size="16px",
+                 text_font="Verdana", text_color="black", text_horizontal_align="center",
+                 text_vertical_align="middle"):
         if actions is None:
             actions = []
 
@@ -28,6 +31,15 @@ class Control:
 
         self.color = color
         self.image = image
+        self.border_width = border_width
+        self.border_color = border_color
+
+        self.text = text
+        self.text_size = text_size
+        self.text_font = text_font
+        self.text_color = text_color
+        self.text_horizontal_align = text_horizontal_align
+        self.text_vertical_align = text_vertical_align
 
         self.actions = actions
         self.target_page = target_page
@@ -68,6 +80,16 @@ class Control:
 
             "color": self.color,
             "image": self.image,
+            "border_width": self.border_width,
+            "border_color": self.border_color,
+
+            "text": self.text,
+            "text_size": self.text_size,
+            "text_font": self.text_font,
+            "text_color": self.text_color,
+            "text_horizontal_align": self.text_horizontal_align,
+            "text_vertical_align": self.text_vertical_align,
+
             "target_page": self.target_page,
             "actions": [{action.CONFIG_KEY: action.serialize()} for action in self.actions]
         }
@@ -77,18 +99,8 @@ class Control:
         """
         Deserialize and load control configs from a simpyt page file.
         """
-        return cls(
-            x=raw_config["x"],
-            y=raw_config["y"],
-
-            width=raw_config["width"],
-            height=raw_config["height"],
-
-            color=raw_config.get("color"),
-            image=raw_config.get("image"),
-            target_page=raw_config.get("target_page"),
-            actions=get_actions_list(raw_config)
-        )
+        raw_config["actions"] = get_actions_list(raw_config)
+        return cls(**raw_config)
 
 
 class Page:

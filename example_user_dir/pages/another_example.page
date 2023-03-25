@@ -1,0 +1,13 @@
+author: SimPyt
+background: gray
+controls:
+- x: 10
+  y: 0
+  height: 2
+  width: 2
+  image: previous_page.png
+  target_page: example
+  border_width: 5px
+  border_color: black
+height: 8
+width: 15
