@@ -13,7 +13,13 @@
 </head>
 <body>
 <style>
-    #pit {}
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    #pit {
+        margin: 0px;
+    }
     .page {
         height: 100vh;
         width: 100vw;
@@ -77,10 +83,6 @@
     {% endfor %}
 
 </style>
-
-<h1>SimPyt</h1>
-<h3>{{ page.name }}</h3>
-<p><a href="/page/{{ page.name }}/reload">Force reload</a>, <a href="/">Home</a></p>
 
 <div id="pit">
     <div class="page">
