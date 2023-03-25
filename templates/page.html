@@ -12,17 +12,17 @@
     <script src="https://unpkg.com/htmx.org@1.8.6" integrity="sha384-Bj8qm/6B+71E6FQSySofJOUjA/gq330vEqjFx9LakWybUySyI1IQHwPtbTU7bNwx" crossorigin="anonymous"></script>
 </head>
 <body>
-    <style>
+<style>
     #pit {}
-.page {
-    height: 100vh;
-    width: 100vw;
-    gap: 1px;
-    display: grid;
-    grid-template-columns: repeat({{ page.width }}, minmax(0, 1fr));
-    grid-template-rows: repeat({{ page.height }}, minmax(0, 1fr));
-    background-color: {{ page.background }};
-}
+    .page {
+        height: 100vh;
+        width: 100vw;
+        gap: 1px;
+        display: grid;
+        grid-template-columns: repeat({{ page.width }}, minmax(0, 1fr));
+        grid-template-rows: repeat({{ page.height }}, minmax(0, 1fr));
+        background-color: {{ page.background }};
+    }
     .control {
         background-color: rgba(255, 255, 255, 0.8);
         text-align: center;
@@ -36,68 +36,70 @@
         display: block;
     }
      
-{% for control in page.controls %}
- #control_{{ control.id }} {
-    {% if control.image: %}
-        background-image: url("/image/{{ control.image|default('none') }}");
-    {% endif %}
-    {% if control.color: %}
-        background-color: {{ control.color }};
-    {% else %}
-        background-color: transparent;
-    {% endif %}
-    {% if control.border_width: %}
-        border-style: solid;
-        border-width: {{ control.border_width }};
-        border-color: {{ control.border_color }};
-    {% endif %}
-    grid-column-start: {{ control.column_start }};
-    grid-column-end: {{ control.column_end }};
-    grid-row-start: {{ control.row_start }};
-    grid-row-end: {{ control.row_end }};
-    display: flex;
-    flex-direction: row;
-    {% if control.text_vertical_align == "top": %}
-        align-items: flex-start;
-    {% elif control.text_vertical_align == "bottom": %}
-        align-items: flex-end;
-    {% else %}
-        align-items: center;
-    {% endif %}
-    padding: 0.5rem;
-}
-{% if control.text: %}
-    #control_{{ control.id }} p {
-        font-family: {{ control.text_font }};
-        font-size: {{ control.text_size }};
-        color: {{ control.text_color }};
-        text-align: {{ control.text_horizontal_align }};
-    }
-{% endif %}
-{% endfor %}
+    {% for control in page.controls %}
+        #control_{{ control.id }} {
+            {% if control.image: %}
+                background-image: url("/image/{{ control.image|default('none') }}");
+            {% endif %}
+            {% if control.color: %}
+                background-color: {{ control.color }};
+            {% else %}
+                background-color: transparent;
+            {% endif %}
+            {% if control.border_width: %}
+                border-style: solid;
+                border-width: {{ control.border_width }};
+                border-color: {{ control.border_color }};
+            {% endif %}
+            grid-column-start: {{ control.column_start }};
+            grid-column-end: {{ control.column_end }};
+            grid-row-start: {{ control.row_start }};
+            grid-row-end: {{ control.row_end }};
+            display: flex;
+            flex-direction: row;
+            {% if control.text_vertical_align == "top": %}
+                align-items: flex-start;
+            {% elif control.text_vertical_align == "bottom": %}
+                align-items: flex-end;
+            {% else %}
+                align-items: center;
+            {% endif %}
+            padding: 0.5rem;
+        }
+        {% if control.text: %}
+            #control_{{ control.id }} p {
+                font-family: {{ control.text_font }};
+                font-size: {{ control.text_size }};
+                color: {{ control.text_color }};
+                text-align: {{ control.text_horizontal_align }};
+            }
+        {% endif %}
+    {% endfor %}
 
-  </style>
+</style>
 
-    <h1>SimPyt</h1>
-    <h3>{{ page.name }}</h3>
+<h1>SimPyt</h1>
+<h3>{{ page.name }}</h3>
+
 <div id="pit">
     <div class="page">
-    {% for control in page.controls %}
-        <div class="control" id="control_{{ control.id }}" hx-get="/activate_control/{{ page.name }}/{{ control.id }}" hx-trigger="click" hx-swap="none" >
-            {% if control.target_page: %}
-                <a href="/page/{{ control.target_page }}">
-            {% endif %}
-            {% if control.text: %}
-                <p>{{ control.text }}</p>
-            {% endif %}
-            {% if control.target_page: %}
-                </a>
-            {% endif %}
-        </div>
-    {% endfor %}
-      
+        {% for control in page.controls %}
+            <div class="control" id="control_{{ control.id }}" hx-get="/activate_control/{{ page.name }}/{{ control.id }}" hx-trigger="click" hx-swap="none" >
+                {% if control.target_page: %}
+                    <a href="/page/{{ control.target_page }}">
+                {% endif %}
+                {% if control.text: %}
+                    <p>{{ control.text }}</p>
+                {% endif %}
+                {% if control.target_page: %}
+                    </a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 </div>
 
-    <p><a href="/page/{{ page.name }}/reload">Force reload</a></p>
-    <p><a href="/">Home</a></p>
+<p><a href="/page/{{ page.name }}/reload">Force reload</a></p>
+<p><a href="/">Home</a></p>
+
 </body>
