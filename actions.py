@@ -68,7 +68,7 @@ class PressKeys(Action):
                 print("Key error on ", keys)
 
     def serialize(self):
-        return " ".join(self.keys_to_press)
+        return " ".join(self.keys_seq)
 
     @classmethod
     def deserialize(cls, config):
