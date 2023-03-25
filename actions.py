@@ -60,6 +60,7 @@ class PressKeys(Action):
 
     def run(self):
         if self.are_valid_keys(self.keys):
+            print("RUNNING", self.keys)
             pyautogui.hotkey(*self.keys.split(self.KEY_SEP))
         else:
             print("Key error on ", self.keys)
@@ -92,10 +93,8 @@ class Wait(Action):
     def __init__(self, seconds_to_wait=0.5):
         self.seconds_to_wait= seconds_to_wait
 
-
     def run(self):
         time.sleep(self.seconds_to_wait)
-
 
     def serialize(self):
         return self.seconds_to_wait
