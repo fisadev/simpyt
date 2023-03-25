@@ -1,5 +1,7 @@
 from pathlib import Path
+import os
 
 
-PAGES_PATH = Path("./pages")
-IMAGES_PATH = Path("./static/images")
+ROOT_CONFIGS_PATH = Path('~').expanduser() / "SimPyt"
+PAGES_PATH = ROOT_CONFIGS_PATH / "pages"
+IMAGES_PATH = ROOT_CONFIGS_PATH / "images"

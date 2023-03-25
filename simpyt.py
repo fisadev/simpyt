@@ -14,6 +14,10 @@ def launch_server():
     """
     Do some global health checks and ensure we have everything we need, and then run the server.
     """
+    if not settings.ROOT_CONFIGS_PATH.exists():
+        print("No configs directory, creating an empty one")
+        settings.ROOT_CONFIGS_PATH.mkdir()
+
     if not settings.PAGES_PATH.exists():
         print("No pages directory, creating an empty one")
         settings.PAGES_PATH.mkdir()
