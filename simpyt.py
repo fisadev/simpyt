@@ -1,5 +1,6 @@
 from pathlib import Path
 from threading import Thread
+from shutil import copytree
 
 from flask import Flask, render_template, redirect
 
@@ -15,20 +16,9 @@ def launch_server():
     Do some global health checks and ensure we have everything we need, and then run the server.
     """
     if not settings.ROOT_CONFIGS_PATH.exists():
-        print("No configs directory, creating an empty one")
-        settings.ROOT_CONFIGS_PATH.mkdir()
-
-    if not settings.PAGES_PATH.exists():
-        print("No pages directory, creating an empty one")
-        settings.PAGES_PATH.mkdir()
-
-    if not settings.IMAGES_PATH.exists():
-        print("No images directory, creating an empty one")
-        settings.IMAGES_PATH.mkdir(parents=True)
-
-    if len(Page.available_pages()) == 0:
-        print("No pages present, creating an example page")
-        Page.example_page().save()
+        print("No config folder found, creating a new one with example pages")
+        copytree(settings.ROOT_EXAMPLE_CONFIGS_PATH,
+                 settings.ROOT_CONFIGS_PATH)
 
     print("SimPyt initial setup complete! Running server...")
     print()
