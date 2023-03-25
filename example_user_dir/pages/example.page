@@ -53,22 +53,22 @@ controls:
   actions:
   - press: win
   - wait: 1
-  - press: f
-  - press: i
-  - press: l
-  - press: e
-  - press: s
+  - press: files
   - wait: 1
   - press: enter
   - wait: 1
-  - press: right
-  - wait: 0.2
-  - press: down
-  - wait: 0.2
-  - press: down
+  - press: 3d_print
   - wait: 1
   - press: enter
-  - wait: 3
+  - wait: 1
+  - press: string
+  - wait: 1
+  - press: enter
+  - wait: 1
+  - press: "========"
+  - wait: 2
+  - press: alt+f4
+  - wait: 0.5
   - press: alt+f4
 - x: 10
   y: 0
