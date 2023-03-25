@@ -1,7 +1,8 @@
 from threading import Thread
 from shutil import copytree
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, send_from_directory
+
 
 from pit import Page
 import settings
@@ -74,6 +75,14 @@ def activate_control(page_name, control_id):
     activation_thread = Thread(target=control.activate)
     activation_thread.run()
     return {"result": "ok"}
+
+
+@app.route("/image/<path:image_path>")
+def image_show(image_path):
+    """
+    Serve a particular image.
+    """
+    return send_from_directory(settings.IMAGES_PATH, image_path)
 
 
 launch_server()
