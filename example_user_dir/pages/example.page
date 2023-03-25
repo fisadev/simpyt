@@ -1,9 +1,8 @@
 author: SimPyt
-background: black
+background: gray
 controls:
 - actions:
   - press: win+l
-  color: rgba(255, 63, 63, .5)
   height: 3
   image: push-button-1.png
   target_page: null
@@ -16,7 +15,6 @@ controls:
   - press: win+up
   color: rgba(63, 255, 63, .5)
   height: 1
-  image: push-button-2.png
   target_page: null
   width: 2
   x: 3
@@ -25,7 +23,7 @@ controls:
   color: rgba(0, 0, 0, .5)
   height: 2
   image: push-button-2.png
-  target_page: example2
+  target_page: another_example
   width: 2
   x: 8
   y: 1
