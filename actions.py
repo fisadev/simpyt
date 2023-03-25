@@ -112,10 +112,10 @@ class OpenApp(Action):
     CONFIG_KEY = "open"
 
     def __init__(self, app_path):
-        self.app_path = app_path.split("\n")
+        self.app_path = app_path.split(" ")
 
     def run(self):
-        subprocess.run(self.app_path)
+        subprocess.Popen(self.app_path)
 
     def serialize(self):
         return self.app_path
