@@ -85,4 +85,12 @@ def image_show(image_path):
     return send_from_directory(settings.IMAGES_PATH, image_path)
 
 
+@app.route("/assets/<path:asset_path>")
+def assets_send(asset_path):
+    """
+    Serve the assets.
+    """
+    return send_from_directory(settings.ASSETS_PATH, asset_path)
+
+
 launch_server()
