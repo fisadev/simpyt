@@ -46,7 +46,9 @@
     <div class="page">
     {% for control in page.controls %}
         <div class="control" id="control_{{ control.id }}" hx-get="/activate_control/{{ page.name }}/{{ control.id }}" hx-trigger="click" hx-swap="none" >
-            
+            {% if control.target_page: %}
+                <a href="/page/{{ control.target_page }}"></a>
+            {% endif %}
         </div>
     {% endfor %}
     {% for control in [''] * page.extra_cells %}

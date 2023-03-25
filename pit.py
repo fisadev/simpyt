@@ -15,7 +15,7 @@ class Control:
     """
     A control that can be displayed in a page, and run some actions when interacted with.
     """
-    def __init__(self, x=0, y=0, width=1, height=1, actions=None, color=None, image=None):
+    def __init__(self, x=0, y=0, width=1, height=1, actions=None, target_page=None, color=None, image=None):
         if actions is None:
             actions = []
 
@@ -30,6 +30,7 @@ class Control:
         self.image = image
 
         self.actions = actions
+        self.target_page = target_page
 
     @property
     def column_start(self):
@@ -67,9 +68,8 @@ class Control:
 
             "color": self.color,
             "image": self.image,
+            "target_page": self.target_page,
             "actions": [{action.CONFIG_KEY: action.serialize()} for action in self.actions]
-
-            # TODO class?
         }
 
     @classmethod
@@ -84,11 +84,10 @@ class Control:
             width=raw_config["width"],
             height=raw_config["height"],
 
-            color=raw_config["color"],
-            image=raw_config["image"],
+            color=raw_config.get("color"),
+            image=raw_config.get("image"),
+            target_page=raw_config.get("target_page"),
             actions=get_actions_list(raw_config)
-
-            # TODO class with other params?
         )
 
 
@@ -185,7 +184,7 @@ class Page:
                     height=3,
                     color="rgba(255, 63, 63, .5)",
                     image="push-button-1.png",
-                    actions=[PressKeys("win+down")],
+                    actions=[PressKeys("win+l")],
                 ),
                 Control(
                     x=3,
@@ -195,6 +194,15 @@ class Page:
                     color="rgba(63, 255, 63, .5)",
                     image="push-button-2.png",
                     actions=[PressKeys("win+down"), Wait(1), PressKeys("win+up")],
-                )
+                ),
+                Control(
+                    x=8,
+                    y=1,
+                    width=2,
+                    height=2,
+                    color="rgba(0, 0, 0, .5)",
+                    image="push-button-2.png",
+                    target_page="example2",
+                ),
             ],
         )
