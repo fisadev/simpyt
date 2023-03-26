@@ -131,3 +131,20 @@ controls:
   width: 3
   image: next_page.png
   target_page: another_example
+- x: 22
+  y: 11
+  height: 1
+  width: 15
+  text: "Bye!!"
+  text_horizontal_align: left
+  text_vertical_align: top
+  text_color: black
+  text_size: 1.2rem
+- x: 30
+  y: 13
+  height: 3
+  width: 3
+  text: "👋"
+  text_size: 50px
+  actions:
+  - press: win+l
