@@ -25,9 +25,8 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
     // Check to see if the request's destination is style for stylesheets, script for JavaScript, or worker for web worker
     ({ request }) =>
-        request.destination === "style" ||
-        request.destination === "script" ||
-        request.destination === "worker",
+        request.destination.includes("asset") ||
+        request.destination.includes("icon"),
     // Use a Stale While Revalidate caching strategy
     new workbox.strategies.StaleWhileRevalidate({
         // Put all cached files in a cache named 'assets'
@@ -45,7 +44,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
     // Check to see if the request's destination is style for an image
-    ({ request }) => request.destination === "image",
+    ({ request }) => request.destination.includes("image"),
     // Use a Cache First caching strategy
     new workbox.strategies.CacheFirst({
         // Put all cached files in a cache named 'images'
