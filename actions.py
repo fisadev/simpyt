@@ -64,10 +64,10 @@ class Action(ABC):
             linked_action = cls.find_and_deserialize(linked_action)
 
         if script:
-            script = [
+            script = Script(
                 cls.find_and_deserialize(script_action_config)
                 for script_action_config in script
-            ]
+            )
 
         return linked_action, script
 
@@ -89,6 +89,21 @@ class Action(ABC):
             raise ValueError(f"Unknown action: {prefix}")
 
         return cls.ACTIONS_BY_PREFIX[prefix].deserialize(action_config)
+
+
+class Script:
+    """
+    A sequence of actions to be called in unlinked mode.
+    """
+    def __init__(self, actions):
+        self.actions = actions
+
+    def run(self):
+        """
+        Execute all the actions.
+        """
+        for action in self.actions:
+            action.run(Action.Mode.UNLINKED)
 
 
 @Action.register
