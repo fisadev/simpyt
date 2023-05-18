@@ -232,7 +232,7 @@ class Wait(Action):
         """
         Read the config and return a configured Action.
         """
-        return cls(seconds_to_wait=config)
+        return cls(seconds_to_wait=int(config))
 
 
 @Action.register
