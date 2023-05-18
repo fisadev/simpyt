@@ -1,0 +1,13 @@
+name: simpyt
+exec:
+  script: simpyt.py
+requirements:
+  - requirements.txt
+# include: 
+#   - "*.py", 
+#   - assets
+#   - example_user_dir
+#   - templates
+#   - README.md
+# exclude:
+#  - tests
