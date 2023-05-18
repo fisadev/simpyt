@@ -46,7 +46,7 @@ class SimPytApp(Flask):
     def images_path(self):
         return self.root_configs_path / "images"
 
-    def launch_server(self, root_configs_path):
+    def launch_server(self, root_configs_path, debug=False):
         """
         Do some global health checks and ensure we have everything we need, and then run the
         server.
@@ -58,6 +58,7 @@ class SimPytApp(Flask):
         print("WELCOME TO SYMPIT")
         print("-" * 20)
         print()
+        print("Debug:", debug)
         print("Configs folder:", self.root_configs_path)
 
         if not self.root_configs_path.exists():
@@ -67,7 +68,7 @@ class SimPytApp(Flask):
         print("SimPyt initial setup complete! Running server...")
         print()
 
-        self.run(host="0.0.0.0", port=9999, debug=True)
+        self.run(host="0.0.0.0", port=9999, debug=debug)
 
     def load_page(self, name, force_refresh=False):
         """
@@ -146,4 +147,5 @@ def assets_send(asset_path):
 if __name__ == "__main__":
     # configs placed either in the parent dir of the pyempaq pyz file or the simpyt.py file
     executable_at = Path(os.environ.get("PYEMPAQ_PYZ_PATH", __file__)).parent
-    app.launch_server(root_configs_path=executable_at / "configs")
+    debug = "-d" in sys.argv
+    app.launch_server(root_configs_path=executable_at / "configs", debug=debug)
