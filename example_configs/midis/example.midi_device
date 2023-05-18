@@ -1,0 +1,34 @@
+author: SimPyt
+device: W-FADER
+controls:
+- when_control: 10
+  when_value_between: [0, 127]
+  actions:
+  - simulate_joystick: 1 axis 0
+- when_control: 11
+  when_value_between: (0, 127)
+  actions:
+  - simulate_joystick: 1 axis 1
+- when_control: 12
+  when_value_between: (0, 127)
+  actions:
+  - simulate_joystick: 1 axis 2
+- when_control: 13
+  when_value_between: (0, 127)
+  actions:
+  - simulate_joystick: 1 axis 3
+- when_control: 14
+  when_value_between: (0, 127)
+  actions:
+  - simulate_joystick: 1 axis 4
+- when_control: 30
+  when_value_between: (0, 127)
+  on_off_threshold: 64
+  actions:
+  - simulate_joystick: 1 button 0
+- when_control: 31
+  when_value_between: (0, 127)
+  actions:
+  - press: escape
+  - wait: 1
+  - press: escape
