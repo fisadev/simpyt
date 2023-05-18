@@ -23,16 +23,6 @@ class Action(ABC):
         Overwrite this method with the logic to run a specific action.
         """
 
-    @abstractmethod
-    def serialize(self):
-        """
-        Serialize the config for an Action instance.
-
-        Returns:
-            - a string or yaml-freindly format (such as a list of strings) with the config needed
-            to instanciate this Action instance.
-        """
-
     @classmethod
     @abstractmethod
     def deserialize(cls, config):
@@ -63,9 +53,6 @@ class PressKeys(Action):
         else:
             pyautogui.write(self.keys, interval=0.1)
 
-    def serialize(self):
-        return self.keys
-
     @classmethod
     def deserialize(cls, config):
         return cls(config)
@@ -94,9 +81,6 @@ class Wait(Action):
     def run(self):
         time.sleep(self.seconds_to_wait)
 
-    def serialize(self):
-        return self.seconds_to_wait
-
     @classmethod
     def deserialize(cls, config):
         return cls(seconds_to_wait=config)
@@ -116,9 +100,6 @@ class OpenApp(Action):
 
     def run(self):
         subprocess.Popen(self.app_path)
-
-    def serialize(self):
-        return self.app_path
 
     @classmethod
     def deserialize(cls, config):

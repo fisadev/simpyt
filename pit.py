@@ -66,33 +66,6 @@ class Control:
         for action in self.actions:
             action.run()
 
-    def serialize(self):
-        """
-        Serialize the control data to be able to store it in a simpyt config file.
-        """
-        return {
-            "x": self.x,
-            "y": self.y,
-
-            "width": self.width,
-            "height": self.height,
-
-            "color": self.color,
-            "image": self.image,
-            "border_width": self.border_width,
-            "border_color": self.border_color,
-
-            "text": self.text,
-            "text_size": self.text_size,
-            "text_font": self.text_font,
-            "text_color": self.text_color,
-            "text_horizontal_align": self.text_horizontal_align,
-            "text_vertical_align": self.text_vertical_align,
-
-            "target_page": self.target_page,
-            "actions": [{action.CONFIG_KEY: action.serialize()} for action in self.actions]
-        }
-
     @classmethod
     def deserialize(cls, raw_config):
         """
