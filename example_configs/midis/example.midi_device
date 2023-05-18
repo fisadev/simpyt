@@ -1,10 +1,17 @@
 author: SimPyt
 device: W-FADER
 controls:
-- when control 10 between 0-127 simulate joystick 1 axis 0
-- when control 11 between 0-127 simulate joystick 1 axis 1
-- when control 12 between 0-127 simulate joystick 1 axis 2
-- when control 13 between 0-127 simulate joystick 1 axis 3
-- when control 14 between 0-127 simulate joystick 1 axis 4
-- when control 30 more_than 64 simulate joystick 1 button 0
-- when control 31 more_than 64 simulate keys escape
+- when: control 10 between 0-127 
+  simulate: joystick 1 axis 0
+- when: control 11 between 0-127
+  simulate: joystick 1 axis 1
+- when: control 12 between 0-127 
+  simulate: joystick 1 axis 2
+- when: control 13 between 0-127 
+  simulate: joystick 1 axis 3
+- when: control 14 between 0-127
+  simulate: joystick 1 axis 4
+- when: control 30 more_than 64
+  simulate: joystick 1 button 0
+- when: control 31 more_than 64
+  simulate: keys escape
