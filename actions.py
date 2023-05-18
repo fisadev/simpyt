@@ -57,8 +57,8 @@ class Action(ABC):
         """
         Deserialize a linked action, or a script of actions, or even both, defined for a control.
         """
-        linked_action = config.pop("simulate")
-        script = config.pop("script")
+        linked_action = config.pop("simulate", None)
+        script = config.pop("script", None)
 
         if linked_action:
             linked_action = cls.find_and_deserialize(linked_action)
