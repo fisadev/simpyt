@@ -39,13 +39,6 @@ class Action(ABC):
         """
 
     @classmethod
-    @abstractmethod
-    def deserialize(cls, config):
-        """
-        Create an Action instance based on the given config.
-        """
-
-    @classmethod
     def register(cls, action_class):
         """
         Register an action class, to the dict of actions by prefix.
@@ -53,42 +46,42 @@ class Action(ABC):
         cls.ACTIONS_BY_PREFIX[action_class.PREFIX] = action_class
 
     @classmethod
-    def deserialize(cls, config):
+    def deserialize(cls, raw_config):
         """
         Deserialize a linked action, or a script of actions, or even both, defined for a control.
         """
-        linked_action = config.pop("simulate", None)
-        script = config.pop("script", None)
+        linked_action = raw_config.pop("simulate", None)
+        script = raw_config.pop("script", None)
 
         if linked_action:
             linked_action = cls.find_and_deserialize(linked_action)
 
         if script:
             script = Script(
-                cls.find_and_deserialize(script_action_config)
-                for script_action_config in script
+                cls.find_and_deserialize(script_action_raw_config)
+                for script_action_raw_config in script
             )
 
         return linked_action, script
 
     @classmethod
-    def find_and_deserialize(cls, config):
+    def find_and_deserialize(cls, raw_config):
         """
         Find the specific Action class from the prefix, and then deserialize it passing the rest
         of the config.
         """
-        parts = config.split()
+        parts = raw_config.split()
 
         if len(parts) < 2:
-            raise ValueError(f"Incorrect action format: {config}")
+            raise ValueError(f"Incorrect action format: {raw_config}")
 
         prefix = parts[0]
-        action_config = " ".join(parts[1:])
+        action_raw_config = " ".join(parts[1:])
 
         if prefix not in cls.ACTIONS_BY_PREFIX:
             raise ValueError(f"Unknown action: {prefix}")
 
-        return cls.ACTIONS_BY_PREFIX[prefix].deserialize(action_config)
+        return cls.ACTIONS_BY_PREFIX[prefix].deserialize(action_raw_config)
 
 
 class Script:
@@ -149,12 +142,12 @@ class KeysAction(Action):
                 pyautogui.keyUp(key)
 
     @classmethod
-    def deserialize(cls, config):
+    def deserialize(cls, raw_config):
         """
         Read the config and return a configured Action.
         """
         try:
-            parts = config.split()
+            parts = raw_config.split()
             assert len(parts) in (1, 2)
 
             keys = parts[0].split(cls.KEY_SEP)
@@ -164,7 +157,7 @@ class KeysAction(Action):
             else:
                 extra_args = {}
         except:
-            raise ValueError(f"The format of a 'press' action is incorrect: {config}")
+            raise ValueError(f"The format of a 'press' action is incorrect: {raw_config}")
 
         return cls(keys, **extra_args)
 
@@ -191,11 +184,11 @@ class Write(Action):
             pyautogui.write(self.text, interval=0.1)
 
     @classmethod
-    def deserialize(cls, config):
+    def deserialize(cls, raw_config):
         """
         Read the config and return a configured Action.
         """
-        return cls(config)
+        return cls(raw_config)
 
 
 @Action.register
@@ -228,11 +221,11 @@ class Wait(Action):
             time.sleep(self.seconds_to_wait)
 
     @classmethod
-    def deserialize(cls, config):
+    def deserialize(cls, raw_config):
         """
         Read the config and return a configured Action.
         """
-        return cls(seconds_to_wait=int(config))
+        return cls(seconds_to_wait=int(raw_config))
 
 
 @Action.register
@@ -257,8 +250,8 @@ class RunCommand(Action):
             subprocess.Popen(self.command, shell=True)
 
     @classmethod
-    def deserialize(cls, config):
+    def deserialize(cls, raw_config):
         """
         Read the config and return a configured Action.
         """
-        return cls(config)
+        return cls(raw_config)
