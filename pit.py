@@ -3,7 +3,6 @@ from uuid import uuid4
 import yaml
 
 from actions_management import get_actions_list
-import settings
 
 from actions import PressKeys, Wait
 
@@ -127,11 +126,11 @@ class Page:
         return max(0, total_cells - taken_cells)
 
     @classmethod
-    def read(cls, name):
+    def read(cls, name, pages_path):
         """
         Read the page definition from a yaml file.
         """
-        page_path = settings.PAGES_PATH / (name + ".page")
+        page_path = pages_path / (name + ".page")
         with open(page_path, "r") as page_file:
             raw_config = yaml.safe_load(page_file)
 
@@ -148,11 +147,11 @@ class Page:
         )
 
     @classmethod
-    def available_pages(cls):
+    def available_pages(cls, pages_path):
         """
         List all the available (config files) pages.
         """
         return [
             page_path.name[:-5]
-            for page_path in settings.PAGES_PATH.glob("*.page")
+            for page_path in pages_path.glob("*.page")
         ]

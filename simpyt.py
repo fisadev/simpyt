@@ -1,42 +1,65 @@
-from threading import Thread
+from pathlib import Path
 from shutil import copytree
+from threading import Thread
 
 from flask import Flask, render_template, redirect, send_from_directory
 
 
 from pit import Page
-import settings
-
-app = Flask(__name__)
-app.pages_cache = {}
 
 
-def launch_server():
+class SimPytApp(Flask):
     """
-    Do some global health checks and ensure we have everything we need, and then run the server.
+    The main flask app.
     """
-    if not settings.ROOT_CONFIGS_PATH.exists():
-        print("No config folder found, creating a new one with example pages")
-        copytree(settings.ROOT_EXAMPLE_CONFIGS_PATH,
-                 settings.ROOT_CONFIGS_PATH)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-    print("SimPyt initial setup complete! Running server...")
-    print()
+        self.pages_cache = {}
+        self.assets_path = Path(".") / "assets"
+        self.root_example_configs_path = Path('.') / "example_user_dir"
+        self.root_configs_path = Path(".") / "config"
 
-    app.run(host="0.0.0.0", port=9999, debug=True)
+    @property
+    def pages_path(self):
+        return self.root_configs_path / "pages"
+
+    @property
+    def images_path(self):
+        return self.root_configs_path / "images"
+
+    def launch_server(self):
+        """
+        Do some global health checks and ensure we have everything we need, and then run the
+        server.
+        """
+        if not self.root_configs_path.exists():
+            print("No config folder found, creating a new one with example pages")
+            copytree(self.root_example_configs_path, self.root_configs_path)
+
+        print("SimPyt initial setup complete! Running server...")
+        print()
+
+        self.run(host="0.0.0.0", port=9999, debug=True)
+
+    def load_page(self, name, force_refresh=False):
+        """
+        Load a page from the cache, or read it from the file system.
+        """
+        if force_refresh:
+            self.pages_cache.pop(name, None)
+
+        if name in self.pages_cache:
+            page = self.pages_cache[name]
+        else:
+            print("READING")
+            page = Page.read(name, self.pages_path)
+            self.pages_cache[name] = page
+
+        return page
 
 
-def load_page(name):
-    """
-    Load a page from the cache, or read it from the file system.
-    """
-    if name in app.pages_cache:
-        page = app.pages_cache[name]
-    else:
-        page = Page.read(name)
-        app.pages_cache[name] = page
-
-    return page
+app = SimPytApp("simpyt")
 
 
 @app.route("/")
@@ -44,7 +67,7 @@ def home():
     """
     Home page were we list the available configured pages.
     """
-    return render_template("home.html", available_pages=Page.available_pages())
+    return render_template("home.html", available_pages=Page.available_pages(app.pages_path))
 
 
 @app.route("/page/<string:page_name>")
@@ -52,7 +75,7 @@ def page_show(page_name):
     """
     Show a particular page with controls.
     """
-    page = load_page(page_name)
+    page = app.load_page(page_name, force_refresh=True)
     return render_template("page.html", page=page)
 
 
@@ -70,7 +93,7 @@ def activate_control(page_name, control_id):
     """
     Run the actions associated to a particular control of a particular page.
     """
-    page = load_page(page_name)
+    page = app.load_page(page_name)
     control, = [ctrl for ctrl in page.controls if ctrl.id == control_id]
     activation_thread = Thread(target=control.activate)
     activation_thread.run()
@@ -82,7 +105,7 @@ def image_show(image_path):
     """
     Serve a particular image.
     """
-    return send_from_directory(settings.IMAGES_PATH, image_path)
+    return send_from_directory(app.images_path, image_path)
 
 
 @app.route("/assets/<path:asset_path>")
@@ -90,7 +113,8 @@ def assets_send(asset_path):
     """
     Serve the assets.
     """
-    return send_from_directory(settings.ASSETS_PATH, asset_path)
+    return send_from_directory(app.assets_path, asset_path)
 
 
-launch_server()
+if __name__ == "__main__":
+    app.launch_server()
