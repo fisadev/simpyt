@@ -30,6 +30,8 @@ class Action(ABC):
     """
     PREFIX: str
 
+    ACTIONS_BY_PREFIX = {}
+
     @abstractmethod
     def run(self, mode):
         """
@@ -43,7 +45,49 @@ class Action(ABC):
         Create an Action instance based on the given config.
         """
 
+    @classmethod
+    def register(cls, action_class):
+        """
+        Register an action class, to the dict of actions by prefix.
+        """
+        cls.ACTIONS_BY_PREFIX[action_class.PREFIX] = action_class
 
+    @classmethod
+    def deserialize(cls, config):
+        """
+        Deserialize a linked action, or a script of actions, or even both, defined for a control.
+        """
+        linked_action = config.pop("simulate")
+        script = config.pop("script")
+
+        if linked_action:
+            linked_action = cls.action_from_config(linked_action)
+
+        if script:
+            script = [
+                cls.action_from_config(script_action_config)
+                for script_action_config in script
+            ]
+
+        return linked_action, script
+
+    @classmethod
+    def action_from_config(cls, config):
+        parts = config.split()
+
+        if len(parts) < 2:
+            raise ValueError(f"Incorrect action format: {config}")
+
+        prefix = parts[0]
+        action_config = " ".join(parts[1:])
+
+        if prefix not in cls.ACTIONS_BY_PREFIX:
+            raise ValueError(f"Unknown action: {prefix}")
+
+        return cls.ACTIONS_BY_PREFIX[prefix].deserialize(action_config)
+
+
+@Action.register
 class KeysAction(Action):
     """
     Press specific keys from the keyboard.
@@ -104,6 +148,7 @@ class KeysAction(Action):
         return cls(keys, interval_s)
 
 
+@Action.register
 class Write(Action):
     """
     Write a text.
@@ -132,6 +177,7 @@ class Write(Action):
         return cls(config)
 
 
+@Action.register
 class Wait(Action):
     """
     Wait some seconds.
@@ -168,6 +214,7 @@ class Wait(Action):
         return cls(seconds_to_wait=config)
 
 
+@Action.register
 class RunCommand(Action):
     """
     Run a specific command.
