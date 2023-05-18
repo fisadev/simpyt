@@ -1,11 +1,20 @@
+from functools import partial
 from pathlib import Path
 from shutil import copytree
 from threading import Thread
+import os
+import platform
+import sys
 
 from flask import Flask, render_template, redirect, send_from_directory
 
 
 from pit import Page
+
+
+if platform.system() == "Windows":
+    # print buffering in windows hides output for too long
+    print = partial(print, flush=True)
 
 
 class SimPytApp(Flask):
@@ -15,10 +24,19 @@ class SimPytApp(Flask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        current_path = Path(".").absolute()
+
         self.pages_cache = {}
-        self.assets_path = Path(".") / "assets"
-        self.root_example_configs_path = Path('.') / "example_user_dir"
-        self.root_configs_path = Path(".") / "config"
+        self.root_simpyt_path = Path(__file__).parent.absolute()
+        self.root_configs_path = None
+
+    @property
+    def assets_path(self):
+        return self.root_simpyt_path / "assets"
+
+    @property
+    def root_example_configs_path(self):
+        return self.root_simpyt_path / "example_configs"
 
     @property
     def pages_path(self):
@@ -28,11 +46,20 @@ class SimPytApp(Flask):
     def images_path(self):
         return self.root_configs_path / "images"
 
-    def launch_server(self):
+    def launch_server(self, root_configs_path):
         """
         Do some global health checks and ensure we have everything we need, and then run the
         server.
         """
+        self.root_configs_path = root_configs_path.absolute()
+
+        print()
+        print("-" * 20)
+        print("WELCOME TO SYMPIT")
+        print("-" * 20)
+        print()
+        print("Configs folder:", self.root_configs_path)
+
         if not self.root_configs_path.exists():
             print("No config folder found, creating a new one with example pages")
             copytree(self.root_example_configs_path, self.root_configs_path)
@@ -117,4 +144,6 @@ def assets_send(asset_path):
 
 
 if __name__ == "__main__":
-    app.launch_server()
+    # configs placed either in the parent dir of the pyempaq pyz file or the simpyt.py file
+    executable_at = Path(os.environ.get("PYEMPAQ_PYZ_PATH", __file__)).parent
+    app.launch_server(root_configs_path=executable_at / "configs")
