@@ -133,3 +133,7 @@ dmypy.json
 
 # Vim
 *.sw?
+
+# SimPyt stuff
+configs
+simpyt.pyz
