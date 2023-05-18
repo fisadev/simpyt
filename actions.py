@@ -5,19 +5,6 @@ from abc import ABC, abstractmethod
 from enum import Enum
 
 
-class ActionMode(Enum):
-    """
-    The modes in which actions can be used.
-    """
-    # action being "linked" to the status of a particular control. For instance: a keys action
-    # linked to a button, will press and hold down the keys while the button is down, and release
-    # them when the button is up.
-    LINKED_CONTROL_PRESS = "linked_press"
-    LINKED_CONTROL_RELEASE = "linked_release"
-    # action being ran unlinked to the status of any control, for instance as a step in a script
-    UNLINKED = "unlinked"
-
-
 class Action(ABC):
     """
     Action that can be triggered in interactions with a Control.
@@ -31,6 +18,19 @@ class Action(ABC):
     PREFIX: str
 
     ACTIONS_BY_PREFIX = {}
+
+    class Mode(Enum):
+        """
+        The modes in which actions can be used.
+        """
+        # action being "linked" to the status of a particular control. For instance: a keys action
+        # linked to a button, will press and hold down the keys while the button is down, and
+        # release them when the button is up.
+        LINKED_CONTROL_PRESS = "linked_press"
+        LINKED_CONTROL_RELEASE = "linked_release"
+        # action being ran unlinked to the status of any control, for instance as a step in a
+        # script
+        UNLINKED = "unlinked"
 
     @abstractmethod
     def run(self, mode):
@@ -120,12 +120,12 @@ class KeysAction(Action):
         """
         Execute the acton.
         """
-        if mode == ActionMode.UNLINKED:
+        if mode == self.Mode.UNLINKED:
             pyautogui.hotkey(*self.keys, interval=self.interval_s)
-        elif mode == ActionMode.LINKED_CONTROL_PRESS:
+        elif mode == self.Mode.LINKED_CONTROL_PRESS:
             for key in self.keys:
                 pyautogui.keyDown(key)
-        elif mode == ActionMode.LINKED_CONTROL_RELEASE:
+        elif mode == self.Mode.LINKED_CONTROL_RELEASE:
             for key in self.keys:
                 pyautogui.keyUp(key)
 
@@ -168,7 +168,7 @@ class Write(Action):
         Execute the action.
         """
         # if used in linked mode, execute the action in the control release
-        if mode in (ActionMode.UNLINKED, ActionMode.LINKED_CONTROL_RELEASE):
+        if mode in (self.Mode.UNLINKED, self.Mode.LINKED_CONTROL_RELEASE):
             pyautogui.write(self.text, interval=0.1)
 
     @classmethod
@@ -205,7 +205,7 @@ class Wait(Action):
         Execute the action.
         """
         # if used in linked mode, execute the action in the control release
-        if mode in (ActionMode.UNLINKED, ActionMode.LINKED_CONTROL_RELEASE):
+        if mode in (self.Mode.UNLINKED, self.Mode.LINKED_CONTROL_RELEASE):
             time.sleep(self.seconds_to_wait)
 
     @classmethod
@@ -234,7 +234,7 @@ class RunCommand(Action):
         Execute the action.
         """
         # if used in linked mode, execute the action in the control release
-        if mode in (ActionMode.UNLINKED, ActionMode.LINKED_CONTROL_RELEASE):
+        if mode in (self.Mode.UNLINKED, self.Mode.LINKED_CONTROL_RELEASE):
             subprocess.Popen(self.command, shell=True)
 
     @classmethod
