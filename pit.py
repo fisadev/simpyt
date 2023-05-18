@@ -147,26 +147,6 @@ class Page:
             ],
         )
 
-    def save(self):
-        """
-        Save the page definition into a yaml file.
-        """
-        raw_config = {
-            "author": self.author,
-            "background": self.background,
-            "width": self.width,
-            "height": self.height,
-            "controls": [
-                ctrl.serialize()
-                for ctrl in self.controls
-            ],
-        }
-
-        page_path = settings.PAGES_PATH / (self.name + ".page")
-
-        with open(page_path, "w") as page_file:
-            yaml.safe_dump(raw_config, page_file)
-
     @classmethod
     def available_pages(cls):
         """
