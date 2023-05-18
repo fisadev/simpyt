@@ -61,18 +61,18 @@ class Action(ABC):
         script = config.pop("script")
 
         if linked_action:
-            linked_action = cls.action_from_config(linked_action)
+            linked_action = cls.find_and_deserialize(linked_action)
 
         if script:
             script = [
-                cls.action_from_config(script_action_config)
+                cls.find_and_deserialize(script_action_config)
                 for script_action_config in script
             ]
 
         return linked_action, script
 
     @classmethod
-    def action_from_config(cls, config):
+    def find_and_deserialize(cls, config):
         parts = config.split()
 
         if len(parts) < 2:
