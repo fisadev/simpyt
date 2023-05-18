@@ -73,6 +73,10 @@ class Action(ABC):
 
     @classmethod
     def find_and_deserialize(cls, config):
+        """
+        Find the specific Action class from the prefix, and then deserialize it passing the rest
+        of the config.
+        """
         parts = config.split()
 
         if len(parts) < 2:
