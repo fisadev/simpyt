@@ -141,11 +141,13 @@ class KeysAction(Action):
             keys = parts[0].split(cls.KEY_SEP)
 
             if len(parts) == 2:
-                interval_s = float(parts[1].replace("s", ""))
+                extra_args = dict(interval_s=float(parts[1].replace("s", "")))
+            else:
+                extra_args = {}
         except:
             raise ValueError(f"The format of a 'press' action is incorrect: {config}")
 
-        return cls(keys, interval_s)
+        return cls(keys, **extra_args)
 
 
 @Action.register
