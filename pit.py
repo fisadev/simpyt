@@ -2,9 +2,7 @@ from uuid import uuid4
 
 import yaml
 
-from actions_management import get_actions_list
-
-from actions import PressKeys, Wait
+from actions import Action
 
 DEFAULT_GRID_WIDTH = 16
 DEFAULT_GRID_HEIGHT = 4
@@ -14,10 +12,10 @@ class Control:
     """
     A control that can be displayed in a page, and run some actions when interacted with.
     """
-    def __init__(self, x=0, y=0, width=1, height=1, actions=None, target_page=None, color=None,
+    def __init__(self, x=0, y=0, width=1, height=1, target_page=None, color=None,
                  border_width=None, border_color="black", image=None, text=None, text_size="16px",
                  text_font="Verdana", text_color="black", text_horizontal_align="center",
-                 text_vertical_align="center"):
+                 text_vertical_align="center", linked_action=None, script=None):
         if actions is None:
             actions = []
 
@@ -27,6 +25,8 @@ class Control:
         self.y = y
         self.width = width
         self.height = height
+
+        self.target_page = target_page
 
         self.color = color
         self.image = image
@@ -40,8 +40,8 @@ class Control:
         self.text_horizontal_align = text_horizontal_align
         self.text_vertical_align = text_vertical_align
 
-        self.actions = actions
-        self.target_page = target_page
+        self.linked_action = actions
+        self.script = script
 
     @property
     def column_start(self):
@@ -71,8 +71,8 @@ class Control:
         """
         Deserialize and load control configs from a simpyt page file.
         """
-        raw_config["actions"] = get_actions_list(raw_config)
-        return cls(**raw_config)
+        linked_action, script = Action.deserialize(raw_config)
+        return cls(**raw_config, linked_action=linked_action, script=script)
 
 
 class Page:
