@@ -166,7 +166,7 @@ class Write(Action):
         Execute the action.
         """
         # if used in linked mode, execute the action in the control release
-        if mode in (ActionMode.UNLINKED, ActionMode.LINKED_CONTROL_RELEASE)
+        if mode in (ActionMode.UNLINKED, ActionMode.LINKED_CONTROL_RELEASE):
             pyautogui.write(self.text, interval=0.1)
 
     @classmethod
@@ -203,7 +203,7 @@ class Wait(Action):
         Execute the action.
         """
         # if used in linked mode, execute the action in the control release
-        if mode in (ActionMode.UNLINKED, ActionMode.LINKED_CONTROL_RELEASE)
+        if mode in (ActionMode.UNLINKED, ActionMode.LINKED_CONTROL_RELEASE):
             time.sleep(self.seconds_to_wait)
 
     @classmethod
@@ -232,7 +232,7 @@ class RunCommand(Action):
         Execute the action.
         """
         # if used in linked mode, execute the action in the control release
-        if mode in (ActionMode.UNLINKED, ActionMode.LINKED_CONTROL_RELEASE)
+        if mode in (ActionMode.UNLINKED, ActionMode.LINKED_CONTROL_RELEASE):
             subprocess.Popen(self.command, shell=True)
 
     @classmethod
