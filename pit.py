@@ -107,16 +107,6 @@ class Page:
         self.height = height
         self.controls = controls
 
-    @property
-    def extra_cells(self):
-        """
-        Based on the dimension of the grid and the number of cells taken by the controls,
-        return the number of cells that would need to be rendered to complete the grid.
-        """
-        total_cells = self.width * self.height
-        taken_cells = sum(ctrl.width * ctrl.height for ctrl in self.controls)
-        return max(0, total_cells - taken_cells)
-
     @classmethod
     def read(cls, name, pages_path):
         """
