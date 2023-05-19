@@ -115,7 +115,7 @@ class KeysAction(Action):
     KEY_SEP = "+"
     VALID_KEYS = set(name.upper() for name in  pyautogui.KEYBOARD_KEYS)
 
-    def __init__(self, keys, interval_s=0.1):
+    def __init__(self, keys, interval_s):
         self.keys = keys
         self.interval_s = interval_s
         self.ensure_valid_keys(keys)
@@ -153,13 +153,13 @@ class KeysAction(Action):
             keys = parts[0].split(cls.KEY_SEP)
 
             if len(parts) == 2:
-                extra_args = dict(interval_s=float(parts[1].replace("s", "")))
+                interval_s = float(parts[1].replace("s", ""))
             else:
-                extra_args = {}
+                interval_s = 0.1
         except:
             raise ValueError(f"The format of a 'press' action is incorrect: {raw_config}")
 
-        return cls(keys, **extra_args)
+        return cls(keys, interval_s)
 
 
 @Action.register
