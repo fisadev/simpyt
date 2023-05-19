@@ -8,7 +8,7 @@ DEFAULT_GRID_WIDTH = 16
 DEFAULT_GRID_HEIGHT = 4
 
 
-class PageControl:
+class PageButton:
     """
     A control that can be displayed in a page, and run some actions when interacted with.
     """
@@ -56,12 +56,22 @@ class PageControl:
     def row_end(self):
         return self.row_start + self.height
 
-    def activate(self):
+    def press_button(self):
         """
-        Run the actions that this control was configured to do.
+        The button is being held down.
         """
-        for action in self.actions:
-            action.run()
+        if self.linked_action:
+            self.linked_action.run(Action.Mode.LINKED_CONTROL_PRESS)
+
+    def release_button(self):
+        """
+        The button was released.
+        """
+        if self.linked_action:
+            self.linked_action.run(Action.Mode.LINKED_CONTROL_RELEASE)
+
+        if self.script:
+            self.script.run()
 
     @classmethod
     def deserialize(cls, raw_config):
@@ -124,7 +134,7 @@ class Page:
             width=raw_config["width"],
             height=raw_config["height"],
             controls=[
-                PageControl.deserialize(ctrl_raw_config)
+                PageButton.deserialize(ctrl_raw_config)
                 for ctrl_raw_config in raw_config["controls"]
             ],
         )

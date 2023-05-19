@@ -116,14 +116,20 @@ def page_reload(page_name):
     return redirect(f"/page/{page_name}")
 
 
-@app.route("/activate_control/<string:page_name>/<string:control_id>")
-def activate_control(page_name, control_id):
+@app.route("/activate_control/<string:page_name>/<string:control_id>/<string:event_type>")
+def activate_control(page_name, control_id, event_type):
     """
     Run the actions associated to a particular control of a particular page.
     """
     page = app.load_page(page_name)
     control, = [ctrl for ctrl in page.controls if ctrl.id == control_id]
-    activation_thread = Thread(target=control.activate)
+
+    if event_type == "press_button":
+        method_to_call = control.press_button
+    elif event_type == "release_button":
+        method_to_call = control.release_button
+
+    activation_thread = Thread(target=method_to_call)
     activation_thread.run()
     return {"result": "ok"}
 
