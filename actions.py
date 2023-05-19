@@ -126,10 +126,9 @@ class KeysAction(Action):
         - keys (list of strings): a list of strings with keys to press
     """
     PREFIX = "keys"
-    KEY_SEP = "+"
     VALID_KEYS = set(name.upper() for name in  pyautogui.KEYBOARD_KEYS)
 
-    def __init__(self, keys, interval_s):
+    def __init__(self, keys, interval_s=0.1):
         self.keys = keys
         self.interval_s = interval_s
         self.ensure_valid_keys(keys)
@@ -161,19 +160,11 @@ class KeysAction(Action):
         Read the config and return a configured Action.
         """
         try:
-            parts = raw_config.split()
-            assert len(parts) in (1, 2)
-
-            keys = parts[0].split(cls.KEY_SEP)
-
-            if len(parts) == 2:
-                interval_s = float(parts[1].replace("s", ""))
-            else:
-                interval_s = 0.1
+            keys = raw_config.split()
         except:
             raise ValueError(f"The format of a 'press' action is incorrect: {raw_config}")
 
-        return cls(keys, interval_s)
+        return cls(keys)
 
 
 @Action.register
