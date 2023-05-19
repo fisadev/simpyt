@@ -1,4 +1,3 @@
-author: SimPyt
 device: W-FADER
 controls:
 - when: control 10 between 0-127 

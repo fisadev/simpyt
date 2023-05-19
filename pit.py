@@ -99,10 +99,9 @@ class Page:
     """
     A collection of controls to show together.
     """
-    def __init__(self, name, author, background, controls,
+    def __init__(self, name, background, controls,
                  width=DEFAULT_GRID_WIDTH, height=DEFAULT_GRID_HEIGHT):
         self.name = name
-        self.author = author
         self.background = background
         self.width = width
         self.height = height
@@ -129,7 +128,6 @@ class Page:
 
         return cls(
             name=name,
-            author=raw_config["author"],
             background=raw_config["background"],
             width=raw_config["width"],
             height=raw_config["height"],
