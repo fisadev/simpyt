@@ -58,8 +58,8 @@ class Action(ABC):
 
         if script:
             script = Script(
-                cls.find_and_deserialize(script_action_raw_config)
-                for script_action_raw_config in script
+                [cls.find_and_deserialize(script_action_raw_config)
+                 for script_action_raw_config in script]
             )
 
         return linked_action, script
