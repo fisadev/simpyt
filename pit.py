@@ -8,7 +8,7 @@ DEFAULT_GRID_WIDTH = 16
 DEFAULT_GRID_HEIGHT = 4
 
 
-class Control:
+class PageControl:
     """
     A control that can be displayed in a page, and run some actions when interacted with.
     """
@@ -16,9 +16,6 @@ class Control:
                  border_width=None, border_color="black", image=None, text=None, text_size="16px",
                  text_font="Verdana", text_color="black", text_horizontal_align="center",
                  text_vertical_align="center", linked_action=None, script=None):
-        if actions is None:
-            actions = []
-
         self.id = uuid4().hex
 
         self.x = x
@@ -40,7 +37,7 @@ class Control:
         self.text_horizontal_align = text_horizontal_align
         self.text_vertical_align = text_vertical_align
 
-        self.linked_action = actions
+        self.linked_action = linked_action
         self.script = script
 
     @property
@@ -72,7 +69,20 @@ class Control:
         Deserialize and load control configs from a simpyt page file.
         """
         linked_action, script = Action.deserialize(raw_config)
-        return cls(**raw_config, linked_action=linked_action, script=script)
+        raw_at = raw_config.pop("at")
+        parts = raw_at.split()
+
+        if len(parts) != 5 or parts[2] != "to":
+            raise ValueError(f"Incorrect control format: 'at: {raw_at}'")
+
+        x = int(parts[0])
+        y = int(parts[1])
+        width = int(parts[3]) - x
+        height = int(parts[4]) - y
+
+        return cls(x=x, y=y, width=width, height=height,
+                   linked_action=linked_action, script=script,
+                   **raw_config)
 
 
 class Page:
@@ -114,7 +124,7 @@ class Page:
             width=raw_config["width"],
             height=raw_config["height"],
             controls=[
-                Control.deserialize(ctrl_raw_config)
+                PageControl.deserialize(ctrl_raw_config)
                 for ctrl_raw_config in raw_config["controls"]
             ],
         )
