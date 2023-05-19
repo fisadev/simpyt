@@ -118,9 +118,9 @@ class KeysAction(Action):
     def __init__(self, keys, interval_s=0.1):
         self.keys = keys
         self.interval_s = interval_s
-        self.ensure_all_valid(keys)
+        self.ensure_valid_keys(keys)
 
-    def ensure_all_valid(self, keys):
+    def ensure_valid_keys(self, keys):
         """
         Ensure that all the specified keys are valid, otherwise raise an error.
         """
