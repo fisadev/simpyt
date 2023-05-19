@@ -97,7 +97,7 @@ class PageButton:
 
 class Page:
     """
-    A collection of controls to show together.
+    A collection of controls to show together, mapped to actions.
     """
     def __init__(self, name, background, controls,
                  width=DEFAULT_GRID_WIDTH, height=DEFAULT_GRID_HEIGHT):
