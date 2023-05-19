@@ -126,16 +126,12 @@ class Page:
         with open(page_path, "r") as page_file:
             raw_config = yaml.safe_load(page_file)
 
-        return cls(
-            name=name,
-            background=raw_config["background"],
-            width=raw_config["width"],
-            height=raw_config["height"],
-            controls=[
-                PageButton.deserialize(ctrl_raw_config)
-                for ctrl_raw_config in raw_config["controls"]
-            ],
-        )
+        raw_config["name"] = name
+        raw_config["controls"] = [
+            PageButton.deserialize(ctrl_raw_config)
+            for ctrl_raw_config in raw_config["controls"]
+        ]
+        return cls(**raw_config)
 
     @classmethod
     def available_pages(cls, pages_path):
