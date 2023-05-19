@@ -2,31 +2,28 @@ from uuid import uuid4
 
 import yaml
 
-from actions_management import get_actions_list
-
-from actions import PressKeys, Wait
+from actions import Action
 
 DEFAULT_GRID_WIDTH = 16
 DEFAULT_GRID_HEIGHT = 4
 
 
-class Control:
+class PageButton:
     """
     A control that can be displayed in a page, and run some actions when interacted with.
     """
-    def __init__(self, x=0, y=0, width=1, height=1, actions=None, target_page=None, color=None,
+    def __init__(self, x=0, y=0, width=1, height=1, target_page=None, color=None,
                  border_width=None, border_color="black", image=None, text=None, text_size="16px",
                  text_font="Verdana", text_color="black", text_horizontal_align="center",
-                 text_vertical_align="center"):
-        if actions is None:
-            actions = []
-
+                 text_vertical_align="center", linked_action=None, script=None):
         self.id = uuid4().hex
 
         self.x = x
         self.y = y
         self.width = width
         self.height = height
+
+        self.target_page = target_page
 
         self.color = color
         self.image = image
@@ -40,8 +37,8 @@ class Control:
         self.text_horizontal_align = text_horizontal_align
         self.text_vertical_align = text_vertical_align
 
-        self.actions = actions
-        self.target_page = target_page
+        self.linked_action = linked_action
+        self.script = script
 
     @property
     def column_start(self):
@@ -59,20 +56,43 @@ class Control:
     def row_end(self):
         return self.row_start + self.height
 
-    def activate(self):
+    def press_button(self):
         """
-        Run the actions that this control was configured to do.
+        The button is being held down.
         """
-        for action in self.actions:
-            action.run()
+        if self.linked_action:
+            self.linked_action.run(Action.Mode.LINKED_CONTROL_PRESS)
+
+    def release_button(self):
+        """
+        The button was released.
+        """
+        if self.linked_action:
+            self.linked_action.run(Action.Mode.LINKED_CONTROL_RELEASE)
+
+        if self.script:
+            self.script.run()
 
     @classmethod
     def deserialize(cls, raw_config):
         """
         Deserialize and load control configs from a simpyt page file.
         """
-        raw_config["actions"] = get_actions_list(raw_config)
-        return cls(**raw_config)
+        linked_action, script = Action.deserialize(raw_config)
+        raw_at = raw_config.pop("at")
+        parts = raw_at.split()
+
+        if len(parts) != 5 or parts[2] != "to":
+            raise ValueError(f"Incorrect control format: 'at: {raw_at}'")
+
+        x = int(parts[0])
+        y = int(parts[1])
+        width = int(parts[3]) - x
+        height = int(parts[4]) - y
+
+        return cls(x=x, y=y, width=width, height=height,
+                   linked_action=linked_action, script=script,
+                   **raw_config)
 
 
 class Page:
@@ -114,7 +134,7 @@ class Page:
             width=raw_config["width"],
             height=raw_config["height"],
             controls=[
-                Control.deserialize(ctrl_raw_config)
+                PageButton.deserialize(ctrl_raw_config)
                 for ctrl_raw_config in raw_config["controls"]
             ],
         )
