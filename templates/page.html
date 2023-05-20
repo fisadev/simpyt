@@ -16,13 +16,12 @@
     body {
         padding: 0;
         margin: 0;
+        background-color: black;
     }
     #pit {
         margin: 0px;
     }
     .page {
-        height: 100vh;
-        width: 100vw;
         display: grid;
         grid-template-columns: repeat({{ page.width }}, minmax(0, 1fr));
         grid-template-rows: repeat({{ page.height }}, minmax(0, 1fr));
