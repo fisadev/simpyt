@@ -7,7 +7,7 @@ class Joystick:
     """
     # using the vgamepad lib, define the buttons and axes it supports
 
-    # conversion from button number (0 to 14) to the internal vgamepad button id
+    # conversion from button number (1 to 15) to the internal vgamepad button id
     BUTTONS = (
         XUSB_BUTTON.XUSB_GAMEPAD_DPAD_UP,
         XUSB_BUTTON.XUSB_GAMEPAD_DPAD_DOWN,
@@ -26,7 +26,7 @@ class Joystick:
         XUSB_BUTTON.XUSB_GAMEPAD_Y,
     )
 
-    # conversion from axis number (0 to 5) to the internal vgamepad axis name
+    # conversion from axis number (1 to 5) to the internal vgamepad axis name
     AXES = (
         "triggers",  # both triggers add up together...
         "left_joystick_float:x_value_float",
