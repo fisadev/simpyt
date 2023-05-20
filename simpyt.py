@@ -2,7 +2,6 @@ from functools import partial
 from pathlib import Path
 from shutil import copytree
 from threading import Thread
-from multiprocessing import Process
 import os
 import platform
 import sys
@@ -75,10 +74,11 @@ class SimPytApp(Flask):
 
         midi_devices = [MidiDevice.read(device_name, self.midis_path)
                         for device_name in MidiDevice.configured_devices(self.midis_path)]
-        midi_proc = Process(target=midi_integration_loop, args=[midi_devices])
-        midi_proc.run()
+        midi_thread = Thread(target=midi_integration_loop, args=[midi_devices])
+        midi_thread.run()
 
-        self.run(host="0.0.0.0", port=9999, debug=debug)
+        web_thread = Thread(target=self.run, kwargs=dict(host="0.0.0.0", port=9999, debug=debug))
+        web_thread.run()
 
     def load_page(self, name, force_refresh=False):
         """
