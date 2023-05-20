@@ -59,6 +59,7 @@ class Action(ABC):
         Register an action class, to the dict of actions by prefix.
         """
         cls.ACTIONS_BY_PREFIX[action_class.PREFIX] = action_class
+        return action_class
 
     @classmethod
     def deserialize(cls, raw_config):
