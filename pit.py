@@ -51,16 +51,16 @@ class PageButton:
     """
     A control that can be displayed in a page, and run some actions when interacted with.
     """
-    def __init__(self, x=0, y=0, width=1, height=1, target_page=None, color=None,
+    def __init__(self, row=1, col=1, row_end=2, col_end=2, target_page=None, color=None,
                  border_width=None, border_color="black", image=None, text=None, text_size="16px",
                  text_font="Verdana", text_color="black", text_horizontal_align="center",
                  text_vertical_align="center", linked_action=None, script=None):
         self.id = uuid4().hex
 
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+        self.row = row
+        self.col = col
+        self.row_end = row_end
+        self.col_end = col_end
 
         self.target_page = target_page
 
@@ -78,22 +78,6 @@ class PageButton:
 
         self.linked_action = linked_action
         self.script = script
-
-    @property
-    def column_start(self):
-        return self.x + 1
-
-    @property
-    def column_end(self):
-        return self.column_start + self.width
-
-    @property
-    def row_start(self):
-        return self.y + 1
-
-    @property
-    def row_end(self):
-        return self.row_start + self.height
 
     def press_button(self):
         """
@@ -124,11 +108,11 @@ class PageButton:
         if len(parts) != 5 or parts[2] != "to":
             raise ValueError(f"Incorrect control format: 'at: {raw_at}'")
 
-        x = int(parts[0])
-        y = int(parts[1])
-        width = int(parts[3]) - x
-        height = int(parts[4]) - y
+        row = int(parts[0])
+        col = int(parts[1])
+        row_end = int(parts[3])
+        col_end = int(parts[4])
 
-        return cls(x=x, y=y, width=width, height=height,
+        return cls(row=row, col=col, row_end=row_end, col_end=col_end,
                    linked_action=linked_action, script=script,
                    **raw_config)
