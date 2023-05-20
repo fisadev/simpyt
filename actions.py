@@ -28,6 +28,7 @@ class Action(ABC):
           the action.
     """
     PREFIX: str
+    CAN_BE_LINKED = False
 
     ACTIONS_BY_PREFIX = {}
 
@@ -69,6 +70,10 @@ class Action(ABC):
 
         if linked_action:
             linked_action = cls.find_and_deserialize(linked_action)
+
+            if not linked_action.CAN_BE_LINKED:
+                raise ValueError("This action can not be 'simulated' with, instead it must be "
+                                 "fired as step in a script for the control")
 
         if script:
             script = Script(
@@ -126,6 +131,7 @@ class KeysAction(Action):
         - keys (list of strings): a list of strings with keys to press
     """
     PREFIX = "keys"
+    CAN_BE_LINKED = True
     VALID_KEYS = set(name.upper() for name in  pyautogui.KEYBOARD_KEYS)
 
     def __init__(self, keys, interval_s=0.1):
@@ -280,6 +286,7 @@ class JoystickAction(Action):
           mode (from -1 to 1)
     """
     PREFIX = "joystick"
+    CAN_BE_LINKED = True
 
     JOYSTICKS_CACHE = {}
 
