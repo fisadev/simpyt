@@ -8,8 +8,7 @@ import sys
 
 from flask import Flask, render_template, redirect, send_from_directory
 
-
-from pit import Page
+from pages import Page
 
 
 if platform.system() == "Windows":
