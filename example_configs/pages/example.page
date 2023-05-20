@@ -1,4 +1,4 @@
-background: lightgray
+background_color: lightgray
 height: 10
 width: 20
 controls:
@@ -7,10 +7,14 @@ controls:
   text_horizontal_align: left
   text_color: black
   text_size: 2rem
+  border_color: black
+  border_width: 3px
   simulate: keys ctrl =
 - at: 6 6 to 10 10
   text: Demo Button
   text_horizontal_align: left
   text_color: black
   text_size: 2rem
+  border_color: black
+  border_width: 3px
   simulate: keys ctrl -
