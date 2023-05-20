@@ -240,7 +240,7 @@ def midi_integration_loop(midi_devices):
                 for control in device.controls:
                     if control.matches(message):
                         control_run_thread = Thread(target=control.run, args=[message])
-                        control_run_thread.run()
+                        control_run_thread.start()
 
             sleep(0.01)
     except KeyboardInterrupt:

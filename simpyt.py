@@ -75,10 +75,10 @@ class SimPytApp(Flask):
         midi_devices = [MidiDevice.read(device_name, self.midis_path)
                         for device_name in MidiDevice.configured_devices(self.midis_path)]
         midi_thread = Thread(target=midi_integration_loop, args=[midi_devices])
-        midi_thread.run()
+        midi_thread.start()
 
         web_thread = Thread(target=self.run, kwargs=dict(host="0.0.0.0", port=9999, debug=debug))
-        web_thread.run()
+        web_thread.start()
 
     def load_page(self, name, force_refresh=False):
         """
@@ -140,7 +140,7 @@ def activate_control(page_name, control_id, event_type):
         method_to_call = control.release_button
 
     control_run_thread = Thread(target=method_to_call)
-    control_run_thread.run()
+    control_run_thread.start()
     return {"result": "ok"}
 
 
