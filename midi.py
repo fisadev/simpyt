@@ -143,10 +143,10 @@ class MidiControl:
         Simulate buttons or axes in a virtual joystick.
         """
         input_value = self.extract_midi_value(midi_message)
-        linked_to_axis = self.linked_to_axis()
-        if linked_to_axis:
+
+        if self.when_value_between is not None:
             is_on = self.when_value_between[0] <= input_value <= self.when_value_between[1]
-        else:
+        elif self.when_value_surpasses is not None:
             is_on = input_value > self.when_value_surpasses
 
         # scripts are just on/off
@@ -155,7 +155,7 @@ class MidiControl:
 
         # linked actions are more complex, depending on their type
         if self.linked_action:
-            if linked_to_axis:
+            if self.linked_to_axis():
                 # convert input midi control value to output joystick value
                 input_min, input_max = self.when_value_between
                 axis_value = (input_value - input_min) / (input_max - input_min)
