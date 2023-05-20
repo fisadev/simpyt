@@ -5,10 +5,11 @@ requirements:
   - requirements.txt
 include: 
   - "*.py"
-  - assets
-  - example_configs
-  - templates
+  - assets/**/*.*
+  - example_configs/**/*.*
+  - templates/**/*.*
   - README.md
+  - requirements.txt
 exclude:
  - "*.pyz"
  - configs
