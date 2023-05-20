@@ -233,12 +233,15 @@ def midi_integration_loop(midi_devices):
         midi_backend = mido.Backend('mido.backends.rtmidi')
 
     ports = [midi_backend.open_input(device.name) for device in midi_devices]
-    devices_by_name = {device.name: device for device in midi_devices}
+    devices_by_port_name = {
+        port.name: device
+        for port, device in zip(ports, midi_devices)
+    }
 
     try:
         while True:
             for port, message in mido.ports.multi_receive(ports, yield_ports=True):
-                device = devices_by_name[port.name]
+                device = devices_by_port_name[port.name]
 
                 for control in device.controls:
                     control.run_if_matches(message)

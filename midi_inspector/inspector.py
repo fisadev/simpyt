@@ -26,6 +26,14 @@ def run_inspector(device_names):
 
     ports = [midi_backend.open_input(name) for name in device_names]
 
+    internal_to_user_name = {
+        internal_name: user_name
+        for internal_name, user_name in zip(
+            [port.name for port in ports],
+            device_names,
+        )
+    }
+
     try:
         while True:
             for port, message in mido.ports.multi_receive(ports, yield_ports=True):
@@ -47,7 +55,7 @@ def run_inspector(device_names):
                     value = 0
 
                 print(
-                    f'device="{port.name}"',
+                    f'device="{internal_to_user_name[port.name]}"',
                     f"kind={kind}", f"control/note={id_}", f"value={value}",
                     flush=True,
                 )
