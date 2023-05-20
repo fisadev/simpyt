@@ -229,7 +229,6 @@ def run_midi_integration_loop(midi_devices):
     try:
         while True:
             for port, message in mido.ports.multi_receive(ports, yield_ports=True):
-                print("Device:", port.name, "Message:", message, flush=True)
                 device = devices_by_name[port.name]
 
                 for control in device.controls:
@@ -237,5 +236,4 @@ def run_midi_integration_loop(midi_devices):
 
             sleep(0.01)
     except KeyboardInterrupt:
-        print("Quitting")
         pgm.quit()
