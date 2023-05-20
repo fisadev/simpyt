@@ -1,3 +1,4 @@
+from threading import Thread
 from time import sleep
 from uuid import uuid4
 import platform
@@ -97,13 +98,6 @@ class MidiControl:
             raise ValueError("Can't find a value-like attribute in the midi message")
 
         return value
-
-    def run_if_matches(self, midi_message):
-        """
-        Process a message, decide if something needs to run, and run it if so.
-        """
-        if self.matches(midi_message):
-            self.run(midi_message)
 
     def matches(self, midi_message):
         """
@@ -244,7 +238,9 @@ def midi_integration_loop(midi_devices):
                 device = devices_by_port_name[port.name]
 
                 for control in device.controls:
-                    control.run_if_matches(message)
+                    if control.matches(message):
+                        control_run_thread = Thread(target=control.run, args=[message])
+                        control_run_thread.run()
 
             sleep(0.01)
     except KeyboardInterrupt:
