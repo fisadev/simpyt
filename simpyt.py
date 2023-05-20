@@ -94,7 +94,7 @@ def home():
     """
     Home page were we list the available configured pages.
     """
-    return render_template("home.html", available_pages=Page.available_pages(app.pages_path))
+    return render_template("home.html", configured_pages=Page.configured_pages(app.pages_path))
 
 
 @app.route("/page/<string:page_name>")

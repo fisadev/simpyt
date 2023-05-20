@@ -34,9 +34,9 @@ class MidiDevice:
         return cls(**raw_config)
 
     @classmethod
-    def available_devices(cls, midis_path):
+    def configured_devices(cls, midis_path):
         """
-        List all the available (config files) midi devices.
+        List all the configured (config files) midi devices.
         """
         return [
             midi_path.name[:-12]

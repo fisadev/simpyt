@@ -37,9 +37,9 @@ class Page:
         return cls(**raw_config)
 
     @classmethod
-    def available_pages(cls, pages_path):
+    def configured_pages(cls, pages_path):
         """
-        List all the available (config files) pages.
+        List all the configured (config files) pages.
         """
         return [
             page_path.name[:-5]
