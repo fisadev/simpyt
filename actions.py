@@ -307,7 +307,6 @@ class JoystickAction(Action):
         if joystick_id not in self.JOYSTICKS_CACHE:
             # TODO we should create all the "previous" joysticks before creating this one, if
             # they don't exist, so any mappings go really to the N joystick
-            # TODO joystick and ocntrol ids from 1 instead of 0?
             self.JOYSTICKS_CACHE[joystick_id] = Joystick(self.joystick_id)
 
         self.joystick = self.JOYSTICKS_CACHE[joystick_id]
@@ -319,12 +318,12 @@ class JoystickAction(Action):
         Ensure that the specified keys are valid, otherwise raise an error.
         """
         if self.control_type == self.ControlType.BUTTON:
-            limit = len(self.joystick.BUTTONS) - 1
+            limit = len(self.joystick.BUTTONS)
         elif self.control_type == self.ControlType.AXIS:
-            limit = len(self.joystick.AXES) - 1
+            limit = len(self.joystick.AXES)
 
-        if self.control_id > limit:
-            raise ValueError(f"Joystick {self.control_type.value} goes form 0 to {limit}, "
+        if not 1 <= self.control_id <= limit:
+            raise ValueError(f"Joystick {self.control_type.value} goes form 1 to {limit}, "
                              f"can't be {self.control_id}")
 
     def run(self, mode, value=None):
