@@ -27,7 +27,16 @@
         display: grid;
         grid-template-columns: repeat({{ page.width }}, minmax(0, 1fr));
         grid-template-rows: repeat({{ page.height }}, minmax(0, 1fr));
-        background-color: {{ page.background }};
+        background-size: contain;
+        background-repeat: no-repeat;
+        {% if page.background_color: %}
+            background-color: {{ page.background_color }};
+        {% else %}
+            background-color: lightgray;
+        {% endif %}
+        {% if page.background_image: %}
+            background-image: url("/image/{{ page.background_image|default('none') }}");
+        {% endif %}
     }
     .control {
         background-color: rgba(255, 255, 255, 0.8);
@@ -45,7 +54,7 @@
     {% for control in page.controls %}
         #control_{{ control.id }} {
             {% if control.image: %}
-                background-image: url("/image/{{ control.image|default('none') }}");
+                background-image: url("/image/{{ control.image }}");
             {% endif %}
             {% if control.color: %}
                 background-color: {{ control.color }};
