@@ -215,7 +215,7 @@ class MidiControl:
                    linked_action=linked_action, script=script)
 
 
-def run_midi_integration_loop(midi_devices):
+def midi_integration_loop(midi_devices):
     """
     Run the main loop of the midi integration.
     """
