@@ -90,7 +90,6 @@ class SimPytApp(Flask):
         if name in self.pages_cache:
             page = self.pages_cache[name]
         else:
-            print("READING")
             page = Page.read(name, self.pages_path)
             self.pages_cache[name] = page
 
