@@ -102,16 +102,23 @@ class PageButton:
         Deserialize and load control configs from a simpyt page file.
         """
         linked_action, script = Action.deserialize(raw_config)
-        raw_at = raw_config.pop("at")
-        parts = raw_at.split()
 
-        if len(parts) != 5 or parts[2] != "to":
+        if "at" not in raw_config:
+            raise ValueError("Missing 'at' attribute in page control.")
+
+        try:
+            raw_at = raw_config.pop("at")
+            parts = raw_at.split()
+
+            if len(parts) != 5 or parts[2] != "to":
+                raise ValueError("Incorrect number or type of parts")
+
+            row = int(parts[0])
+            col = int(parts[1])
+            row_end = int(parts[3])
+            col_end = int(parts[4])
+        except:
             raise ValueError(f"Incorrect control format: 'at: {raw_at}'")
-
-        row = int(parts[0])
-        col = int(parts[1])
-        row_end = int(parts[3])
-        col_end = int(parts[4])
 
         return cls(row=row, col=col, row_end=row_end, col_end=col_end,
                    linked_action=linked_action, script=script,
