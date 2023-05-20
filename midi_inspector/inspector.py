@@ -2,19 +2,24 @@ from time import sleep
 import sys
 import platform
 
-import pygame
-import pygame.midi as pgm
 import mido
+
+
+USE_PYGAME = platform.system() == "Windows"
+
+
+if USE_PYGAME:
+    import pygame
+    import pygame.midi as pgm
 
 
 def run_inspector(device_names):
     """
     Run the main loop of the app.
     """
-    pygame.init()
-    pgm.init()
-
-    if platform.system() == "Windows":
+    if USE_PYGAME:
+        pygame.init()
+        pgm.init()
         midi_backend = mido.Backend('mido.backends.pygame')
     else:
         midi_backend = mido.Backend('mido.backends.rtmidi')
@@ -50,7 +55,8 @@ def run_inspector(device_names):
             sleep(0.01)
     except KeyboardInterrupt:
         print("Quitting", flush=True)
-        pgm.quit()
+        if USE_PYGAME:
+            pgm.quit()
 
 
 run_inspector(sys.argv[1:])

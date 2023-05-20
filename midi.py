@@ -1,12 +1,19 @@
 from time import sleep
 from uuid import uuid4
+import platform
 
 import mido
-import pygame
-import pygame.midi as pgm
 import yaml
 
 from actions import Action, JoystickAction
+
+
+USE_PYGAME = platform.system() == "Windows"
+
+
+if USE_PYGAME:
+    import pygame
+    import pygame.midi as pgm
 
 
 class MidiDevice:
@@ -219,9 +226,12 @@ def midi_integration_loop(midi_devices):
     """
     Run the main loop of the midi integration.
     """
-    pygame.init()
-    pgm.init()
-    midi_backend = mido.Backend('mido.backends.pygame')
+    if USE_PYGAME:
+        pygame.init()
+        pgm.init()
+        midi_backend = mido.Backend('mido.backends.pygame')
+    else:
+        midi_backend = mido.Backend('mido.backends.rtmidi')
 
     ports = [midi_backend.open_input(device.name) for device in midi_devices]
     devices_by_name = {device.name: device for device in midi_devices}
@@ -236,4 +246,5 @@ def midi_integration_loop(midi_devices):
 
             sleep(0.01)
     except KeyboardInterrupt:
-        pgm.quit()
+        if USE_PYGAME:
+            pgm.quit()
