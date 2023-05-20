@@ -23,7 +23,6 @@
     .page {
         height: 100vh;
         width: 100vw;
-        gap: 1px;
         display: grid;
         grid-template-columns: repeat({{ page.width }}, minmax(0, 1fr));
         grid-template-rows: repeat({{ page.height }}, minmax(0, 1fr));
@@ -125,8 +124,8 @@
 
         var elements = document.getElementsByClassName("page");
         for (var i = 0; i < elements.length; i++) {
-            elements[i].style.gridTemplateColumns = "repeat({{ page.width }}, minmax(0, " + optimalSquareSize + "px))";
-            elements[i].style.gridTemplateRows = "repeat({{ page.height }}, minmax(0, " + optimalSquareSize + "px))";
+            elements[i].style.gridTemplateColumns = "repeat({{ page.width }}, " + optimalSquareSize + "px)";
+            elements[i].style.gridTemplateRows = "repeat({{ page.height }}, " + optimalSquareSize + "px)";
         }
     };
     setGridSize();
