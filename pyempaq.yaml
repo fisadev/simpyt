@@ -3,11 +3,12 @@ exec:
   script: simpyt.py
 requirements:
   - requirements.txt
-# include: 
-#   - "*.py", 
-#   - assets
-#   - example_user_dir
-#   - templates
-#   - README.md
-# exclude:
-#  - tests
+include: 
+  - "*.py"
+  - assets
+  - example_configs
+  - templates
+  - README.md
+exclude:
+ - "*.pyz"
+ - configs
