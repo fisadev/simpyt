@@ -34,13 +34,13 @@ class MidiDevice:
         return cls(**raw_config)
 
     @classmethod
-    def available_pages(cls, pages_path):
+    def available_devices(cls, midis_path):
         """
-        List all the available (config files) pages.
+        List all the available (config files) midi devices.
         """
         return [
-            page_path.name[:-5]
-            for page_path in pages_path.glob("*.page")
+            midi_path.name[:-12]
+            for midi_path in midis_path.glob("*.midi_device")
         ]
 
 
