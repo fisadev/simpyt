@@ -81,17 +81,13 @@ class PageButton:
 
     def press_button(self):
         """
-        The button is being held down.
+        The button was pressed.
         """
+        # TODO right now I don't have a way to hold buttons pressed on the web, so I can't
+        # implement something like in the midi controls where you can hold down a button. So
+        # everything is just ran on press and in UNLINKED mode, no hold vs release logic
         if self.linked_action:
-            self.linked_action.run(Action.Mode.LINKED_CONTROL_PRESS)
-
-    def release_button(self):
-        """
-        The button was released.
-        """
-        if self.linked_action:
-            self.linked_action.run(Action.Mode.LINKED_CONTROL_RELEASE)
+            self.linked_action.run(Action.Mode.UNLINKED)
 
         if self.script:
             self.script.run()
