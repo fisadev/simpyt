@@ -305,6 +305,9 @@ class JoystickAction(Action):
         self.unlinked_axis_value = unlinked_axis_value
 
         if joystick_id not in self.JOYSTICKS_CACHE:
+            # TODO we should create all the "previous" joysticks before creating this one, if
+            # they don't exist, so any mappings go really to the N joystick
+            # TODO joystick and ocntrol ids from 1 instead of 0?
             self.JOYSTICKS_CACHE[joystick_id] = Joystick(self.joystick_id)
 
         self.joystick = self.JOYSTICKS_CACHE[joystick_id]
