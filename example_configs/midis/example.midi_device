@@ -1,4 +1,4 @@
-device: W-FADER
+name: W-FADER
 controls:
 - when: control 10 between 0-127 
   simulate: joystick 1 axis 0
