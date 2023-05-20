@@ -12,12 +12,27 @@ class Joystick:
         "sample_fake_button_1",
         "sample_fake_button_2",
         "sample_fake_button_3",
+        "sample_fake_button_4",
+        "sample_fake_button_5",
+        "sample_fake_button_6",
+        "sample_fake_button_7",
+        "sample_fake_button_8",
+        "sample_fake_button_9",
+        "sample_fake_button_10",
+        "sample_fake_button_11",
+        "sample_fake_button_12",
+        "sample_fake_button_13",
+        "sample_fake_button_14",
+        "sample_fake_button_15",
     )
 
     # conversion from axis number (1 to ??) to the internal ??? axis name
     AXES = (
         "sample_fake_axis_1",
         "sample_fake_axis_2",
+        "sample_fake_axis_3",
+        "sample_fake_axis_4",
+        "sample_fake_axis_5",
     )
 
     def __init__(self, id_):
