@@ -12,10 +12,11 @@ class Page:
     """
     A collection of controls to show together, mapped to actions.
     """
-    def __init__(self, name, background, controls,
+    def __init__(self, name, controls, background_color=None, background_image=None,
                  width=DEFAULT_GRID_WIDTH, height=DEFAULT_GRID_HEIGHT):
         self.name = name
-        self.background = background
+        self.background_color = background_color
+        self.background_image = background_image
         self.width = width
         self.height = height
         self.controls = controls
@@ -109,10 +110,10 @@ class PageButton:
             if len(parts) != 5 or parts[2] != "to":
                 raise ValueError("Incorrect number or type of parts")
 
-            row = int(parts[0])
-            col = int(parts[1])
-            row_end = int(parts[3])
-            col_end = int(parts[4])
+            col = int(parts[0])
+            row = int(parts[1])
+            col_end = int(parts[3])
+            row_end = int(parts[4])
         except:
             raise ValueError(f"Incorrect control format: 'at: {raw_at}'")
 
