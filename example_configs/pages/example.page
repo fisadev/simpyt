@@ -7,4 +7,10 @@ controls:
   text_horizontal_align: left
   text_color: black
   text_size: 2rem
-  simulate: keys ctrl +
+  simulate: keys ctrl =
+- at: 6 6 to 10 10
+  text: Demo Button
+  text_horizontal_align: left
+  text_color: black
+  text_size: 2rem
+  simulate: keys ctrl -
