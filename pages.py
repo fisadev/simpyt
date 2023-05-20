@@ -107,13 +107,18 @@ class PageButton:
             raw_at = raw_config.pop("at")
             parts = raw_at.split()
 
-            if len(parts) != 5 or parts[2] != "to":
-                raise ValueError("Incorrect number or type of parts")
+            if len(parts) != 5:
+                raise ValueError("Incorrect number of parts")
 
             col = int(parts[0])
             row = int(parts[1])
-            col_end = int(parts[3])
-            row_end = int(parts[4])
+
+            if parts[2] == "to":
+                col_end = int(parts[3])
+                row_end = int(parts[4])
+            elif parts[2] == "size":
+                col_end = col + int(parts[3])
+                row_end = row + int(parts[4])
         except:
             raise ValueError(f"Incorrect control format: 'at: {raw_at}'")
 
