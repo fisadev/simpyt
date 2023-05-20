@@ -46,14 +46,14 @@ class Joystick:
         """
         Hold down a button.
         """
-        self.pad.press_button(button=self.BUTTONS[button_number])
+        self.pad.press_button(button=self.BUTTONS[button_number - 1])
         self.pad.update()
 
     def release_button(self, button_number):
         """
         Release a button.
         """
-        self.pad.release_button(button=self.BUTTONS[button_number])
+        self.pad.release_button(button=self.BUTTONS[button_number - 1])
         self.pad.update()
 
     def move_axis(self, axis_number, value):
@@ -64,7 +64,7 @@ class Joystick:
             raise ValueError("The value for axis {axis_number} in joystick {self.id} can't be "
                              f"{value}, must be between 0 and 1")
 
-        axis_name = self.AXES[axis_number]
+        axis_name = self.AXES[axis_number - 1]
         if ":" in axis_name:
             value = value * 2 - 1
             axis_name, param = axis_name.split(":")

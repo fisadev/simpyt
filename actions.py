@@ -28,6 +28,7 @@ class Action(ABC):
           the action.
     """
     PREFIX: str
+    CAN_BE_LINKED = False
 
     ACTIONS_BY_PREFIX = {}
 
@@ -58,6 +59,7 @@ class Action(ABC):
         Register an action class, to the dict of actions by prefix.
         """
         cls.ACTIONS_BY_PREFIX[action_class.PREFIX] = action_class
+        return action_class
 
     @classmethod
     def deserialize(cls, raw_config):
@@ -69,6 +71,10 @@ class Action(ABC):
 
         if linked_action:
             linked_action = cls.find_and_deserialize(linked_action)
+
+            if not linked_action.CAN_BE_LINKED:
+                raise ValueError("This action can not be 'simulated' with, instead it must be "
+                                 "fired as step in a script for the control")
 
         if script:
             script = Script(
@@ -126,11 +132,11 @@ class KeysAction(Action):
         - keys (list of strings): a list of strings with keys to press
     """
     PREFIX = "keys"
+    CAN_BE_LINKED = True
     VALID_KEYS = set(name.upper() for name in  pyautogui.KEYBOARD_KEYS)
 
-    def __init__(self, keys, interval_s=0.1):
+    def __init__(self, keys):
         self.keys = keys
-        self.interval_s = interval_s
         self.ensure_valid_keys(keys)
 
     def ensure_valid_keys(self, keys):
@@ -146,7 +152,7 @@ class KeysAction(Action):
         Execute the acton.
         """
         if mode == self.Mode.UNLINKED:
-            pyautogui.hotkey(*self.keys, interval=self.interval_s)
+            pyautogui.hotkey(*self.keys)
         elif mode == self.Mode.LINKED_CONTROL_PRESS:
             for key in self.keys:
                 pyautogui.keyDown(key)
@@ -280,6 +286,7 @@ class JoystickAction(Action):
           mode (from -1 to 1)
     """
     PREFIX = "joystick"
+    CAN_BE_LINKED = True
 
     JOYSTICKS_CACHE = {}
 
@@ -297,6 +304,8 @@ class JoystickAction(Action):
         self.unlinked_axis_value = unlinked_axis_value
 
         if joystick_id not in self.JOYSTICKS_CACHE:
+            # TODO we should create all the "previous" joysticks before creating this one, if
+            # they don't exist, so any mappings go really to the N joystick
             self.JOYSTICKS_CACHE[joystick_id] = Joystick(self.joystick_id)
 
         self.joystick = self.JOYSTICKS_CACHE[joystick_id]
@@ -308,12 +317,12 @@ class JoystickAction(Action):
         Ensure that the specified keys are valid, otherwise raise an error.
         """
         if self.control_type == self.ControlType.BUTTON:
-            limit = len(self.joystick.BUTTONS) - 1
+            limit = len(self.joystick.BUTTONS)
         elif self.control_type == self.ControlType.AXIS:
-            limit = len(self.joystick.AXES) - 1
+            limit = len(self.joystick.AXES)
 
-        if self.control_id > limit:
-            raise ValueError(f"Joystick {self.control_type.value} goes form 0 to {limit}, "
+        if not 1 <= self.control_id <= limit:
+            raise ValueError(f"Joystick {self.control_type.value} goes form 1 to {limit}, "
                              f"can't be {self.control_id}")
 
     def run(self, mode, value=None):

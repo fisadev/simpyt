@@ -7,17 +7,17 @@ class Joystick:
     """
     # using the vgamepad lib, define the buttons and axes it supports
 
-    # conversion from button number (0 to ??) to the internal ??? button id
+    # conversion from button number (1 to ??) to the internal ??? button id
     BUTTONS = (
-        "sample_fake_button_0",
         "sample_fake_button_1",
         "sample_fake_button_2",
+        "sample_fake_button_3",
     )
 
-    # conversion from axis number (0 to ??) to the internal ??? axis name
+    # conversion from axis number (1 to ??) to the internal ??? axis name
     AXES = (
-        "sample_fake_axis_0",
         "sample_fake_axis_1",
+        "sample_fake_axis_2",
     )
 
     def __init__(self, id_):
