@@ -135,9 +135,8 @@ class KeysAction(Action):
     CAN_BE_LINKED = True
     VALID_KEYS = set(name.upper() for name in  pyautogui.KEYBOARD_KEYS)
 
-    def __init__(self, keys, interval_s=0.1):
+    def __init__(self, keys):
         self.keys = keys
-        self.interval_s = interval_s
         self.ensure_valid_keys(keys)
 
     def ensure_valid_keys(self, keys):
@@ -153,7 +152,7 @@ class KeysAction(Action):
         Execute the acton.
         """
         if mode == self.Mode.UNLINKED:
-            pyautogui.hotkey(*self.keys, interval=self.interval_s)
+            pyautogui.hotkey(*self.keys)
         elif mode == self.Mode.LINKED_CONTROL_PRESS:
             for key in self.keys:
                 pyautogui.keyDown(key)
