@@ -33,7 +33,6 @@ class MidiDevice:
         with open(device_path, "r") as page_file:
             raw_config = yaml.safe_load(page_file)
 
-        raw_config["name"] = name
         raw_config["controls"] = [
             MidiControl.deserialize(ctrl_raw_config)
             for ctrl_raw_config in raw_config["controls"]
