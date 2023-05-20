@@ -120,7 +120,7 @@
         var maxColWidth = windowWidth / {{ page.width }};
         var maxRowHeight = windowHeight / {{ page.height }};
 
-        var optimalSquareSize = Math.floor(Math.min(maxColWidth, maxRowHeight));
+        var optimalSquareSize = Math.min(maxColWidth, maxRowHeight);
 
         var elements = document.getElementsByClassName("page");
         for (var i = 0; i < elements.length; i++) {
