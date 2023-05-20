@@ -1,0 +1,5 @@
+name: midi_inspector
+exec:
+  script: inspector.py
+requirements:
+  - requirements.txt
