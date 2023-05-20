@@ -2,6 +2,7 @@ from functools import partial
 from pathlib import Path
 from shutil import copytree
 from threading import Thread
+from multiprocessing import Process
 import os
 import platform
 import sys
@@ -9,6 +10,7 @@ import sys
 from flask import Flask, render_template, redirect, send_from_directory
 
 from pages import Page
+from midi import MidiDevice, midi_integration_loop
 
 
 if platform.system() == "Windows":
@@ -42,6 +44,10 @@ class SimPytApp(Flask):
         return self.root_configs_path / "pages"
 
     @property
+    def midis_path(self):
+        return self.root_configs_path / "midis"
+
+    @property
     def images_path(self):
         return self.root_configs_path / "images"
 
@@ -66,6 +72,11 @@ class SimPytApp(Flask):
 
         print("SimPyt initial setup complete! Running server...")
         print()
+
+        midi_devices = [MidiDevice.read(device_name, self.midis_path)
+                        for device_name in MidiDevice.configured_devices(self.midis_path)]
+        midi_proc = Process(target=midi_integration_loop, args=[midi_devices])
+        midi_proc.run()
 
         self.run(host="0.0.0.0", port=9999, debug=debug)
 
