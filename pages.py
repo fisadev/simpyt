@@ -132,8 +132,9 @@ def launch_pages_server(simpyt_app):
     """
     Launch the pages server and return the thread.
     """
-    from pages_web_app import web_app
-    web_app.simpyt_app = simpyt_app
+    from pages_web_app import initialize_web_app
+
+    web_app = initialize_web_app(simpyt_app)
 
     web_thread = Thread(target=web_app.run,
                         kwargs=dict(host="0.0.0.0", port=9999, debug=simpyt_app.debug),

@@ -1,12 +1,27 @@
 from threading import Thread
+import logging
 
 from flask import Flask, render_template, redirect, send_from_directory
 
 from pages import Page
 
+
 web_app = Flask("simpyt")
-web_app.simpyt_app = None
-web_app.pages_cache = {}
+
+
+def initialize_web_app(simpyt_app):
+    """
+    Configure the web app to run in the Simpyt context.
+    """
+    web_app.simpyt_app = simpyt_app
+    web_app.pages_cache = {}
+
+    if not simpyt_app.debug:
+        web_app.logger.disabled = True
+        server_log = logging.getLogger('werkzeug')
+        server_log.setLevel(logging.ERROR)
+
+    return web_app
 
 
 @web_app.route("/")
