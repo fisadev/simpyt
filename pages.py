@@ -142,8 +142,5 @@ def launch_pages_server(simpyt_app):
     web_thread.start()
 
     print("Web app running!")
-    print("You can browse them in this computer by accessing this link:")
-    print("http://localhost:9999/")
-    print("From other devices, you will need to use your computer IP address instead.")
 
     return web_thread

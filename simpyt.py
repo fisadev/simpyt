@@ -62,7 +62,11 @@ class Simpyt:
 
         print("Simpyt initial setup complete! Running server...")
         print()
-        print("To stop it, press Ctrl+C several times in this terminal or click on this link:")
+        print("You can browse your pages in this computer by clicking this link:")
+        print("http://localhost:9999/")
+        print("From other devices, you will need to use your computer IP address instead.")
+        print()
+        print("To stop Simpyt, press Ctrl+C several times in this terminal or click on this link:")
         print("http://localhost:9999/stop")
         print()
 
