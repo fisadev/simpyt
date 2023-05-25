@@ -269,7 +269,7 @@ def launch_midis_server(simpyt_app):
     """
     Launch the midis server and return the thread.
     """
-    midi_thread = Thread(target=midi_integration_loop, args=[simpyt_app])
+    midi_thread = Thread(target=midi_integration_loop, args=[simpyt_app], daemon=True)
     midi_thread.start()
 
     return midi_thread
