@@ -1,7 +1,8 @@
+from joystick_base import BaseJoystick
 from vgamepad import VX360Gamepad, XUSB_BUTTON
 
 
-class Joystick:
+class Joystick(BaseJoystick):
     """
     Wrapper around vgamepad to have a unified Joystick interface in both linux and windows.
     """
@@ -36,7 +37,7 @@ class Joystick:
     )
 
     def __init__(self, id_):
-        self.id = id_
+        super().__init__(id_)
         self.pad = VX360Gamepad()
         # using the same names from vgamepad, to make things easier
         self.current_params_left_joystick_float = dict(x_value_float=-1, y_value_float=1)

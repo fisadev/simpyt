@@ -1,7 +1,8 @@
+from joystick_base import BaseJoystick
 # TODO import some linux virtual joystick lib
 
 
-class Joystick:
+class Joystick(BaseJoystick):
     """
     Wrapper around ??? to have a unified Joystick interface in both linux and windows.
     """
@@ -36,7 +37,7 @@ class Joystick:
     )
 
     def __init__(self, id_):
-        self.id = id_
+        super().__init__(id_)
         self.pad = None
 
     def press_button(self, button_number):

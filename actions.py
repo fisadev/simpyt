@@ -295,8 +295,6 @@ class JoystickAction(Action):
     PREFIX = "joystick"
     CAN_BE_LINKED = True
 
-    JOYSTICKS_CACHE = {}
-
     class ControlType(Enum):
         """
         Types of joystick controls.
@@ -309,13 +307,7 @@ class JoystickAction(Action):
         self.control_type = control_type
         self.control_id = control_id
         self.unlinked_axis_value = unlinked_axis_value
-
-        if joystick_id not in self.JOYSTICKS_CACHE:
-            # TODO we should create all the "previous" joysticks before creating this one, if
-            # they don't exist, so any mappings go really to the N joystick
-            self.JOYSTICKS_CACHE[joystick_id] = Joystick(self.joystick_id)
-
-        self.joystick = self.JOYSTICKS_CACHE[joystick_id]
+        self.joystick = Joystick.get(self.joystick_id)
 
         self.ensure_valid_controls()
 
