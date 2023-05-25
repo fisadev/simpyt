@@ -4,6 +4,7 @@ from threading import Thread
 import yaml
 
 from actions import Action
+from core import Simpyt
 
 DEFAULT_GRID_WIDTH = 20
 DEFAULT_GRID_HEIGHT = 10
@@ -128,16 +129,17 @@ class PageButton:
                    **raw_config)
 
 
-def launch_pages_server(simpyt_app):
+def launch_pages_server():
     """
     Launch the pages server and return the thread.
     """
+    # imported here to prevent circular imports
     from pages_web_app import initialize_web_app
 
-    web_app = initialize_web_app(simpyt_app)
+    web_app = initialize_web_app()
 
     web_thread = Thread(target=web_app.run,
-                        kwargs=dict(host="0.0.0.0", port=9999, debug=simpyt_app.debug),
+                        kwargs=dict(host="0.0.0.0", port=9999, debug=Simpyt.current.debug),
                         daemon=True)
     web_thread.start()
 

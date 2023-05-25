@@ -7,6 +7,7 @@ import mido
 import yaml
 
 from actions import Action, JoystickAction
+from core import Simpyt
 
 
 USE_PYGAME = platform.system() == "Windows"
@@ -217,7 +218,7 @@ class MidiControl:
                    linked_action=linked_action, script=script)
 
 
-def midi_integration_loop(simpyt_app):
+def midi_integration_loop():
     """
     Run the main loop of the midi integration.
     """
@@ -230,9 +231,9 @@ def midi_integration_loop(simpyt_app):
 
     devices = []
 
-    for device_name in MidiDevice.configured_devices(simpyt_app.midis_path):
+    for device_name in MidiDevice.configured_devices(Simpyt.current.midis_path):
         try:
-            device = MidiDevice.read(device_name, simpyt_app.midis_path)
+            device = MidiDevice.read(device_name, Simpyt.current.midis_path)
             device.port = midi_backend.open_input(device.name)
             devices.append(device)
 
@@ -265,11 +266,11 @@ def midi_integration_loop(simpyt_app):
         pgm.quit()
 
 
-def launch_midis_server(simpyt_app):
+def launch_midis_server():
     """
     Launch the midis server and return the thread.
     """
-    midi_thread = Thread(target=midi_integration_loop, args=[simpyt_app], daemon=True)
+    midi_thread = Thread(target=midi_integration_loop, daemon=True)
     midi_thread.start()
 
     print("Midi app running!")
