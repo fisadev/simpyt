@@ -18,8 +18,7 @@ def initialize_web_app(simpyt_app):
 
     if not simpyt_app.debug:
         web_app.logger.disabled = True
-        server_log = logging.getLogger('werkzeug')
-        server_log.setLevel(logging.ERROR)
+        logging.getLogger('werkzeug').disabled = True
 
     return web_app
 
