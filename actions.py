@@ -4,6 +4,7 @@ import time
 from abc import ABC, abstractmethod
 from enum import Enum
 
+from core import Simpyt
 
 PLATFORM = platform.system()
 
@@ -394,8 +395,7 @@ class Quit(Action):
         """
         # if used in linked mode, execute the action in the control release
         if mode in (self.Mode.UNLINKED, self.Mode.LINKED_CONTROL_RELEASE):
-            # TODO close the app
-            print("TODO: close Simpyt")
+            Simpyt.current.stop()
 
     @classmethod
     def deserialize(cls, raw_config):
