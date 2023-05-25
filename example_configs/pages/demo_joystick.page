@@ -92,3 +92,14 @@ controls:
   border_color: red
   border_width: 3px
   simulate: joystick 1 button 10
+# buttons outside the joystick
+- at: 60 115 size 10 10
+  image: maximize.png
+  border_width: 2px
+  border_color: black
+  simulate: keys win up
+- at: 71 115 size 10 10
+  image: minimize.png
+  border_width: 2px
+  border_color: black
+  simulate: keys win down
