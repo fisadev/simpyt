@@ -1,7 +1,7 @@
 from threading import Thread
 import logging
 
-from flask import Flask, render_template, redirect, send_from_directory
+from flask import Flask, render_template, redirect, send_from_directory, cli
 
 from pages import Page
 
@@ -19,6 +19,7 @@ def initialize_web_app(simpyt_app):
     if not simpyt_app.debug:
         web_app.logger.disabled = True
         logging.getLogger('werkzeug').disabled = True
+        cli.show_server_banner = lambda *args: None
 
     return web_app
 
