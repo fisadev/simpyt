@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/assets/icons/icon.png">
-    <link rel="manifest" href="/assets/manifest.webmanifest">
-    <script>
-        if ("serviceWorker" in navigator){
-            navigator.serviceWorker.register("/assets/service-worker.js")
-        }
-    </script>
-</head>
-<body>
+{% extends "base.html" %}
+{% block body %}
+
 <style>
     body {
         padding: 20px;
@@ -19,19 +9,18 @@
     }
 </style>
 
+<h1>Simpyt</h1>
+<p>Hi! To start using Simpyt, open one of your configured pages:</p>
 
-    <h1>Simpyt</h1>
-    <p>Hi! To start using Simpyt, open one of your configured pages:</p>
+{% for page_name in pages_names %}
+    <p><a href="/page/{{ page_name }}">{{ page_name }}</a></p>
+{% endfor %}
 
-    {% for page_name in pages_names %}
-        <p><a href="/page/{{ page_name }}">{{ page_name }}</a></p>
-    {% endfor %}
+<p />
+<p>Or <a href="/stop">stop Simpyt</a></p>
 
-    <p />
-    <p>Or <a href="/stop">stop Simpyt</a></p>
+<h2>Help</h2>
+<p>Your pages and/or midi devices are configured in your config folder: {{ configs_path }}</p>
+<p>You can find a tutorial on how to configure your pages and/or midi devices here: (pending)</p>
 
-    <h2>Help</h2>
-    <p>Your pages and/or midi devices are configured in your config folder: {{ configs_path }}</p>
-    <p>You can find a tutorial on how to configure your pages and/or midi devices here: (pending)</p>
-</body>
-</html>
+{% endblock %}
