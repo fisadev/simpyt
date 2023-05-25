@@ -3,7 +3,7 @@
 
 class Joystick:
     """
-    Wrapper around ??? joystick classes and quirks.
+    Wrapper around ??? to have a unified Joystick interface in both linux and windows.
     """
     # using the vgamepad lib, define the buttons and axes it supports
 

@@ -3,7 +3,7 @@ from vgamepad import VX360Gamepad, XUSB_BUTTON
 
 class Joystick:
     """
-    Wrapper around vgamepad joystick classes and quirks.
+    Wrapper around vgamepad to have a unified Joystick interface in both linux and windows.
     """
     # using the vgamepad lib, define the buttons and axes it supports
 
