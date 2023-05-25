@@ -42,9 +42,13 @@ def page_show(page_name):
     """
     Show a particular page with controls.
     """
-    page = Page.read(page_name, Simpyt.current.pages_path)
-    web_app.pages_cache[page_name] = page
-    return render_template("page.html", page=page)
+    try:
+        page = Page.read(page_name, Simpyt.current.pages_path)
+        web_app.pages_cache[page_name] = page
+
+        return render_template("page.html", page=page)
+    except Exception as err:
+        return render_template("page_error.html", error=str(err))
 
 
 @web_app.route("/activate_control/<string:page_name>/<string:control_id>")

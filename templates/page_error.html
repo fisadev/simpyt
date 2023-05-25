@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+
+<style>
+    body {
+        padding: 20px;
+        margin: 0;
+        font-family: Verdana;
+    }
+</style>
+
+<h1>Error</h1>
+<p>The page you are trying to use has errors in its config:</p>
+
+<pre>
+{{ error }}
+</pre>
+
+<p><a href="/">Back</a></p>
+
+{% include "help.html" %}
+
+{% endblock %}
+
