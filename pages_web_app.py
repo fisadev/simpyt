@@ -30,7 +30,11 @@ def home():
     Home page were we list the available configured pages.
     """
     pages_names = Page.configured_pages(web_app.simpyt_app.pages_path)
-    return render_template("home.html", pages_names=pages_names)
+    return render_template(
+        "home.html",
+        pages_names=pages_names,
+        configs_path=web_app.simpyt_app.root_configs_path,
+    )
 
 
 @web_app.route("/page/<string:page_name>")
