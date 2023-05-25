@@ -29,6 +29,7 @@ class Action(ABC):
     """
     PREFIX: str
     CAN_BE_LINKED = False
+    HAS_PARAMETERS = True
 
     ACTIONS_BY_PREFIX = {}
 
@@ -91,17 +92,22 @@ class Action(ABC):
         of the config.
         """
         parts = raw_config.split()
-
-        if len(parts) < 2:
-            raise ValueError(f"Incorrect action format: {raw_config}")
-
         prefix = parts[0]
-        action_raw_config = " ".join(parts[1:])
 
-        if prefix not in cls.ACTIONS_BY_PREFIX:
+        try:
+            action_class = cls.ACTIONS_BY_PREFIX[prefix]
+        except IndexError:
             raise ValueError(f"Unknown action: {prefix}")
 
-        return cls.ACTIONS_BY_PREFIX[prefix].deserialize(action_raw_config)
+        if action_class.HAS_PARAMETERS:
+            if len(parts) < 2:
+                raise ValueError(f"Incorrect action format: {raw_config}")
+
+            action_raw_config = " ".join(parts[1:])
+        else:
+            action_raw_config = None
+
+        return action_class.deserialize(action_raw_config)
 
 
 class Script:
@@ -372,3 +378,28 @@ class JoystickAction(Action):
             raise ValueError(f"The format of a 'joystick' action is incorrect: {raw_config}")
 
         return cls(joystick_id, control_type, control_id, unlinked_axis_value)
+
+
+@Action.register
+class Quit(Action):
+    """
+    Just quit Sympit.
+    """
+    PREFIX = "quit"
+    HAS_PARAMETERS = False
+
+    def run(self, mode):
+        """
+        Execute the action.
+        """
+        # if used in linked mode, execute the action in the control release
+        if mode in (self.Mode.UNLINKED, self.Mode.LINKED_CONTROL_RELEASE):
+            # TODO close the app
+            print("TODO: close Simpyt")
+
+    @classmethod
+    def deserialize(cls, raw_config):
+        """
+        Read the config and return a configured Action.
+        """
+        return cls()
