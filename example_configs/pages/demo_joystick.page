@@ -1,0 +1,105 @@
+background_color: lightgray
+background_image: joystick_background.png
+width: 200
+height: 130
+controls:
+# arrow buttons
+- at: 19 38 size 12 12
+  border_color: lightgreen
+  border_width: 3px
+  simulate: joystick 1 button 1
+- at: 43 38 size 12 12
+  border_color: lightgreen
+  border_width: 3px
+  simulate: joystick 1 button 2
+- at: 31 26 size 12 12
+  border_color: lightgreen
+  border_width: 3px
+  simulate: joystick 1 button 3
+- at: 31 50 size 12 12
+  border_color: lightgreen
+  border_width: 3px
+  simulate: joystick 1 button 4
+# right buttons
+- at: 140 38 size 15 15
+  border_color: lightgreen
+  border_width: 3px
+  simulate: joystick 1 button 5
+- at: 175 38 size 15 15
+  border_color: lightgreen
+  border_width: 3px
+  simulate: joystick 1 button 6
+- at: 157 22 size 15 15
+  border_color: lightgreen
+  border_width: 3px
+  simulate: joystick 1 button 7
+- at: 157 53 size 15 15
+  border_color: lightgreen
+  border_width: 3px
+  simulate: joystick 1 button 8
+# left stick
+- at: 62 74 size 12 12
+  border_color: blue
+  border_width: 3px
+  script:
+  - joystick 1 axis 1 value 0.5
+  - joystick 1 axis 2 value 0.5
+- at: 49 74 size 12 12
+  border_color: blue
+  border_width: 3px
+  simulate: joystick 1 axis 1 value 0
+- at: 75 74 size 12 12
+  border_color: blue
+  border_width: 3px
+  simulate: joystick 1 axis 1 value 1
+- at: 62 61 size 12 12
+  border_color: blue
+  border_width: 3px
+  simulate: joystick 1 axis 2 value 1
+- at: 62 87 size 12 12
+  border_color: blue
+  border_width: 3px
+  simulate: joystick 1 axis 2 value 0
+# right stick
+- at: 127 74 size 12 12
+  border_color: blue
+  border_width: 3px
+  script:
+  - joystick 1 axis 1 value 0.5
+  - joystick 1 axis 2 value 0.5
+- at: 114 74 size 12 12
+  border_color: blue
+  border_width: 3px
+  simulate: joystick 1 axis 3 value 0
+- at: 140 74 size 12 12
+  border_color: blue
+  border_width: 3px
+  simulate: joystick 1 axis 3 value 1
+- at: 127 61 size 12 12
+  border_color: blue
+  border_width: 3px
+  simulate: joystick 1 axis 4 value 1
+- at: 127 87 size 12 12
+  border_color: blue
+  border_width: 3px
+  simulate: joystick 1 axis 4 value 0
+# middle buttons
+- at: 74 41 size 14 9
+  border_color: red
+  border_width: 3px
+  simulate: joystick 1 button 9
+- at: 114 41 size 14 9
+  border_color: red
+  border_width: 3px
+  simulate: joystick 1 button 10
+# buttons outside the joystick
+- at: 60 115 size 10 10
+  image: maximize.png
+  border_width: 2px
+  border_color: black
+  simulate: keys win up
+- at: 71 115 size 10 10
+  image: minimize.png
+  border_width: 2px
+  border_color: black
+  simulate: keys win down
