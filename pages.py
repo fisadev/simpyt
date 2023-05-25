@@ -141,4 +141,6 @@ def launch_pages_server(simpyt_app):
                         daemon=True)
     web_thread.start()
 
+    print("Web app running!")
+
     return web_thread

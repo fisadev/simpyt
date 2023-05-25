@@ -49,9 +49,9 @@ class Simpyt:
 
         print()
         print()
-        print("-" * 20)
-        print("WELCOME TO SYMPIT")
-        print("-" * 20)
+        print("#" * 21)
+        print("  WELCOME TO SYMPIT")
+        print("#" * 21)
         print()
         print("Debug:", self.debug)
         print("Configs folder:", self.root_configs_path)
@@ -62,14 +62,12 @@ class Simpyt:
 
         print("Simpyt initial setup complete! Running server...")
         print()
-
-        self.web_thread = launch_pages_server(self)
-        self.midi_thread = launch_midis_server(self)
-
-        print("Simpyt is runnning!")
         print("To stop it, press Ctrl+C several times in this terminal or click on this link:")
         print("http://localhost:9999/stop")
         print()
+
+        self.web_thread = launch_pages_server(self)
+        self.midi_thread = launch_midis_server(self)
 
         try:
             self.web_thread.join()
@@ -81,7 +79,9 @@ class Simpyt:
         """
         Stop the full app.
         """
+        print()
         print("Stopping Simpyt")
+        print()
         os._exit(0)
 
 
