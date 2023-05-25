@@ -217,7 +217,7 @@ class MidiControl:
                    linked_action=linked_action, script=script)
 
 
-def midi_integration_loop(midi_devices):
+def midi_integration_loop(simpyt_app):
     """
     Run the main loop of the midi integration.
     """
@@ -228,30 +228,48 @@ def midi_integration_loop(midi_devices):
     else:
         midi_backend = mido.Backend('mido.backends.rtmidi')
 
-    devices_by_port_name = []
+    devices = []
 
-    for device in midi_devices:
+    for device_name in MidiDevice.configured_devices(simpyt_app.midis_path):
         try:
+            device = MidiDevice.read(device_name, simpyt_app.midis_path)
             device.port = midi_backend.open_input(device.name)
-            devices_by_port_name[device.port.name] = device
+            devices.append(device)
+
+            print("Midi device found and configured:", device.name)
         except OSError:
             print("Midi device not found!:", device.name)
 
-    if devices_by_port_name:
-        try:
-            while True:
-                for port, message in mido.ports.multi_receive([d.port for d in midi_devices],
-                                                              yield_ports=True):
-                    device = devices_by_port_name[port.name]
+    if not devices:
+        print("No midi devices configured, won't run the midi module of Simpyt")
+        return
 
-                    for control in device.controls:
-                        if control.matches(message):
-                            control_run_thread = Thread(target=control.run, args=[message])
-                            control_run_thread.start()
+    devices_by_port_name = {device.port.name: device for device in devices}
+    ports = [device.port for device in devices_by_port_name.values()]
 
-                sleep(0.01)
-        except KeyboardInterrupt:
-            pass
+    try:
+        while True:
+            for port, message in mido.ports.multi_receive(ports, yield_ports=True):
+                device = devices_by_port_name[port.name]
+
+                for control in device.controls:
+                    if control.matches(message):
+                        control_run_thread = Thread(target=control.run, args=[message])
+                        control_run_thread.start()
+
+            sleep(0.01)
+    except KeyboardInterrupt:
+        pass
 
     if USE_PYGAME:
         pgm.quit()
+
+
+def launch_midis_server(simpyt_app):
+    """
+    Launch the midis server and return the thread.
+    """
+    midi_thread = Thread(target=midi_integration_loop, args=[simpyt_app])
+    midi_thread.start()
+
+    return midi_thread

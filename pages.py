@@ -1,4 +1,5 @@
 from uuid import uuid4
+from threading import Thread
 
 import yaml
 
@@ -125,3 +126,17 @@ class PageButton:
         return cls(row=row, col=col, row_end=row_end, col_end=col_end,
                    linked_action=linked_action, script=script,
                    **raw_config)
+
+
+def launch_pages_server(simpyt_app):
+    """
+    Launch the pages server and return the thread.
+    """
+    from pages_web_app import web_app
+    web_app.simpyt_app = simpyt_app
+
+    web_thread = Thread(target=web_app.run, kwargs=dict(host="0.0.0.0", port=9999,
+                                                        debug=simpyt_app.debug))
+    web_thread.start()
+
+    return web_thread
