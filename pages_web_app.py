@@ -56,3 +56,11 @@ def assets_send(asset_path):
     Serve the assets.
     """
     return send_from_directory(web_app.simpyt_app.assets_path, asset_path)
+
+
+@web_app.route("/stop")
+def stop():
+    """
+    Stop Simpyt.
+    """
+    web_app.simpyt_app.stop()

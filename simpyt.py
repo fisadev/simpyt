@@ -67,10 +67,22 @@ class Simpyt:
         self.midi_thread = launch_midis_server(self)
 
         print("Simpyt is runnning!")
+        print("To stop it, press Ctrl+C several times in this terminal or click on this link:")
+        print("http://localhost:9999/stop")
         print()
 
-        self.web_thread.join()
-        self.midi_thread.join()
+        try:
+            self.web_thread.join()
+            self.midi_thread.join()
+        except KeyboardInterrupt:
+            self.stop()
+
+    def stop(self):
+        """
+        Stop the full app.
+        """
+        print("Stopping Simpyt")
+        os._exit(0)
 
 
 if __name__ == "__main__":
