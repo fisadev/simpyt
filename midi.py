@@ -21,9 +21,10 @@ class MidiDevice:
     """
     A collection of midi controls mapped to actions.
     """
-    def __init__(self, name, controls):
+    def __init__(self, name, controls, port=None):
         self.name = name
         self.controls = controls
+        self.port = port
 
     @classmethod
     def read(cls, name, midis_path):
@@ -227,23 +228,30 @@ def midi_integration_loop(midi_devices):
     else:
         midi_backend = mido.Backend('mido.backends.rtmidi')
 
-    ports = [midi_backend.open_input(device.name) for device in midi_devices]
-    devices_by_port_name = {
-        port.name: device
-        for port, device in zip(ports, midi_devices)
-    }
+    devices_by_port_name = []
 
-    try:
-        while True:
-            for port, message in mido.ports.multi_receive(ports, yield_ports=True):
-                device = devices_by_port_name[port.name]
+    for device in midi_devices:
+        try:
+            device.port = midi_backend.open_input(device.name)
+            devices_by_port_name[device.port.name] = device
+        except OSError:
+            print("Midi device not found!:", device.name)
 
-                for control in device.controls:
-                    if control.matches(message):
-                        control_run_thread = Thread(target=control.run, args=[message])
-                        control_run_thread.start()
+    if devices_by_port_name:
+        try:
+            while True:
+                for port, message in mido.ports.multi_receive([d.port for d in midi_devices],
+                                                              yield_ports=True):
+                    device = devices_by_port_name[port.name]
 
-            sleep(0.01)
-    except KeyboardInterrupt:
-        if USE_PYGAME:
-            pgm.quit()
+                    for control in device.controls:
+                        if control.matches(message):
+                            control_run_thread = Thread(target=control.run, args=[message])
+                            control_run_thread.start()
+
+                sleep(0.01)
+        except KeyboardInterrupt:
+            pass
+
+    if USE_PYGAME:
+        pgm.quit()
