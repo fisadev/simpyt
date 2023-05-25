@@ -4,15 +4,15 @@ import time
 from abc import ABC, abstractmethod
 from enum import Enum
 
-import pyautogui
-
 
 PLATFORM = platform.system()
 
 if PLATFORM == "Windows":
     from joystick_windows import Joystick
+    from keyboard_windows import Keyboard
 elif PLATFORM == "Linux":
     from joystick_linux import Joystick
+    from keyboard_linux import Keyboard
 else:
     raise ValueError(f"Unsuported platform: {PLATFORM}")
 
@@ -133,7 +133,9 @@ class KeysAction(Action):
     """
     PREFIX = "keys"
     CAN_BE_LINKED = True
-    VALID_KEYS = set(name.upper() for name in  pyautogui.KEYBOARD_KEYS)
+
+    # we only need one global instance, not different ones per action instance
+    keyboard = Keyboard()
 
     def __init__(self, keys):
         self.keys = keys
@@ -144,7 +146,7 @@ class KeysAction(Action):
         Ensure that all the specified keys are valid, otherwise raise an error.
         """
         for key in keys:
-            if not key.upper() in self.VALID_KEYS:
+            if not key.lower() in self.keyboard.VALID_KEYS:
                 raise ValueError(f"Unknown key: {key}")
 
     def run(self, mode):
@@ -152,13 +154,11 @@ class KeysAction(Action):
         Execute the acton.
         """
         if mode == self.Mode.UNLINKED:
-            pyautogui.hotkey(*self.keys)
+            self.keyboard.press_and_release(self.keys)
         elif mode == self.Mode.LINKED_CONTROL_PRESS:
-            for key in self.keys:
-                pyautogui.keyDown(key)
+            self.keyboard.press(self.keys)
         elif mode == self.Mode.LINKED_CONTROL_RELEASE:
-            for key in self.keys:
-                pyautogui.keyUp(key)
+            self.keyboard.release(self.keys)
 
     @classmethod
     def deserialize(cls, raw_config):
