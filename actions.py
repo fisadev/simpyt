@@ -3,6 +3,7 @@ import subprocess
 import time
 from abc import ABC, abstractmethod
 from enum import Enum
+from time import sleep
 
 from core import Simpyt
 
@@ -10,10 +11,10 @@ PLATFORM = platform.system()
 
 if PLATFORM == "Windows":
     from joystick_windows import Joystick
-    from keyboard_windows import Keyboard
+    import pydirectinput as keyboard_lib
 elif PLATFORM == "Linux":
     from joystick_linux import Joystick
-    from keyboard_linux import Keyboard
+    import pyautogui as keyboard_lib
 else:
     raise ValueError(f"Unsuported platform: {PLATFORM}")
 
@@ -141,8 +142,34 @@ class KeysAction(Action):
     PREFIX = "keys"
     CAN_BE_LINKED = True
 
-    # we only need one global instance, not different ones per action instance
-    keyboard = Keyboard()
+    VALID_KEYS = [
+        # top row
+        'escape', 'esc',
+        'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9',
+        'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19',
+        'f20', 'f21', 'f22', 'f23', 'f24',
+        'printscreen', 'prntscrn', 'prtsc', 'prtscr', 'pause',
+
+        # normal keys
+        *'0123456789abcdefghijklmnopqrstuvwxyz',
+        # symbols, only some of them (not all work on windows)
+        *r";,.\/'[]-=`"
+
+        # navigation block and spaces
+        'enter', 'return', 'space', 'tab',
+        'backspace', 'del', 'delete', 'insert'
+        'home', 'end', 'pagedown', 'pgdn', 'pageup', 'pgup', 'insert',
+        'up', 'down', 'left', 'right',
+
+        # numpad
+        'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6', 'num7', 'num8', 'num9',
+
+        # modifiers
+        'shift', 'shiftleft', 'shiftright',
+        'ctrl', 'ctrlleft', 'ctrlright',
+        'alt', 'altleft', 'altright',
+        'win', 'winleft', 'winright',
+    ]
 
     def __init__(self, keys):
         self.keys = keys
@@ -153,19 +180,35 @@ class KeysAction(Action):
         Ensure that all the specified keys are valid, otherwise raise an error.
         """
         for key in keys:
-            if not key.lower() in self.keyboard.VALID_KEYS:
-                raise ValueError(f"Unknown key: {key}")
+            if not key.lower() in self.VALID_KEYS:
+                raise ValueError(f"Unknown or unsupported key: {key}")
+
+    def hold_down(self):
+        """
+        Hold down the defined keys.
+        """
+        for key in self.keys:
+            keyboard_lib.keyDown(key)
+
+    def release(self):
+        """
+        Release the defined keys.
+        """
+        for key in reversed(self.keys):
+            keyboard_lib.keyUp(key)
 
     def run(self, mode):
         """
         Execute the acton.
         """
         if mode == self.Mode.UNLINKED:
-            self.keyboard.press_and_release(self.keys)
+            self.hold_down()
+            sleep(0.1)
+            self.release()
         elif mode == self.Mode.LINKED_CONTROL_PRESS:
-            self.keyboard.press(self.keys)
+            self.hold_down()
         elif mode == self.Mode.LINKED_CONTROL_RELEASE:
-            self.keyboard.release(self.keys)
+            self.release()
 
     @classmethod
     def deserialize(cls, raw_config):

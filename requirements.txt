@@ -3,7 +3,7 @@ jinja2==3.1.2
 pyyaml==6.0
 
 pyautogui==0.9.53  # keyboard backend on linux and parts of windows too
-keyboard==0.13.5; platform_system == "Windows"  # keyboard backend on windows
+pydirectinput==1.0.4; platform_system == "Windows"  # keyboard backend on windows
 
 vgamepad==0.0.8; platform_system == "Windows"  # virtual joysticks backend on windows
 # TODO: implement a joysticks backend on linux
