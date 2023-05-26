@@ -1,10 +1,17 @@
-name: W-FADER MIDI 1
+name: W-FADER
 controls:
-- when: control 10 between 0-127 
-  simulate: joystick 1 axis 1
-- when: control 11 between 0-127
-  simulate: joystick 1 axis 2
-- when: control 30 surpasses 64
-  simulate: keys ctrl =
-- when: control 31 surpasses 64
-  simulate: keys ctrl -
+# kneeboard show, previous and next page
+- when: control 42 surpasses 64
+  simulate: keys shiftright k
+- when: control 43 surpasses 64
+  simulate: keys [
+- when: control 44 surpasses 64
+  simulate: keys ]
+
+# night vision goggles toggle, gain up and gai down
+- when: control 67 surpasses 64
+  simulate: keys shiftright h
+- when: control 40 surpasses 64
+  simulate: keys ctrlright shiftright h
+- when: control 41 surpasses 64
+  simulate: keys altright shiftright h
