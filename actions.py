@@ -242,7 +242,7 @@ class Write(Action):
         """
         # if used in linked mode, execute the action in the control release
         if mode in (self.Mode.UNLINKED, self.Mode.LINKED_CONTROL_RELEASE):
-            pyautogui.write(self.text, interval=0.1)
+            keyboard_lib.write(self.text)
 
     @classmethod
     def deserialize(cls, raw_config):
