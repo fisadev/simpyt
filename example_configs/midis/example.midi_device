@@ -1,3 +1,4 @@
+# example mappings for a midi device (a "W-FADER" Easycontrol) to be used in the DCS game
 name: W-FADER
 controls:
 # kneeboard show, previous and next page
