@@ -28,11 +28,11 @@ class MidiDevice:
         self.port = port
 
     @classmethod
-    def read(cls, name, midis_path):
+    def read(cls, name):
         """
         Read the device definition from a yaml file.
         """
-        device_path = midis_path / (name + ".midi_device")
+        device_path = Simpyt.current.midis_path / (name + ".midi_device")
         with open(device_path, "r") as page_file:
             raw_config = yaml.safe_load(page_file)
 
@@ -43,13 +43,13 @@ class MidiDevice:
         return cls(**raw_config)
 
     @classmethod
-    def configured_devices(cls, midis_path):
+    def configured_devices(cls):
         """
         List all the configured (config files) midi devices.
         """
         return [
             midi_path.name[:-12]
-            for midi_path in midis_path.glob("*.midi_device")
+            for midi_path in Simpyt.current.midis_path.glob("*.midi_device")
         ]
 
 
@@ -235,9 +235,9 @@ def midi_integration_loop():
 
     devices = []
 
-    for device_name in MidiDevice.configured_devices(Simpyt.current.midis_path):
+    for device_name in MidiDevice.configured_devices():
         try:
-            device = MidiDevice.read(device_name, Simpyt.current.midis_path)
+            device = MidiDevice.read(device_name)
             device.port = midi_backend.open_input(device.name)
             devices.append(device)
 

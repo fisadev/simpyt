@@ -24,11 +24,11 @@ class Page:
         self.controls = controls
 
     @classmethod
-    def read(cls, name, pages_path):
+    def read(cls, name):
         """
         Read the page definition from a yaml file.
         """
-        page_path = pages_path / (name + ".page")
+        page_path = Simpyt.current.pages_path / (name + ".page")
         with open(page_path, "r") as page_file:
             raw_config = yaml.safe_load(page_file)
 
@@ -40,13 +40,13 @@ class Page:
         return cls(**raw_config)
 
     @classmethod
-    def configured_pages(cls, pages_path):
+    def configured_pages(cls):
         """
         List all the configured (config files) pages.
         """
         return [
             page_path.name[:-5]
-            for page_path in pages_path.glob("*.page")
+            for page_path in Simpyt.current.pages_path.glob("*.page")
         ]
 
 
@@ -135,9 +135,9 @@ def web_app_loop():
     # imported here to prevent circular imports
     from pages_web_app import initialize_web_app
 
-    for page_name in Page.configured_pages(Simpyt.current.pages_path):
+    for page_name in Page.configured_pages():
         try:
-            Page.read(page_name, Simpyt.current.pages_path)
+            Page.read(page_name)
 
             print("Page found and configured:", page_name)
         except ImproperlyConfiguredException as ex:

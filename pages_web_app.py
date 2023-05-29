@@ -29,7 +29,7 @@ def home():
     """
     Home page were we list the available configured pages.
     """
-    pages_names = Page.configured_pages(Simpyt.current.pages_path)
+    pages_names = Page.configured_pages()
     return render_template(
         "home.html",
         pages_names=pages_names,
@@ -43,7 +43,7 @@ def page_show(page_name):
     Show a particular page with controls.
     """
     try:
-        page = Page.read(page_name, Simpyt.current.pages_path)
+        page = Page.read(page_name)
         web_app.pages_cache[page_name] = page
 
         return render_template("page.html", page=page)
