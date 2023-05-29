@@ -246,9 +246,14 @@ def midi_integration_loop():
             device.port = midi_backend.open_input(device.name)
             devices.append(device)
 
-            print("Midi device found and configured:", device.name)
+            print("Midi device found and configured:", device_name)
+        except ImproperlyConfiguredException as ex:
+            print(f"Midi device found but with problems in its config!: {device_name}\n"
+                  f"{ex.as_user_friendly_text()}")
         except OSError:
-            print("Midi device not found!:", device.name)
+            print("Midi device found, but couldn't connect to it! Is it plugged?:", device_name)
+        except Exception as ex:
+            print(f"Midi device found but failed to read its config!: {device_name}\n{ex}")
 
     if not devices:
         print("No midi devices configured, won't run the midi module of Simpyt")
