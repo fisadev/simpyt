@@ -7,6 +7,21 @@ import platform
 PLATFORM = platform.system()
 
 
+class ImproperlyConfiguredException(Exception):
+    """
+    An error in some config, with enough info to tell the user where's the problem.
+    """
+    def __init__(self, reason, file_path=None):
+        self.file_path = file_path
+        self.reason = reason
+
+    def as_user_friendly_text(self):
+        """
+        Generate a user-friendly text about this error.
+        """
+        return f"{self.reason}\nProblematic config: {self.file_path}"
+
+
 class Simpyt:
     """
     The main app.
