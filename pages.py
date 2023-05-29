@@ -123,7 +123,6 @@ class PageButton:
                 raise ValueError(f"Unknown destination type: {parts[2]}")
 
         except Exception as ex:
-            # in any other case, hide the internal error, and raise a user friendly error instead
             raise ImproperlyConfiguredException(
                 "The 'at' attribute in a page button has an incorrect format:\n"
                 f"at: {raw_at}"
