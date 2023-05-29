@@ -141,11 +141,10 @@ def web_app_loop():
 
             print("Page found and configured:", page_name)
         except ImproperlyConfiguredException as ex:
-            print("Page found but with problems in its config!:", page_name)
-            print(ex.as_user_friendly_text())
+            print(f"Page found but with problems in its config!: {page_name}\n"
+                  f"{ex.as_user_friendly_text()}")
         except Exception as ex:
-            print("Page found but failed to read its config!:", page_name)
-            print(ex)
+            print(f"Page found but failed to read its config!: {page_name}\n{ex}")
 
     web_app = initialize_web_app()
     web_app.run(host="0.0.0.0", port=9999, debug=Simpyt.current.debug)
