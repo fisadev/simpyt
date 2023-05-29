@@ -7,7 +7,7 @@ import mido
 import yaml
 
 from actions import Action, JoystickAction
-from core import Simpyt
+from core import Simpyt, ImproperlyConfiguredException
 
 
 USE_PYGAME = platform.system() == "Windows"
@@ -36,10 +36,15 @@ class MidiDevice:
         with open(device_path, "r") as page_file:
             raw_config = yaml.safe_load(page_file)
 
-        raw_config["controls"] = [
-            MidiControl.deserialize(ctrl_raw_config)
-            for ctrl_raw_config in raw_config["controls"]
-        ]
+        try:
+            raw_config["controls"] = [
+                MidiControl.deserialize(ctrl_raw_config)
+                for ctrl_raw_config in raw_config["controls"]
+            ]
+        except ImproperlyConfiguredException as icex:
+            icex.file_path = device_path
+            raise
+
         return cls(**raw_config)
 
     @classmethod
