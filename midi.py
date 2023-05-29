@@ -168,62 +168,80 @@ class MidiControl:
                     self.linked_action.run(Action.Mode.LINKED_CONTROL_RELEASE)
 
     @classmethod
+    def parse_when(cls, raw_when):
+        """
+        Parse the syntax of the 'when' attribute in midi controls. Return a dict of arguments to
+        use when creating a MidiControl instance.
+        """
+        when_control = None
+        when_note = None
+        when_is_program = False
+        value_condition_start_at = None
+
+        when_value_between = None
+        when_value_surpasses = None
+
+        try:
+            parts = raw_when.split()
+
+            midi_type = parts.pop(0)
+
+            if midi_type == "control":
+                assert len(parts) == 3
+                when_control = int(parts[0])
+                condition_parts = parts[1:]
+            elif midi_type == "note":
+                assert len(parts) == 3
+                when_note = int(parts[0])
+                condition_parts = parts[1:]
+            elif midi_type == "program":
+                assert len(parts) == 2
+                when_is_program = True
+                condition_parts = parts
+            else:
+                raise ValueError(f"Unknown midi event type: {midi_type}")
+
+            assert len(condition_parts) == 2
+            condition_type, condition_value = condition_parts
+
+            if condition_type == "between":
+                value1, value2 = condition_value.split("-")
+                when_value_between = int(value1), int(value2)
+            elif condition_type == "surpasses":
+                when_value_surpasses = int(condition_value)
+            else:
+                raise ValueError(f"Unknown condition: {parts[value_condition_start_at]}")
+
+        except Exception as ex:
+            raise ImproperlyConfiguredException(
+                "The 'when' attribute in a midi control has an incorrect format:\n"
+                f"when: {raw_when}"
+            ) from ex
+
+        # TODO support when_channel
+
+        return dict(
+            when_is_program=when_is_program,
+            when_control=when_control,
+            when_note=when_note,
+            when_value_between=when_value_between,
+            when_value_surpasses=when_value_surpasses,
+        )
+
+    @classmethod
     def deserialize(cls, raw_config):
         """
         Deserialize and load control configs from a simpyt midi file.
         """
+        if "when" not in raw_config:
+            raise ImproperlyConfiguredException(
+                f"Missing 'when' attribute in midi control. Found attributes: {raw_config}"
+            )
+
+        when_args = cls.parse_when(raw_config.pop("when"))
         linked_action, script = Action.deserialize(raw_config)
 
-        if "when" not in raw_config:
-            raise ValueError("Missing 'when' attribute in midi control.")
-
-        try:
-            raw_when = raw_config.pop("when")
-            parts = raw_when.split()
-
-            when_control = None
-            when_note = None
-            when_is_program = False
-            value_condition_start_at = None
-
-            if parts[0] == "control":
-                if len(parts) != 4:
-                    raise ValueError("Incorrect number of parts")
-                when_control = int(parts[1])
-                value_condition_start_at = 2
-            elif parts[0] == "note":
-                if len(parts) != 4:
-                    raise ValueError("Incorrect number of parts")
-                when_note = int(parts[1])
-                value_condition_start_at = 2
-            elif parts[0] == "program":
-                if len(parts) != 3:
-                    raise ValueError("Incorrect number of parts")
-                when_is_program = True
-                value_condition_start_at = 1
-            else:
-                raise ValueError("First part should be either 'control', 'note' or 'program'")
-
-            when_value_between = None
-            when_value_surpasses = None
-
-            if parts[value_condition_start_at] == "between":
-                value1, value2 = parts[value_condition_start_at + 1].split("-")
-                when_value_between = int(value1), int(value2)
-            elif parts[value_condition_start_at] == "surpasses":
-                when_value_surpasses = int(parts[value_condition_start_at + 1])
-            else:
-                raise ValueError("Middle part should be either 'between' or 'surpasses'")
-
-        except:
-            raise ValueError(f"Incorrect control format: 'when: {raw_when}'")
-
-        # TODO support when_channel
-
-        return cls(when_channel=None, when_is_program=when_is_program, when_control=when_control,
-                   when_note=when_note, when_value_between=when_value_between,
-                   when_value_surpasses=when_value_surpasses,
-                   linked_action=linked_action, script=script)
+        return cls(**when_args, linked_action=linked_action, script=script)
 
 
 def midi_integration_loop():

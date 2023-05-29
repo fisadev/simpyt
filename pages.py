@@ -101,21 +101,14 @@ class PageButton:
             self.script.run()
 
     @classmethod
-    def deserialize(cls, raw_config):
+    def parse_at(cls, raw_at):
         """
-        Deserialize and load control configs from a simpyt page file.
+        Parse the syntax of the 'at' attribute in page buttons. Return a dict of arguments to
+        use when creating a PageButton instance.
         """
-        linked_action, script = Action.deserialize(raw_config)
-
-        if "at" not in raw_config:
-            raise ValueError("Missing 'at' attribute in page control.")
-
         try:
-            raw_at = raw_config.pop("at")
             parts = raw_at.split()
-
-            if len(parts) != 5:
-                raise ValueError("Incorrect number of parts")
+            assert len(parts) == 5
 
             col = int(parts[0])
             row = int(parts[1])
@@ -126,12 +119,34 @@ class PageButton:
             elif parts[2] == "size":
                 col_end = col + int(parts[3])
                 row_end = row + int(parts[4])
-        except:
-            raise ValueError(f"Incorrect control format: 'at: {raw_at}'")
+            else:
+                raise ValueError(f"Unknown destination type: {parts[2]}")
 
-        return cls(row=row, col=col, row_end=row_end, col_end=col_end,
-                   linked_action=linked_action, script=script,
-                   **raw_config)
+        except Exception as ex:
+            # in any other case, hide the internal error, and raise a user friendly error instead
+            raise ImproperlyConfiguredException(
+                "The 'at' attribute in a page button has an incorrect format:\n"
+                f"at: {raw_at}"
+            ) from ex
+
+        return dict(row=row, col=col, row_end=row_end, col_end=col_end)
+
+
+    @classmethod
+    def deserialize(cls, raw_config):
+        """
+        Deserialize and load control configs from a simpyt page file.
+        """
+        if "at" not in raw_config:
+            raise ImproperlyConfiguredException(
+                f"Missing 'at' attribute in page button. Found attributes: {raw_config}"
+            )
+
+        at_args = cls.parse_at(raw_config.pop("at"))
+        linked_action, script = Action.deserialize(raw_config)
+
+        return cls(**at_args, linked_action=linked_action, script=script, **raw_config)
+
 
 def web_app_loop():
     """
