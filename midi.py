@@ -179,19 +179,23 @@ class MidiControl:
             when_control = None
             when_note = None
             when_is_program = False
+            value_condition_start_at = None
 
             if parts[0] == "control":
                 if len(parts) != 4:
                     raise ValueError("Incorrect number of parts")
                 when_control = int(parts[1])
+                value_condition_start_at = 2
             elif parts[0] == "note":
                 if len(parts) != 4:
                     raise ValueError("Incorrect number of parts")
                 when_note = int(parts[1])
+                value_condition_start_at = 2
             elif parts[0] == "program":
                 if len(parts) != 3:
                     raise ValueError("Incorrect number of parts")
                 when_is_program = True
+                value_condition_start_at = 1
             else:
                 raise ValueError("First part should be either 'control', 'note' or 'program'")
 
@@ -199,11 +203,11 @@ class MidiControl:
             when_value_surpasses = None
 
             # TODO this doesn't work when in "program" mode!
-            if parts[2] == "between":
-                value1, value2 = parts[3].split("-")
+            if parts[value_condition_start_at] == "between":
+                value1, value2 = parts[value_condition_start_at + 1].split("-")
                 when_value_between = int(value1), int(value2)
-            elif parts[2] == "surpasses":
-                when_value_surpasses = int(parts[3])
+            elif parts[value_condition_start_at] == "surpasses":
+                when_value_surpasses = int(parts[value_condition_start_at + 1])
             else:
                 raise ValueError("Middle part should be either 'between' or 'surpasses'")
 
