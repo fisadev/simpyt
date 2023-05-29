@@ -4,7 +4,7 @@ from threading import Thread
 import yaml
 
 from actions import Action
-from core import Simpyt
+from core import Simpyt, ImproperlyConfiguredException
 
 DEFAULT_GRID_WIDTH = 20
 DEFAULT_GRID_HEIGHT = 10
@@ -128,19 +128,34 @@ class PageButton:
                    linked_action=linked_action, script=script,
                    **raw_config)
 
+def web_app_loop():
+    """
+    Run the main loop of the web app integration.
+    """
+    # imported here to prevent circular imports
+    from pages_web_app import initialize_web_app
+
+    for page_name in Page.configured_pages(Simpyt.current.pages_path):
+        try:
+            Page.read(page_name, Simpyt.current.pages_path)
+
+            print("Page found and configured:", page_name)
+        except ImproperlyConfiguredException as ex:
+            print("Page found but with problems in its config!:", page_name)
+            print(ex.as_user_friendly_text())
+        except Exception as ex:
+            print("Page found but failed to read its config!:", page_name)
+            print(ex)
+
+    web_app = initialize_web_app()
+    web_app.run(host="0.0.0.0", port=9999, debug=Simpyt.current.debug)
+
 
 def launch_pages_server():
     """
     Launch the pages server and return the thread.
     """
-    # imported here to prevent circular imports
-    from pages_web_app import initialize_web_app
-
-    web_app = initialize_web_app()
-
-    web_thread = Thread(target=web_app.run,
-                        kwargs=dict(host="0.0.0.0", port=9999, debug=Simpyt.current.debug),
-                        daemon=True)
+    web_thread = Thread(target=web_app_loop, daemon=True)
     web_thread.start()
 
     print("Web app running!")
