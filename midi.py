@@ -207,7 +207,6 @@ class MidiControl:
             when_value_between = None
             when_value_surpasses = None
 
-            # TODO this doesn't work when in "program" mode!
             if parts[value_condition_start_at] == "between":
                 value1, value2 = parts[value_condition_start_at + 1].split("-")
                 when_value_between = int(value1), int(value2)
