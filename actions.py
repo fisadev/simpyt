@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from time import sleep
 
-from core import Simpyt
+from core import Simpyt, ImproperlyConfiguredException
 
 PLATFORM = platform.system()
 
@@ -69,20 +69,26 @@ class Action(ABC):
         """
         Deserialize a linked action, or a script of actions, or even both, defined for a control.
         """
-        linked_action = raw_config.pop("simulate", None)
-        script = raw_config.pop("script", None)
+        linked_action = None
+        script = None
 
-        if linked_action:
-            linked_action = cls.find_and_deserialize(linked_action)
+        raw_linked_action = raw_config.pop("simulate", None)
+        raw_script = raw_config.pop("script", None)
+
+        if raw_linked_action:
+            linked_action = cls.find_and_deserialize(raw_linked_action)
 
             if not linked_action.CAN_BE_LINKED:
-                raise ValueError("This action can not be 'simulated' with, instead it must be "
-                                 "fired as step in a script for the control")
+                raise ImproperlyConfiguredException(
+                    "This action can not be used in a 'simulated' attribute, only as part of a "
+                    "'script' attribute:\n"
+                    f"simulate: {raw_linked_action}"
+                )
 
-        if script:
+        if raw_script:
             script = Script(
                 [cls.find_and_deserialize(script_action_raw_config)
-                 for script_action_raw_config in script]
+                 for script_action_raw_config in raw_script]
             )
 
         return linked_action, script
@@ -93,23 +99,33 @@ class Action(ABC):
         Find the specific Action class from the prefix, and then deserialize it passing the rest
         of the config.
         """
-        parts = raw_config.split()
-        prefix = parts[0]
-
         try:
-            action_class = cls.ACTIONS_BY_PREFIX[prefix]
-        except IndexError:
-            raise ValueError(f"Unknown action: {prefix}")
+            parts = raw_config.split()
+            prefix = parts[0]
 
-        if action_class.HAS_PARAMETERS:
-            if len(parts) < 2:
-                raise ValueError(f"Incorrect action format: {raw_config}")
+            try:
+                action_class = cls.ACTIONS_BY_PREFIX[prefix]
+            except KeyError as ex:
+                raise ImproperlyConfiguredException(f"Unknown action: {raw_config}") from ex
 
-            action_raw_config = " ".join(parts[1:])
-        else:
-            action_raw_config = None
+            if action_class.HAS_PARAMETERS:
+                if len(parts) < 2:
+                    raise ValueError(f"Incorrect action format: {raw_config}")
 
-        return action_class.deserialize(action_raw_config)
+                action_raw_config = " ".join(parts[1:])
+            else:
+                action_raw_config = None
+
+            return action_class.deserialize(action_raw_config)
+
+        except ImproperlyConfiguredException:
+            # if we got a nice error, just pass it around
+            raise
+        except Exception as ex:
+            # otherwise, generate a nice error
+            raise ImproperlyConfiguredException(
+                f"This action has an incorrect format: {raw_config}"
+            ) from ex
 
 
 class Script:
