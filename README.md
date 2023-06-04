@@ -18,7 +18,7 @@ The first time you run the Simpyt app, a new `simpyt_configs` folder will be cre
 
 # Tutorial
 
-### Web button boxes (pages)
+## Web button boxes (pages)
 
 [PENDING: add a sample picture of a web button box]
 
@@ -55,7 +55,7 @@ Buttons can simulate key presses, joystick button presses, open apps, or even ru
 
 Full docs on the attributes buttons can define and the actions they can run in the **Full docs** section, further below.
 
-### Midi devices as button boxes
+## Midi devices as button boxes
 
 [PENDING: add a sample picture of a midi controller]
 
