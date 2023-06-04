@@ -82,6 +82,14 @@ Different type of midi controls are supported (notes, plain controls, program ch
 
 Full docs on the supported midi controls and the actions they can run in the **Full docs** section, further below.
 
+## I have a midi controller, but no idea about the ids of its controls
+
+That's ok! We provide an app to be able to inspect both he types and ids of the midi controls you have. Download the latest `midi_inspector.pyz` [release](https://github.com/fisadev/simpyt/releases), open a terminal, go to the folder where you have downloaded it, and run `python midi_inspector.pyz MY_DEVICE_NAME` (use the name of your device).
+
+Then just use your midi controller, and this app will show you both the type and ids of the buttons and knobs you are testing.
+
+In the future, the midi_inspector app will be integrated into Simpyt to make things easier. For now, this is the way :)
+
 # Full docs
 
 [PENDING]
