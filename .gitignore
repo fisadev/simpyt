@@ -135,5 +135,5 @@ dmypy.json
 *.sw?
 
 # SimPyt stuff
-configs
+simpyt_configs
 *.pyz

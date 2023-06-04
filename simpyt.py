@@ -10,7 +10,7 @@ if __name__ == "__main__":
     used_executable_dir_path = Path(os.environ.get("PYEMPAQ_PYZ_PATH", __file__)).parent
 
     simpyt_app = Simpyt(
-        root_configs_path=(used_executable_dir_path / "configs").absolute(),
+        root_configs_path=(used_executable_dir_path / "simpyt_configs").absolute(),
         debug="-d" in sys.argv,
     )
     simpyt_app.run()
