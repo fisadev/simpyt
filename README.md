@@ -12,6 +12,8 @@ Simpyt allows you to do two main things:
 
 You just need to [download and install Python 3 from the official website](https://www.python.org/downloads/) (on Linux any modern Python 3 will do), then [download the latest Simpyt.pyz release](https://github.com/fisadev/simpyt/releases) and place it anywhere you want, and finally just double click it. That's it!
 
+The first time you run it, it will take a few seconds to boot. The next time it should be almost instantaneous.
+
 No extra apps are needed in the device you want to use as a button box (old phones or tablets are ideal). You only need a working web browser in them.
 
 The first time you run the Simpyt app, a new `simpyt_configs` folder will be created next to the app. All the configs live inside that folder, no other hidden files are used for configs.
