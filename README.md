@@ -10,7 +10,7 @@ Simpyt allows you to do two main things:
 
 ## Installation and running
 
-You just need to [download and install Python 3 from the official website](https://www.python.org/downloads/) (on Linux any Python 3.8 will be enough), then [download the latest Simpyt.pyz release](https://github.com/fisadev/simpyt/releases) and place it anywhere you want, and finally just double click it. That's it!
+You just need to [download and install Python 3 from the official website](https://www.python.org/downloads/) (on Linux any modern Python 3 will do), then [download the latest Simpyt.pyz release](https://github.com/fisadev/simpyt/releases) and place it anywhere you want, and finally just double click it. That's it!
 
 No extra apps are needed in the device you want to use as a button box (old phones or tablets are ideal). You only need a working web browser in them.
 
