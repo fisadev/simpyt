@@ -104,6 +104,7 @@ In the future, the midi_inspector app will be integrated into Simpyt to make thi
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | width                   | Mandatory. How many columns the button box area should be split into. Example: `200`                                                                |
 | height                  | Mandatory. How many rows the button box area should be split into. Example: `130`                                                                   |
+| controls                | Mandatory. A list of controls to show in the page. See examples in the tutorial and full docs about Page control attributes.                        |
 | background_image        | Optional. A name of an image file from `simpyt_configs/images` to use as background of the page. Example: `joystick_background.png`                 |
 | background_color        | Optional. A name or code of a color to use as background of the page. Examples: `lightgray`, `"#00FF00"`. Quotes are needed when using color codes. |
 
@@ -113,7 +114,21 @@ Important clarifications:
 
 ### Page control attributes
 
-[PENDING]
+| Attribute               | Usage                                                                                                        |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| at                      | Mandatory. Specifies both the location, and the size of the button. Supports two different formats: initial position and size, or initial position and final position. Positions are specified as column-space-row, and sizes are specified as width-space-height. Examples: `10 20 size 8 5` (start at column 10 row 20, width 8 and height 5), `10 20 to 18 25` (start at column 10 row 20, end at column 18 row 25). |
+| simulate                | Optional. Simulate keyboard keys or joystick buttons when the button is pressed. See the Actions full docs for examples and format.                                                                                                                                                                                                                                                                                     |
+| script                  | Optional. A sequence of multiple actions to run when the button is pressed. See the Actions full docs for examples and format.                                                                                                                                                                                                                                                                                          |
+| image                   | Optional. A name of an image file from `simpyt_configs/images` to use as background of the button. Example: `joystick_background.png`                                                                                                                                                                                                                                                                                   |
+| color                   | Optional. A name or code of a color to use as background of the button. Examples: `lightgray`, `"#00FF00"`. Quotes are needed when using color codes.                                                                                                                                                                                                                                                                   |
+| text                    | Optional. A text to display inside the button. Example: `"Open canopy"`. Quotes are recommended to prevent syntax issues, but can be skipped most of the times.                                                                                                                                                                                                                                                         |
+| border_color            | Optional. A name or code of a color to use as border of the button. Examples: `lightgray`, `"#00FF00"`. Quotes are needed when using color codes.                                                                                                                                                                                                                                                                       |
+| border_width            | Optional. The width and unit of measure for the border of the button. If not specified, the button is shown borderless. Example: `3px` (a 3 pixel border).                                                                                                                                                                                                                                                              |
+| text_size               | Optional. The size and unit of measure for the text of the button, if using the `text` attribute. Example: `12px` (a 12 pixel font).                                                                                                                                                                                                                                                                                    |
+| text_font               | Optional. The font name for the text of the button, if using the `text` attribute. Example: `Verdana`.                                                                                                                                                                                                                                                                                                                  |
+| text_color              | Optional. A name or code of a color to use for the text of the button, if using the `text` attribute. Examples: `lightgray`, `"#00FF00"`. Quotes are needed when using color codes.                                                                                                                                                                                                                                     |
+| text_horizontal_align   | EXPERIMENTAL. Optional. The horizontal alignment for the text of the button, if using the `text` attribute. Examples: `center`, `left`, `right`.                                                                                                                                                                                                                                                                        |
+| text_vertical_align     | EXPERIMENTAL. Optional. The vertical alignment for the text of the button, if using the `text` attribute. Examples: `center`, `top`, `bottom`.                                                                                                                                                                                                                                                                          |
 
 ### Page control attributes
 
@@ -127,7 +142,7 @@ Important clarifications:
 
 [PENDING]
 
-### Actions for page or midi controls
+### Actions for page or midi controls (simulate/script)
 
 [PENDING]
 
