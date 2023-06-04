@@ -59,18 +59,18 @@ class PageButton:
     """
     A control that can be displayed in a page, and run some actions when interacted with.
     """
-    def __init__(self, row=1, col=1, row_end=2, col_end=2, target_page=None, color=None,
-                 border_width=None, border_color="black", image=None, text=None, text_size="16px",
-                 text_font="Verdana", text_color="black", text_horizontal_align="center",
-                 text_vertical_align="center", linked_action=None, script=None):
+    def __init__(self, row=1, col=1, row_end=2, col_end=2,
+                 color=None, image=None, text=None,
+                 border_width=None, border_color="black",
+                 text_size="16px", text_font="Verdana", text_color="black",
+                 text_horizontal_align="center", text_vertical_align="center",
+                 linked_action=None, script=None):
         self.id = uuid4().hex
 
         self.row = row
         self.col = col
         self.row_end = row_end
         self.col_end = col_end
-
-        self.target_page = target_page
 
         self.color = color
         self.image = image
