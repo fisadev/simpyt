@@ -74,10 +74,11 @@ class PageButton:
 
         self.color = color
         self.image = image
+        self.text = text
+
         self.border_width = border_width
         self.border_color = border_color
 
-        self.text = text
         self.text_size = text_size
         self.text_font = text_font
         self.text_color = text_color
