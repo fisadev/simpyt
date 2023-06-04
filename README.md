@@ -101,11 +101,11 @@ In the future, the midi_inspector app will be integrated into Simpyt to make thi
 ### Global page attributes
 
 | Attribute               | Usage                                                                                                        |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| background_image        | Optional. A name of an image file from `simpyt_configs/images` to use as background of the page. Example: `joystick_background.png`  |
-| background_color        | Optional. A name or code of a color to use as background of the page. Examples: `lightgray`, `"#00FF00"`                             |
-| width                   | Mandatory. How many columns the button box area should be split into. Example: `200`                                                 |
-| height                  | Mandatory. How many rows the button box area should be split into. Example: `130`                                                    |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| background_image        | Optional. A name of an image file from `simpyt_configs/images` to use as background of the page. Example: `joystick_background.png`                 |
+| background_color        | Optional. A name or code of a color to use as background of the page. Examples: `lightgray`, `"#00FF00"`. Quotes are needed when using color codes. |
+| width                   | Mandatory. How many columns the button box area should be split into. Example: `200`                                                                |
+| height                  | Mandatory. How many rows the button box area should be split into. Example: `130`                                                                   |
 
 Important clarifications:
 
