@@ -85,8 +85,6 @@ More examples and full docs full docs on the actions that they can run here: [he
 | background_image        | Optional. A name of an image file from `simpyt_configs/images` to use as background of the page. Example: `joystick_background.png`                 |
 | background_color        | Optional. A name or code of a color to use as background of the page. Examples: `lightgray`, `"#00FF00"`. Quotes are needed when using color codes. |
 
-We always ensure the grid is made of square bits. That way configs are portable accross different devices and screen form factors.
-
 # Page control attributes
 
 | Attribute               | Usage                                                                                                        |
