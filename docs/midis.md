@@ -1,20 +1,77 @@
 # Midi devices as button boxes
 
-[PENDING INTRO]
+To use midi devices you first need to know this: each time you interact with a button, key, knob, etc 
+in your midi device, it sends "messages" to your computer. 
+Simpyt allows you to capture those messages and do things when they're received, like simulating key presses,
+moving joystick axis, running programs, etc.
 
-# I have a midi controller, but no idea about the ids of its controls
+Midi devices have three main types of "thingies" that are supported by Simpyt:
 
-That's ok! We provide an app to be able to inspect both he types and ids of the midi controls you have. Download the latest `midi_inspector.pyz` [release](https://github.com/fisadev/simpyt/releases), open a terminal, go to the folder where you have downloaded it, and run:
+- Things that produce musical notes. Typical midi pianos and drums tend to emit these messages.
+- Things that produce "control change" events. Typical midi knobs tend to emit these messages.
+- Things that produce "program change" events. Some midi controllers have program buttons or knobs that emit these.
 
-```bash
+Notes and controls events have a note or control id, plus a value (intensity?) for that note or control.
+Program events just have a program value.
+
+Simpyt can capture those values and map them to a simulated joystick axis, or use thresholds to run actions 
+when the received value crosses that threshold.
+
+For instance, you could configure Simpyt to open an application when a piano note is pressed strongly enough,
+or to simulate a joystick axis when some midi knob is turned.
+
+# I have a midi controller, but no idea about the types and ids of its thingies
+
+That's ok! We provide an app to be able to inspect both he types and ids of the controls in your midi devices. 
+Download the latest `midi_inspector.pyz` [release](https://github.com/fisadev/simpyt/releases), open a terminal, go to the folder where you have downloaded it, and run:
+
+```
 python midi_inspector.pyz MY_DEVICE_NAME
 ``` 
 
 (use the name of your device instead of "MY_DEVICE_NAME").
 
-Then just use your midi controller, and this app will show you both the type and ids of the buttons and knobs you are testing.
+Then just use your midi controller, and this app will show you both the type and ids of the buttons and knobs you are using.
+Take note of those values, and use them in your device configs.
 
 In the future, the midi_inspector app will be integrated into Simpyt to make things easier. For now, this is the way :)
+
+# Examples
+
+Mapping a couple of knobs and buttons from a midi controller, to a simulated virtual joystick that your games can detect and use:
+
+```yaml
+name: MY-MIDI-CONTROLLER-BRAND-XYZ
+controls:
+- when: control 1 between 0-127
+  simulate: joystick 1 axis 1
+- when: control 2 between 0-127
+  simulate: joystick 1 axis 2
+- when: note 40 surpasses 64
+  simulate: joystick 1 button 1
+- when: note 41 surpasses 64
+  simulate: joystick 1 button 2
+```
+
+Using a piano to simulate keyboard keys, run apps and do more complex sequences of actions:
+
+```yaml
+name: MY-PIANO-BRAND-XYZ
+controls:
+- when: note 40 surpasses 64
+  simulate: keys ctrl shift a
+- when: note 41 surpasses 64
+  script:
+  - run regedit.exe
+- when: note 42 surpasses 64
+  script:
+  - run notepad.exe
+  - wait 0.2
+  - write nice tunes
+```
+
+As you can see, midi controls can either just simulate a single keyboard/joystick event, or run complex scripts.
+More examples and full docs full docs on the actions that they can run here: [here](https://github.com/fisadev/simpyt/blob/main/docs/actions.md).
 
 # Global midi device attributes
 
@@ -31,15 +88,21 @@ In the future, the midi_inspector app will be integrated into Simpyt to make thi
 | simulate                | Optional. Simulate keyboard keys or joystick buttons or axis when the midi control is used. See the Actions full docs for examples and format.     |
 | script                  | Optional. A sequence of multiple actions to run when the midi control is used. See the Actions full docs for examples and format.                  |
 
-Reading midi controls:
+### The `when` attribute:
 
-The midi controls supported come in three different types: `note`, `control` and `program`.
-Any button or knob in your midi controller might "fire" events of these types. You need to know both the type and the "id" of the control, to tell Simpyt to listen for changes in it.
-Most pianos, drums, and the like tend to fire `note` events. Most knobs and extra buttons tend to fire `control` events. And `program` events tend to be fired by devices with speciall buttons meant to switch different pre defined programs.
+The `when` attribute specifies when to run the action, and has two main parts: what type of midi control fires
+it, and under which conditions.
 
-Also, you have two options in how to deal with the inputs from the control: do something when its value surpasses a threshold, or do something when the value is between a range.
+The first part must specify what kind of midi event and control/note id to listen for. 
+Examples: `note 43`, `control 6`, or just `program` (to react to midi program changes).
 
-Some examples:
+The second part must specify under which values Simpyt must run the action.
+It's either a threshold, to run the actions only when the value for that note/control/program surpasses that
+threshold, or a range, to run the actions only when the value for that note/control/program is inside the 
+specified range.
+Examples: `surpasses 50`, `between 10-30`, etc.
+
+Combining both things together, some full examples:
 
 - `when: note 43 surpasses 20`: this tells Simpyt to do something when the note 43 is pressed, and its value is equal or above 20. In something like a piano, notes can have different values depending on how hard you hit them. These values are usually between 0 and 127.
 - `when: control 6 surpasses 64`: this tells Simpyt do something when the control button with id 6 is pressed. Buttons tend to fire an event with value 127 when pressed, and 0 when released.
