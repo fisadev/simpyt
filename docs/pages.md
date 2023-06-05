@@ -1,6 +1,73 @@
-# Web button boxes (pages)
+# Basics
 
-[PENDING INTRO]
+All pages can be accessed from the Simpyt home.
+In the future, we plan to add some better navigation tools to move between pages.
+
+Pages define a **grid**, and then buttons are placed inside that grid.
+The grid is always composed of squared cells, to preserve aspect ratio accross different devices
+(which is useful specially if you are using background images of aircraft pannels in them).
+
+For instance, a page with the attributes:
+
+```yaml
+width: 200
+height: 100
+```
+
+will always be twice as wide as high, no matter the form factor of the screen where you are showing it.
+If for instance you access this page on a vertical tablet, then there will be some empty space below the page.
+
+There are to main ways to build your own button boxes:
+
+- Using a background image and then just mapping regions of that image as buttons, which is useful to "reproduce" parts of an aircraft cockpit.
+- Just using a color and defining buttons with colors, texts, images, etc, basically "drawing" your own UI.
+
+Both are valid and useful approaches, pick what works best for your use cases :)
+
+# Examples
+
+A button box using an image of an aircraft pannel, and mapping some regions of it to keyboard shortcuts (which should then be used in your flight sim):
+
+```yaml
+background_image: tomcat_countermeasures_pannel.png
+width: 200
+height: 130
+controls:
+- at: 10 50 size 5 5
+  simulate: keys ctrlright shiftright a
+- at: 20 50 size 5 5
+  simulate: keys ctrlright shiftright b
+```
+
+A button box drawing custom buttons from scratch instead, over a solid color background:
+
+```yaml
+background_color: lightgray
+width: 200
+height: 130
+controls:
+- at: 10 50 size 5 5
+  text: "New tab"
+  border_width: 3px
+  border_color: black
+  simulate: keys ctrl t
+- at: 20 50 size 5 5
+  text: "Simulate a joystick button"
+  border_width: 3px
+  border_color: black
+  simulate: joystick 1 button 1
+- at: 30 50 size 10 10
+  image: hand_wave.png
+  script:
+  - run notepad.exe
+  - wait 0.2
+  - write hello world
+```
+
+As you can see, buttons can either just simulate a single keyboard/joystick event, or can run full scripts.
+
+More examples and full docs full docs on the actions that buttons can run here: [here](https://github.com/fisadev/simpyt/blob/main/docs/actions.md).
+
 
 # Global page attributes
 
