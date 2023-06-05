@@ -4,21 +4,24 @@ Convert your old phone, tablet, or even any MIDI controller, to a fully customiz
 
 Simpyt allows you to do two main things:
 
-- Build "virtual" button boxes: pages with buttons that you can access from any phone or tablet and use as button boxes for your flight simulator, or any other app too. The buttons are customizable and fully programable: they can reproduce sequences of keys, simulate joystick actions, open apps, etc. And no special software is needed in the device, just a web browser.
-- Use MIDI controllers as button boxes: if you have a MIDI controller, Simpyt allows you to map its buttons and knobs to virtual joysticks, key sequences, open apps, etc, just like the buttons of the pages.
+- Create "virtual" button boxes: pages with programmable buttons that you can display and use from any phone or tablet.
+- Use MIDI controllers as programmable button boxes.
 
+The buttons are customizable and fully programable: they can reproduce sequences of keys, simulate joystick buttons or axis, open apps, etc.
 
 ## Installation and running
 
-You just need to [download and install Python 3 from the official website](https://www.python.org/downloads/) (on Linux any modern Python 3 will do), then [download the latest Simpyt.pyz release](https://github.com/fisadev/simpyt/releases) and place it anywhere you want, and finally just double click it. That's it!
+1. [Download and install Python 3 from the official website](https://www.python.org/downloads/) (on Linux any modern Python 3 will do)
+2. [Download the latest Simpyt.pyz release](https://github.com/fisadev/simpyt/releases) and place it anywhere you want
+3. Just run (double click) simpyt.pyz. 
 
-The first time you run it, it will take a few seconds to boot. The next time it should be almost instantaneous.
+That's it!
 
-No extra apps are needed in the device you want to use as a button box (old phones or tablets are ideal). You only need a working web browser in them.
+The first time you run it, it will take a few seconds to boot and create a `simpyt_configs` folder, where all your configs can be edited. The next time it should start up almost instantaneously.
 
-The first time you run the Simpyt app, a new `simpyt_configs` folder will be created next to the app. All the configs live inside that folder, no other hidden files are used for configs.
+No extra apps are needed in the devices you want to use as virtual button boxes (old phones or tablets are ideal). You only need a working web browser in them.
 
-# Tutorial
+# Quick start
 
 ## Web button boxes (pages)
 
