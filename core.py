@@ -26,6 +26,8 @@ class Simpyt:
     """
     The main app.
     """
+    VERSION = "0.1.0"
+
     # class attribute, reference to the running app
     current = None
 
@@ -73,6 +75,7 @@ class Simpyt:
         print("  WELCOME TO SYMPIT")
         print("#" * 21)
         print()
+        print("Version:", self.VERSION)
         print("Debug:", self.debug)
         print("Configs folder:", self.root_configs_path)
 

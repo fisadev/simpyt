@@ -33,7 +33,7 @@ def home():
     return render_template(
         "home.html",
         pages_names=pages_names,
-        configs_path=Simpyt.current.root_configs_path,
+        simpyt=Simpyt.current,
     )
 
 
@@ -48,7 +48,8 @@ def page_show(page_name):
 
         return render_template("page.html", page=page)
     except Exception as err:
-        return render_template("page_error.html", error=str(err))
+        return render_template("page_error.html", error=str(err),
+                               simpyt=Simpyt.current)
 
 
 @web_app.route("/activate_control/<string:page_name>/<string:control_id>")
