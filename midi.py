@@ -163,9 +163,15 @@ class MidiControl:
                 self.linked_action.run(Action.Mode.LINKED_CONTROL_MOVE, axis_value)
             else:
                 if is_on:
-                    self.linked_action.run(Action.Mode.LINKED_CONTROL_PRESS)
+                    # linked actions simulate the pressing down, and then releasing
+                    # unlinked actions just run in the press down phase
+                    if self.linked_action.CAN_BE_LINKED:
+                        self.linked_action.run(Action.Mode.LINKED_CONTROL_PRESS)
+                    else:
+                        self.linked_action.run(Action.Mode.UNLINKED)
                 else:
-                    self.linked_action.run(Action.Mode.LINKED_CONTROL_RELEASE)
+                    if self.linked_action.CAN_BE_LINKED:
+                        self.linked_action.run(Action.Mode.LINKED_CONTROL_RELEASE)
 
     @classmethod
     def parse_when(cls, raw_when):

@@ -72,18 +72,11 @@ class Action(ABC):
         linked_action = None
         script = None
 
-        raw_linked_action = raw_config.pop("simulate", None)
+        raw_linked_action = raw_config.pop("action", None)
         raw_script = raw_config.pop("script", None)
 
         if raw_linked_action:
             linked_action = cls.find_and_deserialize(raw_linked_action)
-
-            if not linked_action.CAN_BE_LINKED:
-                raise ImproperlyConfiguredException(
-                    "This action can not be used in a 'simulated' attribute, only as part of a "
-                    "'script' attribute:\n"
-                    f"simulate: {raw_linked_action}"
-                )
 
         if raw_script:
             script = Script(
