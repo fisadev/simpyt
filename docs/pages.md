@@ -26,7 +26,7 @@ Both are valid and useful, pick the one that works best for your use cases :)
 
 # Examples
 
-A button box using an image of an aircraft pannel, and mapping some regions of it to keyboard shortcuts (which should then be used in your flight sim):
+A button box using an image of an aircraft pannel, and mapping some regions of it to keyboard shortcuts (which should then be used in your flight sim), simulated joysticks, and scripts:
 
 ```yaml
 background_image: tomcat_countermeasures_pannel.png
@@ -36,7 +36,14 @@ controls:
 - at: 10 50 size 5 5
   simulate: keys ctrlright shiftright a
 - at: 20 50 size 5 5
-  simulate: keys ctrlright shiftright b
+  simulate: joystick 1 button 3
+- at: 30 50 size 10 10
+  script:
+  - keys crtl alt a
+  - wait 0.2
+  - keys F1
+  - wait 0.2
+  - keys F8
 ```
 
 A button box drawing custom buttons from scratch instead, over a solid color background:
@@ -64,7 +71,7 @@ controls:
   - write hello world
 ```
 
-As you can see, buttons can either just simulate a single keyboard/joystick event, or can run full scripts.
+As you can see, buttons can either just simulate a single keyboard/joystick event, or run complex scripts.
 
 More examples and full docs full docs on the actions that buttons can run here: [here](https://github.com/fisadev/simpyt/blob/main/docs/actions.md).
 
