@@ -39,13 +39,28 @@ class TestAction:
             actions.Action.find_and_deserialize("test_action some-config")
 
     @staticmethod
-    def test_action_find_and_deserialize_with_no_argument_happy_path():
-        pass
+    def test_action_find_and_deserialize_with_no_argument_happy_path(mocker):
+        CustomActionMock = mocker.MagicMock(HAS_PARAMETERS=False)
+        mocker.patch("actions.Action.ACTIONS_BY_PREFIX", {"test_action": CustomActionMock})
+
+        actions.Action.find_and_deserialize("test_action")
+
+        CustomActionMock.deserialize.assert_called_once_with(None)
 
     @staticmethod
-    def test_action_find_and_deserialize_with_no_argument_when_should_have():
-        pass
+    def test_action_find_and_deserialize_with_no_argument_when_should_have(mocker):
+        CustomActionMock = mocker.MagicMock(HAS_PARAMETERS=True)
+        mocker.patch("actions.Action.ACTIONS_BY_PREFIX", {"test_action": CustomActionMock})
+
+        with pytest.raises(actions.ImproperlyConfiguredException, match="incorrect format"):
+            actions.Action.find_and_deserialize("test_action")
 
     @staticmethod
-    def test_action_find_and_deserialize_with_arguments_when_should_not_have():
-        pass
+    def test_action_find_and_deserialize_with_arguments_when_should_not_have(mocker):
+        CustomActionMock = mocker.MagicMock(HAS_PARAMETERS=False)
+        mocker.patch("actions.Action.ACTIONS_BY_PREFIX", {"test_action": CustomActionMock})
+
+        actions.Action.find_and_deserialize("test_action some-config")
+
+        # the expected behaviour is to ignore the extra config and not fail
+        CustomActionMock.deserialize.assert_called_once_with(None)
