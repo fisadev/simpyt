@@ -20,7 +20,7 @@ If for instance you access this page on a vertical tablet, then there will be so
 There are two main approaches to building your own button boxes:
 
 - Using a background image and then just mapping regions of that image as buttons, which is useful to "reproduce" parts of an aircraft cockpit.
-- Just using a color and defining buttons with colors, texts, images, etc, basically "drawing" your own UI.
+- Just using a color background and defining buttons with custom colors, texts, images, etc. Basically "drawing" your own UI.
 
 Both are valid and useful, pick the one that works best for your use cases :)
 
