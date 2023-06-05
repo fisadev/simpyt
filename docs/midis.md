@@ -44,13 +44,13 @@ Mapping a couple of knobs and buttons from a midi controller, to a simulated vir
 name: MY-MIDI-CONTROLLER-BRAND-XYZ
 controls:
 - when: control 1 between 0-127
-  simulate: joystick 1 axis 1
+  action: joystick 1 axis 1
 - when: control 2 between 0-127
-  simulate: joystick 1 axis 2
+  action: joystick 1 axis 2
 - when: note 40 surpasses 64
-  simulate: joystick 1 button 1
+  action: joystick 1 button 1
 - when: note 41 surpasses 64
-  simulate: joystick 1 button 2
+  action: joystick 1 button 2
 ```
 
 Using a piano to simulate keyboard keys, run apps and do more complex sequences of actions:
@@ -59,10 +59,9 @@ Using a piano to simulate keyboard keys, run apps and do more complex sequences 
 name: MY-PIANO-BRAND-XYZ
 controls:
 - when: note 40 surpasses 64
-  simulate: keys ctrl shift a
+  action: keys ctrl shift a
 - when: note 41 surpasses 64
-  script:
-  - run regedit.exe
+  action: run regedit.exe
 - when: note 42 surpasses 64
   script:
   - run notepad.exe
@@ -85,7 +84,7 @@ More examples and full docs full docs on the actions that they can run here: [he
 | Attribute               | Usage                                                                                                        |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | when                    | Mandatory. The real life midi control to monitor, and how to do read it. Supports many different formats, see below this table for detailed info.  |
-| simulate                | Optional. Simulate keyboard keys or joystick buttons or axis when the midi control is used. See the Actions full docs for examples and format.     |
+| action                  | Optional. A single action to run when the midi control is used. See the Actions full docs for examples and format.                                 |
 | script                  | Optional. A sequence of multiple actions to run when the midi control is used. See the Actions full docs for examples and format.                  |
 
 ### The `when` attribute:

@@ -34,9 +34,9 @@ width: 200
 height: 130
 controls:
 - at: 10 50 size 5 5
-  simulate: keys ctrlright shiftright a
+  action: keys ctrlright shiftright a
 - at: 20 50 size 5 5
-  simulate: joystick 1 button 3
+  action: joystick 1 button 3
 - at: 30 50 size 10 10
   script:
   - keys crtl alt a
@@ -57,12 +57,12 @@ controls:
   text: "New tab"
   border_width: 3px
   border_color: black
-  simulate: keys ctrl t
+  action: keys ctrl t
 - at: 20 50 size 5 5
   text: "Simulate a joystick button"
   border_width: 3px
   border_color: black
-  simulate: joystick 1 button 1
+  action: joystick 1 button 1
 - at: 30 50 size 10 10
   image: hand_wave.png
   script:
@@ -90,7 +90,7 @@ More examples and full docs full docs on the actions that they can run here: [he
 | Attribute               | Usage                                                                                                        |
 | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | at                      | Mandatory. Specifies both the location, and the size of the button. Supports two different formats: initial position and size, or initial position and final position. Positions are specified as column-space-row, and sizes are specified as width-space-height. Examples: `10 20 size 8 5` (start at column 10 row 20, width 8 and height 5), `10 20 to 18 25` (start at column 10 row 20, end at column 18 row 25). |
-| simulate                | Optional. Simulate keyboard keys or joystick buttons when the button is pressed. See the Actions full docs for examples and format.                                                                                                                                                                                                                                                                                     |
+| action                  | Optional. A single action to run when the button is pressed. See the Actions full docs for examples and format.                                                                                                                                                                                                                                                                                                         |
 | script                  | Optional. A sequence of multiple actions to run when the button is pressed. See the Actions full docs for examples and format.                                                                                                                                                                                                                                                                                          |
 | image                   | Optional. A name of an image file from `simpyt_configs/images` to use as background of the button. Example: `joystick_background.png`                                                                                                                                                                                                                                                                                   |
 | color                   | Optional. A name or code of a color to use as background of the button. Examples: `lightgray`, `"#00FF00"`. Quotes are needed when using color codes.                                                                                                                                                                                                                                                                   |

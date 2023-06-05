@@ -41,9 +41,9 @@ width: 200
 height: 130
 controls:
 - at: 10 50 size 5 5
-  simulate: keys ctrl shift a
+  action: keys ctrl shift a
 - at: 20 50 size 5 5
-  simulate: keys ctrl shift b
+  action: keys ctrl shift b
 ```
 
 (in case this looks familiar: yes, it's yaml :D)
@@ -74,9 +74,9 @@ Example of a basic `.midi_device` file:
 name: MY-PIANO-BRAND-XYZ
 controls:
 - when: note 43 surpasses 64
-  simulate: keys escape
+  action: keys escape
 - when: control 40 between 0-127
-  simulate: joystick 1 axis 1
+  action: joystick 1 axis 1
 ```
 
 Thats a simple config that tries to connecto to a midi device called "MY-PIANO-BRAND-XYZ" (this should be the name that the midi device has in your system when plugged in). 
