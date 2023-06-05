@@ -188,7 +188,7 @@ class KeysAction(Action):
     ]
 
     def __init__(self, keys):
-        self.keys = keys
+        self.keys = [key.lower() for key in keys]
         self.ensure_valid_keys(keys)
 
     def ensure_valid_keys(self, keys):
@@ -196,7 +196,7 @@ class KeysAction(Action):
         Ensure that all the specified keys are valid, otherwise raise an error.
         """
         for key in keys:
-            if not key.lower() in self.VALID_KEYS:
+            if not key in self.VALID_KEYS:
                 raise ValueError(f"Unknown or unsupported key: {key}")
 
     def hold_down(self):
