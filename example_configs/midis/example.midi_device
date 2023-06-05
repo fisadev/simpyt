@@ -3,16 +3,16 @@ name: W-FADER
 controls:
 # kneeboard show, previous and next page
 - when: control 42 surpasses 64
-  simulate: keys shiftright k
+  action: keys shiftright k
 - when: control 43 surpasses 64
-  simulate: keys [
+  action: keys [
 - when: control 44 surpasses 64
-  simulate: keys ]
+  action: keys ]
 
 # night vision goggles toggle, gain up and gai down
 - when: control 67 surpasses 64
-  simulate: keys shiftright h
+  action: keys shiftright h
 - when: control 40 surpasses 64
-  simulate: keys ctrlright shiftright h
+  action: keys ctrlright shiftright h
 - when: control 41 surpasses 64
-  simulate: keys altright shiftright h
+  action: keys altright shiftright h
