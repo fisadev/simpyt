@@ -72,8 +72,7 @@ controls:
 ```
 
 As you can see, buttons can either just simulate a single keyboard/joystick event, or run complex scripts.
-
-More examples and full docs full docs on the actions that buttons can run here: [here](https://github.com/fisadev/simpyt/blob/main/docs/actions.md).
+More examples and full docs full docs on the actions that they can run here: [here](https://github.com/fisadev/simpyt/blob/main/docs/actions.md).
 
 
 # Global page attributes
