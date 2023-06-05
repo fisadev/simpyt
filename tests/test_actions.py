@@ -39,14 +39,13 @@ class TestAction:
             actions.Action.find_and_deserialize("test_action some-config")
 
     @staticmethod
-    def test_actionfind_and_deserialize_has_no_argument_happy_path():
-        pass
-
-
-    @staticmethod
-    def test_actionfind_and_deserialize_has_no_argument_but_should_have():
+    def test_action_find_and_deserialize_with_no_argument_happy_path():
         pass
 
     @staticmethod
-    def test_actionfind_and_deserialize_has_arguments_but_should_not_have():
+    def test_action_find_and_deserialize_with_no_argument_when_should_have():
+        pass
+
+    @staticmethod
+    def test_action_find_and_deserialize_with_arguments_when_should_not_have():
         pass
