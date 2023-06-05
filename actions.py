@@ -173,7 +173,7 @@ class KeysAction(Action):
 
         # navigation block and spaces
         'enter', 'return', 'space', 'tab',
-        'backspace', 'del', 'delete', 'insert'
+        'backspace', 'del', 'delete', 'insert',
         'home', 'end', 'pagedown', 'pgdn', 'pageup', 'pgup', 'insert',
         'up', 'down', 'left', 'right',
 
