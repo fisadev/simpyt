@@ -41,9 +41,9 @@ width: 200
 height: 130
 controls:
 - at: 10 50 size 5 5
-  simulate: keys ctrlright shiftright a
+  simulate: keys ctrl shift a
 - at: 20 50 size 5 5
-  simulate: keys ctrlright shiftright b
+  simulate: keys ctrl shift b
 ```
 
 (in case this looks familiar: yes, it's yaml :D)
