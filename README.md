@@ -17,7 +17,7 @@ The buttons are customizable and fully programable: they can reproduce sequences
 
 That's it!
 
-The first time you run it, it will take a few seconds to boot and create a `simpyt_configs` folder, where all your configs can be edited. The next time it should start up almost instantaneously.
+The first time you run it will take a few seconds to boot and create a `simpyt_configs` folder, where all your configs live. The next time it should start up almost instantaneously.
 
 No extra apps are needed in the devices you want to use as virtual button boxes (old phones or tablets are ideal). You only need a working web browser in them.
 
