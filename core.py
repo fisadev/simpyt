@@ -26,7 +26,7 @@ class Simpyt:
     """
     The main app.
     """
-    VERSION = "0.1.0"
+    VERSION = "1.0.0"
 
     # class attribute, reference to the running app
     current = None
