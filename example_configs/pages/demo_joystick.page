@@ -93,19 +93,16 @@ controls:
   border_width: 3px
   action: joystick 1 button 10
 # buttons outside the joystick
-- at: 60 115 size 20 10
-  text: "New tab"
-  border_width: 2px
-  border_color: black
-  action: keys ctrl t
 - at: 81 115 size 20 10
   text: "Say hi!"
   border_width: 2px
   border_color: black
   script: 
-  - run notepad.exe
+  - keys ctrl t
   - wait 0.5
-  - write hello world
+  - keys ctrl l
+  - wait 0.2
+  - write hi! This is Simpyt writting stuff
 - at: 102 115 size 15 10
   text: "Quit"
   border_width: 2px
