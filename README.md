@@ -2,4 +2,4 @@
 
 ![](http://simpyt.fisadev.com/images/idea.png)
 
-# Learn more about it in its official website: http://simpyt.fisadev.com
+# Installation instructions and quickstart in the official website: http://simpyt.fisadev.com
