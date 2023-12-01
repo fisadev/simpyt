@@ -1,0 +1,158 @@
+# This is a demo of a button page for the Viper frontal panel (the one below the HUD).
+# Buttons are "invisible", they're mapped to the positions of the buttons in the 
+# background image. But if you want to inspect and debug stuff, you can uncomment the 
+# border_color and border_width lines to "see" the areas of each button.
+# It's using mostly the default keyboard keys the Viper uses in DCS for the mapped 
+# buttons, but in a few ones I had to use custom mappings because of missing support
+# for some keys in Simpyt. Check for the comments (search for "You should").
+
+background_image: viper_icp_background.png
+width: 360
+height: 260
+controls:
+# ---------- rounded top buttons -------------
+# "COM 1" button
+- at: 33 13 size 37 37
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys 5
+# "COM 2" button
+- at: 85 13 size 37 37
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys 6
+# "IFF" button
+- at: 138 13 size 37 37
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys 7
+# "LIST" button
+- at: 190 13 size 37 37
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys 8
+# "A-A" button
+- at: 242 13 size 37 37
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys 1
+# "A-G" button
+- at: 294 13 size 37 37
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys 2
+# ---------- hud symbology intensity wheel -------------
+# Wheel up
+# (this has no mapping in DCS by default. I'm using "LeftCtrl + LeftShift + LeftAlt + W".
+# You should map that in DCS)
+- at: 3 30 size 28 45
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft shiftleft altleft w
+# Wheel down
+# (this has no mapping in DCS by default. I'm using "LeftCtrl + LeftShift + LeftAlt + S".
+# You should map that in DCS)
+- at: 3 75 size 28 45
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft shiftleft altleft s
+# ---------- rocker (tiny stick-like thingy) and increment/decrement buttons -------------
+# Rocker up
+- at: 128 187 size 32 25
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft up
+# Rocker down
+- at: 128 230 size 32 25
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft down
+# Rocker left, "RTN"
+- at: 98 208 size 30 30
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft left
+# Rocker right, "SEQ"
+- at: 160 208 size 30 30
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft right
+# Increment
+# (DCS uses numpad "+", but simpyt doesn't support simulating that key. Instead I'm using
+#  "LeftCtrl + LeftShift + LeftAlt + Up Arrow". You should map that in DCS)
+- at: 57 200 size 30 30
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft shiftleft altleft up
+# Decrement
+# (DCS uses numpad "-", but simpyt doesn't support simulating that key. Instead I'm using
+#  "LeftCtrl + LeftShift + LeftAlt + Down Arrow". You should map that in DCS)
+- at: 57 231 size 30 30
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft shiftleft altleft down
+# ---------- main numbers and other buttons -------------
+# "1 T-ILS" button
+- at: 48 61 size 40 40
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft num1
+# "2 ALOW" button
+- at: 97 61 size 40 40
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft num2
+# "3" button
+- at: 146 61 size 40 40
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft num3
+# "RCL" button
+# (DCS uses numpad ".", but simpyt doesn't support simulating that key. Instead I'm using
+#  "LeftCtrl + LeftShift + LeftAlt + R" You should map that in DCS)
+- at: 210 61 size 40 40
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft shiftleft altleft r
+# "4 STPT" button
+- at: 48 110 size 40 40
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft num4
+# "5 CRUS" button
+- at: 97 110 size 40 40
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft num5
+# "6 TIME" button
+- at: 146 110 size 40 40
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft num6
+# "ENTR" button 
+# (DCS uses numpad "e,nter" but simpyt doesn't support simulating that key. Instead I'm using
+#  "LeftCtrl + LeftShift + LeftAlt + Enter (the normal one)" You should map that in DCS)
+- at: 210 110 size 40 40
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft shiftleft altleft enter
+# "7 MARK" button
+- at: 50 157 size 40 40
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft num7
+# "8 FIX" button
+- at: 99 157 size 40 30
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft num8
+# "9 A-CAL" button
+- at: 146 157 size 40 30
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft num9
+# "0 M-SEL" button
+- at: 194 157 size 40 40
+#  border_color: lightgreen
+#  border_width: 3px
+  action: keys ctrlleft num0
