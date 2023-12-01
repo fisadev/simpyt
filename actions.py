@@ -162,7 +162,7 @@ class KeysAction(Action):
         # normal keys
         *'0123456789abcdefghijklmnopqrstuvwxyz',
         # symbols, only some of them (not all work on windows)
-        *r";,.\/'[]-=`"
+        *r";,.\/'[]-=`",
 
         # navigation block and spaces
         'enter', 'return', 'space', 'tab',
