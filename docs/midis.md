@@ -20,22 +20,6 @@ when the received value crosses that threshold.
 For instance, you could configure Simpyt to open an application when a piano note is pressed strongly enough,
 or to simulate a joystick axis when some midi knob is turned.
 
-# I have a midi controller, but no idea about the types and ids of its thingies
-
-That's ok! We provide an app to be able to inspect both he types and ids of the controls in your midi devices. 
-Download the latest `midi_inspector.pyz` [release](https://github.com/fisadev/simpyt/releases), open a terminal, go to the folder where you have downloaded it, and run:
-
-```
-python midi_inspector.pyz MY_DEVICE_NAME
-``` 
-
-(use the name of your device instead of "MY_DEVICE_NAME").
-
-Then just use your midi controller, and this app will show you both the type and ids of the buttons and knobs you are using.
-Take note of those values, and use them in your device configs.
-
-In the future, the midi_inspector app will be integrated into Simpyt to make things easier. For now, this is the way :)
-
 # Examples
 
 Mapping a couple of knobs and buttons from a midi controller, to a simulated virtual joystick that your games can detect and use:
@@ -71,6 +55,35 @@ controls:
 
 As you can see, midi controls can either just simulate a single keyboard/joystick event, or run complex scripts.
 More examples and full docs full docs on the actions that they can run here: [here](https://github.com/fisadev/simpyt/blob/main/docs/actions.md).
+
+
+# I have a midi controller, but no idea about the types and ids of its thingies
+
+That's ok! Simpyt can help you identify your midi device and the types and ids of the controls in it.
+Open a terminal, go to the folder where you have downloaded `simpyt.pyz`, and run:
+
+```
+py simpyt.pyz -d
+``` 
+
+(replace `py` with `python` if you're on Linux)
+
+The first useful thing you will notice are some messages like these:
+
+```
+System midi device detected: SOME NAME
+System midi device detected: ANOTHER NAME
+System midi device detected: SOME OTHER NAME
+```
+
+Those are the midi devices you have plugged to your computer and could be used by Simpyt. Copy one of those names into a 
+new Simpyt midi device to start using it.
+
+Once you have a Simpyt midi device created, be sure to stop and re-start Simpyt, again using the terminal and the `-d` parameter.
+
+Then just use your midi controller, and the app will show you both the type and ids of the buttons and knobs you are using.
+Take note of those values, and use them in your device configs.
+
 
 # Global midi device attributes
 
