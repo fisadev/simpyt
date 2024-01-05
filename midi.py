@@ -85,7 +85,8 @@ class MidiControl:
             raise ValueError("When mapping a midi control to an axis, a range of values must be "
                              "specified instead of just a threshold")
 
-    def extract_midi_value(self, midi_message):
+    @classmethod
+    def extract_midi_value(cls, midi_message):
         """
         Extract the most value-like attribute from the midi message, and convert it to something
         we can understand.
@@ -290,6 +291,24 @@ def midi_integration_loop():
             for port, message in mido.ports.multi_receive(ports, yield_ports=True):
                 device = devices_by_port_name[port.name]
 
+                if Simpyt.current.debug:
+                    message_details = f"type={message.type} "
+
+                    channel = getattr(message, "channel", None)
+                    if channel:
+                        message_details += f"channel={channel} "
+
+                    if message.type == "control_change":
+                        message_details += f"control={message.control} "
+
+                    if message.type in ("note_on", "note_off"):
+                        message_details += f"note={message.note} "
+
+                    value = MidiControl.extract_midi_value(message)
+                    message_details += f"value={value}"
+
+                    print("Interacted with midi device", device.name, message_details)
+
                 for control in device.controls:
                     if control.matches(message):
                         control_run_thread = Thread(target=control.run, args=[message])
@@ -311,5 +330,11 @@ def launch_midis_server():
     midi_thread.start()
 
     print("Midi app running!")
+
+    if Simpyt.current.debug:
+        print("Midi devices detected connected to your computer:")
+        print("(you can use these names as the device name in midi devices configs)")
+        for output_name in mido.get_output_names():
+            print("    ", output_name)
 
     return midi_thread

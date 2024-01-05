@@ -12,5 +12,6 @@ if __name__ == "__main__":
     simpyt_app = Simpyt(
         root_configs_path=(used_executable_dir_path / "simpyt_configs").absolute(),
         debug="-d" in sys.argv,
+        web_debug="-wd" in sys.argv,
     )
     simpyt_app.run()

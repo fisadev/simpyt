@@ -16,7 +16,7 @@ def initialize_web_app():
     """
     web_app.pages_cache = {}
 
-    if not Simpyt.current.debug:
+    if not Simpyt.current.web_debug:
         web_app.logger.disabled = True
         logging.getLogger('werkzeug').disabled = True
         cli.show_server_banner = lambda *args: None
