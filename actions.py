@@ -429,7 +429,7 @@ class JoystickAction(Action):
 @Action.register
 class Quit(Action):
     """
-    Just quit Sympit.
+    Just quit Simpyt.
     """
     PREFIX = "quit"
     HAS_PARAMETERS = False
