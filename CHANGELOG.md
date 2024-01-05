@@ -1,6 +1,12 @@
 # Pending release
 
-- Hotfix: debug mode was breaking the flask app, fixed it.
+- Hotfix: debug mode was breaking the app, fixed it.
+- Separated "debug" (-d parameter) and "web debug" (-wd) modes. Debug mode is intended for users, while web debug mode is internal for devs working on Simpyt.
+- New behaviours when in debug mode:
+    - Any borderless buttons in web button pages are shown with a green border, to make things easier to debug.
+    - Show details about buttons being pressed.
+    - List system detected midi devices.
+    - Show details about midi controls being used (as long as the device is configured for Simpyt).
 
 # v1.0.1
 
