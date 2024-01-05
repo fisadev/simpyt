@@ -331,4 +331,10 @@ def launch_midis_server():
 
     print("Midi app running!")
 
+    if Simpyt.current.debug:
+        print("Midi devices detected connected to your computer:")
+        print("(you can use these names as the device name in midi devices configs)")
+        for output_name in mido.get_output_names():
+            print("    ", output_name)
+
     return midi_thread
