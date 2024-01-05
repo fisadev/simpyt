@@ -88,10 +88,18 @@ class PageButton:
         self.linked_action = linked_action
         self.script = script
 
+        if Simpyt.current.debug and self.border_width is None:
+            # when in debug mode, show all hidden buttons
+            self.border_width = "2px"
+            self.border_color = "green"
+
     def press_button(self):
         """
         The button was pressed.
         """
+        if Simpyt.current.debug:
+            print("Pressed button at", self.col, self.row)
+
         # TODO right now I don't have a way to hold buttons pressed on the web, so I can't
         # implement something like in the midi controls where you can hold down a button. So
         # everything is just ran on press and in UNLINKED mode, no hold vs release logic
