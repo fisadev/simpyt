@@ -26,15 +26,16 @@ class Simpyt:
     """
     The main app.
     """
-    VERSION = "1.0.1"
+    VERSION = "1.1.0"
 
     # class attribute, reference to the running app
     current = None
 
-    def __init__(self, root_configs_path, debug=False):
+    def __init__(self, root_configs_path, debug=False, web_debug=False):
         self.root_configs_path = root_configs_path
         self.root_code_path = Path(__file__).parent.absolute()
         self.debug = debug
+        self.web_debug = web_debug
 
         self.web_thread = None
         self.midi_thread = None
