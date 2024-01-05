@@ -7,6 +7,7 @@
     - Show details about buttons being pressed.
     - List system detected midi devices.
     - Show details about midi controls being used (as long as the device is configured for Simpyt).
+- Deprecated the midi inspector, the new debug features completely replace it.
 
 # v1.0.1
 

@@ -326,15 +326,13 @@ def launch_midis_server():
     """
     Launch the midis server and return the thread.
     """
+    if Simpyt.current.debug:
+        for output_name in mido.get_output_names():
+            print("System midi device detected:", output_name)
+
     midi_thread = Thread(target=midi_integration_loop, daemon=True)
     midi_thread.start()
 
     print("Midi app running!")
-
-    if Simpyt.current.debug:
-        print("Midi devices detected connected to your computer:")
-        print("(you can use these names as the device name in midi devices configs)")
-        for output_name in mido.get_output_names():
-            print("    ", output_name)
 
     return midi_thread
