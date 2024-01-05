@@ -167,7 +167,7 @@ def web_app_loop():
             print(f"Page found but failed to read its config!: {page_name}\n{ex}")
 
     web_app = initialize_web_app()
-    web_app.run(host="0.0.0.0", port=9999, debug=Simpyt.current.debug)
+    web_app.run(host="0.0.0.0", port=9999)
 
 
 def launch_pages_server():

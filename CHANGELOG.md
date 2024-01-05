@@ -1,3 +1,7 @@
+# Pending release
+
+- Hotfix: debug mode was breaking the flask app, fixed it.
+
 # v1.0.1
 
 - Hotfix: make keys in actions case insensitive (it was supposed to be like that, but there was a bug in the valid keys check)
