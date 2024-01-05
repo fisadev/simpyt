@@ -1,4 +1,4 @@
-# Pending release
+# v1.1.0
 
 - Hotfix: debug mode was breaking the app, fixed it.
 - Separated "debug" (-d parameter) and "web debug" (-wd) modes. Debug mode is intended for users, while web debug mode is internal for devs working on Simpyt.
