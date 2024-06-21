@@ -1,7 +1,7 @@
 from threading import Thread
 import logging
 
-from flask import Flask, render_template, redirect, send_from_directory, cli, jsonify
+from flask import Flask, render_template, redirect, send_from_directory, cli, jsonify, request
 
 from pages import Page
 from core import Simpyt
@@ -61,15 +61,21 @@ def show_or_edit_page(page_name, edit):
                                simpyt=Simpyt.current)
 
 
-@web_app.route("/page/<string:page_name>/code")
+@web_app.route("/page/<string:page_name>/code", methods=["GET", "POST"])
 def page_code(page_name):
     """
     Load and return the page code, to use in the web editor.
     """
     try:
-        code = Page.read_code(page_name)
+        if request.method == "GET":
+            code = Page.read_code(page_name)
 
-        return jsonify({"code": code})
+            return jsonify({"code": code})
+        elif request.method == "POST":
+            payload = request.get_json()
+            Page.save_code(page_name, payload["code"])
+
+            return jsonify({"result": "ok"})
     except Exception as err:
         return jsonify({"error": str(err)})
 

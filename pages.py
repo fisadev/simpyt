@@ -37,9 +37,19 @@ class Page:
         """
         page_path = cls.path(name)
         with open(page_path, "r") as page_file:
-            raw_code = page_file.read()
+            code = page_file.read()
 
-        return raw_code
+        return code
+
+    @classmethod
+    def save_code(cls, name, code):
+        """
+        Save the page definition code to a yaml file.
+        """
+        page_path = cls.path(name)
+        with open(page_path, "w") as page_file:
+            page_file.write(code)
+
 
     @classmethod
     def read(cls, name):
