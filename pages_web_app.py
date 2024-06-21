@@ -39,14 +39,23 @@ def home():
 
 @web_app.route("/page/<string:page_name>")
 def page_show(page_name):
+    return show_or_edit_page(page_name, edit=False)
+
+
+@web_app.route("/page/<string:page_name>/edit")
+def page_edit(page_name):
+    return show_or_edit_page(page_name, edit=True)
+
+
+def show_or_edit_page(page_name, edit):
     """
-    Show a particular page with controls.
+    Show a particular page with controls, optionally allowing to edit its config.
     """
     try:
         page = Page.read(page_name)
         web_app.pages_cache[page_name] = page
 
-        return render_template("page.html", page=page)
+        return render_template("page.html", page=page, edit=edit)
     except Exception as err:
         return render_template("page_error.html", error=str(err),
                                simpyt=Simpyt.current)
