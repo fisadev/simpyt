@@ -47,15 +47,27 @@ def page_edit(page_name):
     return show_or_edit_page(page_name, edit=True)
 
 
-def show_or_edit_page(page_name, edit):
+@web_app.route("/page/<string:page_name>/controls")
+def page_controls(page_name):
+    return show_or_edit_page(page_name, edit=False, only_page_controls=True)
+
+
+def show_or_edit_page(page_name, edit, only_page_controls=False):
     """
     Show a particular page with controls, optionally allowing to edit its config.
+    If only_page_controls is True, the response includes only the html part of the page itself,
+    to be used when "refreshing" the page in the edit mode.
     """
     try:
+        if only_page_controls:
+            template_name = "page_controls.html"
+        else:
+            template_name = "page.html"
+
         page = Page.read(page_name)
         web_app.pages_cache[page_name] = page
 
-        return render_template("page.html", page=page, edit=edit)
+        return render_template(template_name, page=page, edit=edit)
     except Exception as err:
         return render_template("page_error.html", error=str(err),
                                simpyt=Simpyt.current)

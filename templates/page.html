@@ -10,21 +10,6 @@
     #pit {
         margin: 0px;
     }
-    .page {
-        display: inline-grid;
-        grid-template-columns: repeat({{ page.width }}, minmax(0, 1fr));
-        grid-template-rows: repeat({{ page.height }}, minmax(0, 1fr));
-        background-size: contain;
-        background-repeat: no-repeat;
-        {% if page.background_color: %}
-            background-color: {{ page.background_color }};
-        {% else %}
-            background-color: lightgray;
-        {% endif %}
-        {% if page.background_image: %}
-            background-image: url("/image/{{ page.background_image|default('none') }}");
-        {% endif %}
-    }
     .control {
         background-color: rgba(255, 255, 255, 0.8);
         text-align: center;
@@ -37,67 +22,18 @@
         height: 100%;
         display: block;
     }
-     
-    {% for control in page.controls %}
-        #control_{{ control.id }} {
-            {% if control.image: %}
-                background-image: url("/image/{{ control.image }}");
-            {% endif %}
-            {% if control.color: %}
-                background-color: {{ control.color }};
-            {% else %}
-                background-color: transparent;
-            {% endif %}
-            {% if control.border_width: %}
-                border-style: solid;
-                border-width: {{ control.border_width }};
-                border-color: {{ control.border_color }};
-            {% endif %}
-            grid-column-start: {{ control.col }};
-            grid-column-end: {{ control.col_end }};
-            grid-row-start: {{ control.row }};
-            grid-row-end: {{ control.row_end }};
-            display: flex;
-            flex-direction: row;
-            {% if control.text_vertical_align == "top": %}
-                align-items: flex-start;
-            {% elif control.text_vertical_align == "bottom": %}
-                align-items: flex-end;
-            {% else %}
-                align-items: center;
-            {% endif %}
-        }
-        {% if control.text: %}
-            #control_{{ control.id }} p {
-                padding: 0.5rem;
-                font-family: {{ control.text_font }};
-                font-size: {{ control.text_size }};
-                color: {{ control.text_color }};
-                text-align: {{ control.text_horizontal_align }};
-            }
-        {% endif %}
-    {% endfor %}
 </style>
 
 <div id="pit">
     <div class="page">
-        {% for control in page.controls %}
-        <div class="control" id="control_{{ control.id }}" 
-             hx-get="/activate_control/{{ page.name }}/{{ control.id }}" 
-             hx-trigger="click" 
-             hx-swap="none" >
-                {% if control.target_page: %}
-                    <a href="/page/{{ control.target_page }}">
-                {% endif %}
-                {% if control.text: %}
-                    <p>{{ control.text }}</p>
-                {% endif %}
-                {% if control.target_page: %}
-                    </a>
-                {% endif %}
-            </div>
-        {% endfor %}
+        {% include "page_controls.html" %}
     </div>
+    <button hx-get="/page/{{ page.name }}/controls"
+            hx-trigger="click"
+            hx-target=".page"
+            hx-swap="innerHTML">
+        Recargar
+    </button>
 </div>
 
 <script>
