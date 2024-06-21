@@ -24,11 +24,29 @@ class Page:
         self.controls = controls
 
     @classmethod
+    def path(cls, name):
+        """
+        Build the path to the config file of a page with a specific name.
+        """
+        return Simpyt.current.pages_path / (name + ".page")
+
+    @classmethod
+    def read_code(cls, name):
+        """
+        Read the page definition from a yaml file and return the raw code.
+        """
+        page_path = cls.path(name)
+        with open(page_path, "r") as page_file:
+            raw_code = page_file.read()
+
+        return raw_code
+
+    @classmethod
     def read(cls, name):
         """
         Read the page definition from a yaml file.
         """
-        page_path = Simpyt.current.pages_path / (name + ".page")
+        page_path = cls.path(name)
         with open(page_path, "r") as page_file:
             raw_config = yaml.safe_load(page_file)
 
