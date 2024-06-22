@@ -127,6 +127,10 @@
         var windowWidth = window.innerWidth;
         var windowHeight = window.innerHeight;
 
+        {% if edit: %}
+            windowWidth = windowWidth * 0.6;
+        {% endif %}
+
         var maxColWidth = windowWidth / {{ page.width }};
         var maxRowHeight = windowHeight / {{ page.height }};
 
