@@ -9,6 +9,8 @@
     }
     #pit {
         margin: 0px;
+    }
+    #pit.edit-mode {
         display: grid;
         grid-template-columns: 60% 40%;
     }
@@ -37,7 +39,7 @@
     }
 </style>
 
-<div id="pit">
+<div id="pit" {% if edit: %} class="edit-mode" {% endif %}>
     <div id="page-controls">
         {% include "page_controls.html" %}
     </div>
