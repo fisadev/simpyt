@@ -55,14 +55,12 @@
             >
             ></div>
  
-            <button hx-get="/page/{{ page.name }}/controls"
+            <button id="reloadButton"
+            hx-get="/page/{{ page.name }}/controls"
             hx-trigger="click"
             hx-target="#page-controls"
-            hx-swap="innerHTML">
-                Recargar
-            </button>
-            
-            <button id="reloadButton">
+            hx-swap="innerHTML"
+            >
                 Guardar
             </button>
             
@@ -87,9 +85,13 @@
 
                 function getEditorContent() {
                     let editorContent = e.getValue()
+                    editorContent = editorContent.split('\n')
+                        .filter(line => line.trim() !== '')
+                        .join('\n');
                     let jsonData = {
                         "code": editorContent
                     };
+
                     return JSON.stringify(jsonData);
                 }
                 document.getElementById('reloadButton').addEventListener('click', function(event) {
@@ -107,9 +109,6 @@
                             throw new Error('Network response was not ok');
                         }
                         return response.json();
-                    })
-                    .then(data => {
-                        console.log('Response:', data);
                     })
                     .catch(error => {
                         console.error('Error:', error);
