@@ -9,6 +9,19 @@
     }
     #pit {
         margin: 0px;
+        display: grid;
+        grid-template-columns: 60% 40%;
+    }
+    #edit{
+        height: 90vh;
+        width: 100%;
+    }
+    #text-editor{
+        display: inline-block;
+        color: white;
+        width: 98%;
+        height: 90%;
+        overflow-y: scroll;
     }
     .control {
         background-color: rgba(255, 255, 255, 0.8);
@@ -28,14 +41,84 @@
     <div class="page">
         {% include "page_controls.html" %}
     </div>
-    <button hx-get="/page/{{ page.name }}/controls"
+    <div>
+        {% if edit: %}
+
+        <div id="edit">
+            <!-- Editor -->
+            <div id="text-editor"
+            hx-get="/page/{{ page.name }}/code"
+            hx-trigger="load"
+            hx-on::after-request="loadEditableCode(JSON.parse(event.detail.xhr.response).code)"
+            >
+            ></div>
+ 
+            <button hx-get="/page/{{ page.name }}/controls"
             hx-trigger="click"
             hx-target=".page"
             hx-swap="innerHTML">
-        Recargar
-    </button>
-</div>
+                Recargar
+            </button>
+            
+            <button id="reloadButton">
+                Guardar
+            </button>
+            
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js" type="text/javascript" charset="utf-8"></script>
+            <script>
+                //Editor
+                var e;
+                function loadEditableCode(code){
+                    e=ace.edit("text-editor");
+                    e.setTheme("ace/theme/terminal");
+                    e.getSession().setMode("ace/mode/yaml");
+                    e.focus();
+                    e.setOptions({
+                        fontSize: "12pt",
+                        showPrintMargin: false,
+                        wrap: true,
+                        showGutter: true // Enable line numbers
+                    });
+                    const formatedCode = code.replace(/#/g, '\n#');
+                    e.setValue(formatedCode, -1)
+                }
 
+                function getEditorContent() {
+                    let editorContent = e.getValue()
+                    let jsonData = {
+                        "code": editorContent
+                    };
+                    return JSON.stringify(jsonData);
+                }
+                document.getElementById('reloadButton').addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var jsonData = getEditorContent()
+                    fetch('/page/{{ page.name }}/code', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: jsonData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Response:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                });
+        </script>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
 <script>
     // TODO: this should also be done on reload!!
     function setGridSize() {
@@ -54,7 +137,7 @@
         }
     };
     setGridSize();
-    window.addEventListener('resize', setGridSize);
+    window.addEventListener('resize', setGridSize);   
 </script>
 
 {% endblock %}
