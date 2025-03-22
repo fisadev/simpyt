@@ -17,9 +17,9 @@ If you are using a modern Ubuntu, you can install it like this:
     sudo apt-get install python3.10 python3.10-venv python3.10-dev
 
 
-You might also need to install pkg-config in Linux. For Ubuntu: 
+You might also need to install a few extra dependencies in Ubuntu (sorry, don't know how to get these in other OSs):
 
-    sudo apt install pkg-config
+    sudo apt install pkg-config libasound2-dev libjack-dev
 
 
 After that, you can install the dependencies. I highly suggest running inside a virtualenv:
