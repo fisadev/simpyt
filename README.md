@@ -14,7 +14,7 @@ If you are using a modern Ubuntu, you can install it like this:
 
     sudo add-apt-repository ppa:deadsnakes/ppa
     sudo apt-get update
-    sudo apt-get install python3.10 python3.10-venv python3.10-dev
+    sudo apt-get install python3.10 python3.10-venv python3.10-dev python3.10-tk
 
 
 You might also need to install a few extra dependencies in Ubuntu (sorry, don't know how to get these in other OSs):
